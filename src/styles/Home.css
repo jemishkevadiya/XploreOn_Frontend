@@ -1,49 +1,330 @@
-/* Global Styles */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  /* Background Container */
-  .home-container {
+/* Background Container */
+.home-container {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh; /* Full viewport height */
+    height: 100vh;
+    /* Full viewport height */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Space between title and subtitle */
-  }
-  
-  /* Hero Content */
-  .hero-content {
+    justify-content: space-between;
+    /* Space between top and bottom */
+    position: relative;
+}
+
+/* Hero Content */
+.hero-content {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Space out title and subtitle */
+    justify-content: space-between;
+    /* Separates title and subtitle */
     padding: 2rem;
-  }
-  
-  /* Hero Title */
-  .hero-title {
+    position: relative;
+    /* Necessary for absolute positioning */
+}
+
+/* Hero Title */
+.hero-title {
     font-family: "Poppins", sans-serif;
-    font-size: 4rem; /* Bigger size for prominence */
+    font-size: 5rem;
+    /* Bigger size for prominence */
     font-weight: 700;
     color: white;
-    margin-top: 30;
-    text-align: left; /* Align to the left */
-  }
-  
-  /* Hero Subtitle */
-  .hero-subtitle {
-    font-family: "Poppins", sans-serif;
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: white;
-    text-align: center; /* Align subtitle to the center */
     margin: 0;
-    margin-bottom: 2rem; /* Add spacing at the bottom */
+    position: absolute;
+    top: 50%;
+    /* Vertically center */
+    left: 2rem;
+    /* Align to the left */
+    transform: translateY(-50%);
+    text-align: left;
+    /* Align text to the left */
+}
+
+/* Hero Subtitle */
+.hero-subtitle {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: white;
+    text-align: center;
+    position: absolute;
+    bottom: 1.3rem;
+    /* Fixed position at the bottom */
+    left: 50%;
+    /* Center horizontally */
+    transform: translateX(-50%);
+    /* Perfect horizontal centering */
+}
+
+/* Services Section */
+.services-container {
+    background: #b1d7fc;
+    /* Light background for better contrast */
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.services-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 2.7rem;
+    font-weight: 700;
+    color: #003366;
+    /* Deep blue title */
+    margin-bottom: 1rem;
+}
+
+.services-subtitle {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.7rem;
+    color: #005092;
+    /* Lighter blue subtitle */
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Cards Container */
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 10rem;
+    /* Add space between cards */
+    flex-wrap: wrap;
+    /* Allow wrapping for smaller screens */
+}
+
+/* Individual Card */
+.service-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    /* Add shadow for depth */
+    overflow: hidden;
+    /* Ensure no content overflows */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 300px;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Hover Effect */
+.service-card:hover {
+    transform: translateY(-10px);
+    /* Slight lift on hover */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+    /* Stronger shadow on hover */
+}
+
+/* Card Image */
+.service-card img {
+    width: 100%;
+    height: 270px;
+    object-fit: cover;
+    /* Maintain aspect ratio */
+    border-bottom: 3px solid #e9f5ff;
+    /* Matches the section theme */
+}
+
+/* Card Title */
+.service-card-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #003366;
+    margin: 1rem 0 0.5rem;
+}
+
+/* Card Button */
+.service-card button {
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: #005092;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+/* Button Hover */
+.service-card button:hover {
+    background: #003366;
+    /* Darker blue on hover */
+    transform: scale(1.05);
+    /* Slight zoom */
+}
+
+/* Itinerary Generator Section */
+.itinerary-container {
+    background: #1c83d7; /* Updated background to match your theme */
+    color: #ffffff;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-top: 3px solid #003366; /* Accent border for section separation */
   }
   
+  .itinerary-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #003366; /* Vibrant accent color for the title */
+    margin-bottom: 1rem;
+  }
+  
+  .itinerary-subtitle {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.2rem;
+    color: #b8e8f8; /* Softer white for subtitle */
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Itinerary Steps */
+  .itinerary-steps {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap; /* Adjust for smaller screens */
+    margin-bottom: 3rem;
+  }
+  
+  .itinerary-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 250px;
+  }
+  
+  .itinerary-step img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1rem;
+  }
+  
+  .itinerary-text {
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+  }
+  
+  .itinerary-text span {
+    font-size: 0.9rem;
+    color: #b8e8f8; /* Softer accent for secondary text */
+  }
+  
+  /* Itinerary Button */
+  .itinerary-button {
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #003344; /* Inverted text for contrast */
+    background: #88bbef; /* Teal button */
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 2rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .itinerary-button:hover {
+    background: #003366; /* Darker accent on hover */
+    transform: scale(1.05); /* Slight zoom on hover */
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .itinerary-steps {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+
+/* About Us Section */
+.about-us-container {
+    background: #a3d4fb;
+    /* Light background */
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.about-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #003366;
+    margin-bottom: 1rem;
+}
+
+.about-description {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.2rem;
+    color: #005092;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Testimonials Section */
+.testimonials-container {
+    background: linear-gradient(180deg, #e9f5ff, #d8eefa);
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.testimonials-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #003366;
+    margin-bottom: 2rem;
+}
+
+.testimonials-cards {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.testimonial-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+.testimonial-card p {
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    color: #005092;
+    margin-bottom: 1rem;
+}
+
+.testimonial-card span {
+    font-family: "Poppins", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #003366;
+}

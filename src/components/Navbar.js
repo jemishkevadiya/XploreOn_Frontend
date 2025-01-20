@@ -21,6 +21,9 @@ class Navbar extends React.Component {
           <a href="#hotels" className="nav-link">
             Hotels
           </a>
+          <a href="#itinerary" className="nav-link">
+            Itinerary Generator
+          </a>
         </div>
 
         {/* Profile Icon */}
