@@ -1,0 +1,80 @@
+/* Navbar Container */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    box-sizing: border-box;
+    /* Ensure padding doesn't overflow */
+}
+
+/* Brand Name Styling */
+.navbar-brand {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+    color: white;
+}
+
+/* Navigation Links */
+.navbar-links {
+    display: flex;
+    gap: 6rem;
+    /* Increased gap between links */
+}
+
+.nav-link {
+    font-family: "Poppins", sans-serif;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #f0f0f0;
+    transform: scale(1.1);
+    /* Slight zoom effect on hover */
+}
+
+/* Profile Icon Container */
+.navbar-profile {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+    /* Added margin to prevent cutting off */
+}
+
+/* Profile Icon */
+.profile-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.profile-icon img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    /* Circular profile icon */
+    border: 2px solid white;
+    object-fit: cover;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.profile-icon img:hover {
+    transform: scale(1.1);
+    /* Slight zoom on hover */
+    border-color: #f0f0f0;
+    /* Subtle hover border color change */
+}

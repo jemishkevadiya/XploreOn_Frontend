@@ -1,0 +1,49 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* Background Container */
+  .home-container {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space between title and subtitle */
+  }
+  
+  /* Hero Content */
+  .hero-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space out title and subtitle */
+    padding: 2rem;
+  }
+  
+  /* Hero Title */
+  .hero-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 4rem; /* Bigger size for prominence */
+    font-weight: 700;
+    color: white;
+    margin-top: 30;
+    text-align: left; /* Align to the left */
+  }
+  
+  /* Hero Subtitle */
+  .hero-subtitle {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: white;
+    text-align: center; /* Align subtitle to the center */
+    margin: 0;
+    margin-bottom: 2rem; /* Add spacing at the bottom */
+  }
+  
