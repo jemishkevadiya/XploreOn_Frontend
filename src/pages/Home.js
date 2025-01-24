@@ -3,30 +3,36 @@ import Navbar from "../components/Navbar"; // Import Navbar for the top navigati
 import "../styles/Home.css"; // Import the styles for the Home screen
 
 const Home = () => {
-  const backgroundImage = "/images/Home_Image.jpg"; // Path to your background image
+  const backgroundImage = "/images/home_screen.jpg"; // Path to your background image
 
   return (
     <div className="home">
-      {/* Background Container */}
-      <div
-        className="home-container"
-        style={{
-          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 70%, rgba(255, 255, 255, 1) 100%), url(${backgroundImage})`,
-        }}
-      >
-        {/* Navbar Component */}
-        <Navbar />
+      {/* Navbar */}
+      <Navbar />
 
-        {/* Hero Content */}
-        <div className="hero-content">
-          <h1 className="hero-title">
-            Plan your
-            <br />
-            journey
-            <br />
-            beyond limits
-          </h1>
-          <p className="hero-subtitle">“ Every trip, just the way you want it ”</p>
+      {/* Hero Section */}
+      <div className="hero-section-container">
+        <div
+          className="hero-section"
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+          }}
+        >
+          {/* Text Content */}
+          <div className="hero-content">
+            <h1 className="hero-title">
+              Experience streamlined access to all four services in one platform
+              <br />
+              <span className="highlighted-text">PERSONALIZED ITINERARY GENERATOR</span>
+            </h1>
+            {/* Booking Now Button */}
+            <button className="booking-button">
+              <span className="button-icon">
+                <img src="/images/icon-car.png" alt="Car Icon" />
+              </span>
+              Booking Now
+            </button>
+          </div>
         </div>
       </div>
 
