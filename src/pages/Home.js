@@ -77,42 +77,62 @@ const Home = () => {
 
 
       <div className="itinerary-container">
-        <h2 className="itinerary-title">Itinerary Generator</h2>
-        <p className="itinerary-subtitle">
-          Create personalized itineraries with flights, car rentals, and hotel
-          bookings—all tailored to your preferences.
+  <div className="itinerary-left">
+    <img
+      src="/images/itinerary-generator.jpeg"
+      alt="Traveler on a beach"
+      className="itinerary-image"
+    />
+  </div>
+  <div className="itinerary-right">
+    <div className="itinerary-header">
+      <h2 className="itinerary-title">Itinerary Generator</h2>
+      <p className="itinerary-description">
+        Plan your trip effortlessly. Select your destination, dates, and preferences, and let us create the perfect itinerary for you.
+      </p>
+    </div>
+    <div className="itinerary-content">
+      <div className="itinerary-step">
+        <img
+          src="/images/location.png"
+          alt="Destination"
+          className="step-icon"
+        />
+        <h3 className="step-title">Select Destination</h3>
+        <p className="step-description">
+          Choose from a wide range of destinations to suit your travel goals.
         </p>
-        <div className="itinerary-steps">
-
-          <div className="itinerary-step">
-            <img
-              src="/images/calender_picture.png"
-              alt="Step 1"
-              className="itinerary-step-icon"
-            />
-            <p className="itinerary-text">Choose Your Destination</p>
-          </div>
-
-          <div className="itinerary-step">
-            <img
-              src="/images/destination-picture.png"
-              alt="Step 2"
-              className="itinerary-step-icon"
-            />
-            <p className="itinerary-text">Pick Travel Dates</p>
-          </div>
-
-          <div className="itinerary-step">
-            <img
-              src="/images/Money_picture.png"
-              alt="Step 3"
-              className="itinerary-step-icon"
-            />
-            <p className="itinerary-text">Get Your Itinerary</p>
-          </div>
-        </div>
-        <button className="itinerary-button">Start Planning</button>
       </div>
+      <div className="itinerary-step">
+        <img
+          src="/images/calendar.png"
+          alt="Dates"
+          className="step-icon"
+        />
+        <h3 className="step-title">Pick Travel Dates</h3>
+        <p className="step-description">
+          Add your travel dates to personalize your journey.
+        </p>
+      </div>
+      <div className="itinerary-step">
+        <img
+          src="/images/budget1.png"
+          alt="Budget"
+          className="step-icon"
+        />
+        <h3 className="step-title">Set Preferences</h3>
+        <p className="step-description">
+          Tailor your trip to match your budget, interests, and style.
+        </p>
+      </div>
+    </div>
+    <button className="itinerary-button">Generate My Itinerary</button>
+  </div>
+</div>
+
+
+
+
 
 
       <div className="about-us-container">
