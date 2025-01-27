@@ -1,8 +1,8 @@
 import React from "react";
-import Navbar from "../components/Navbar"; 
-import "../styles/Home.css"; 
+import Navbar from "../components/Navbar";
+import "../styles/Home.css";
 const Home = () => {
-  const backgroundImage = "/images/home_screen.jpg"; 
+  const backgroundImage = "/images/home_screen.jpg";
 
   return (
     <div className="home">
@@ -30,13 +30,17 @@ const Home = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="services-container">
-        <h2 className="services-title">Our Services</h2>
-        <p className="services-subtitle">
-          Discover a variety of options tailored to your travel needs, including flights,
-          car rentals, hotels, and more.
-        </p>
+        <div className="services-container">
+          <div className="services-text">
+            <h2 className="services-title">Our Services</h2>
+            <p className="services-subtitle">
+              Discover an incredible array of travel options thoughtfully designed to cater to all your journey needs, whether you're booking flights, renting cars, reserving hotels, or planning every detail of your dream trip—all in one convenient platform for a truly seamless travel experience.
+            </p>
+          </div>
+        </div>
+
         <div className="cards-container">
 
           <div className="service-card">
