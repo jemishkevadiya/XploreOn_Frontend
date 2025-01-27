@@ -117,88 +117,137 @@ html, body {
   }
   
 /* Container for Services Section */
+/* Main Container */
 .services-container {
-    display: flex;
-    align-items: flex-start; /* Align items to the top */
-    justify-content: space-between;
-    padding: 2rem 1rem; /* Add padding */
-    background-color: #f8f9fa; /* Light background */
-    border-radius: 10px; /* Rounded corners */
-    gap: 2rem; /* Space between title and description */
-  }
-  
-  /* Text Section */
-  .services-text {
-    max-width: 60%; /* Restrict width for readability */
-  }
-  
-  .services-title {
-    font-family: "Poppins", sans-serif;
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 1rem; /* Spacing below the title */
-    color: #000;
-  }
-  
-  .services-subtitle {
-    font-family: "Poppins", sans-serif;
-    font-size: 1rem;
-    line-height: 1.8; /* Improved line spacing for readability */
-    color: #555;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  gap: 7rem;
+  padding: 2rem;
+}
 
+/* Header Section: Title and Subtitle Side by Side */
+.services-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.services-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 3.2rem;
+  font-weight: 500;
+  color: #000;
+  max-width: 40%;
+  padding-left: 7rem;
+}
+
+.services-subtitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: #555;
+  line-height: 1.8;
+  text-align: left;
+  max-width: 50%;
+}
+
+/* Cards Section */
 .cards-container {
-    display: flex;
-    justify-content: center;
-    gap: 10rem;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .service-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 300px;
-    text-align: center;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 400px;
+  width: 350px;
+  display: flex;
+  position: relative;
 }
 
 .service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-10px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
 }
 
-.service-card img {
-    width: 100%;
-    height: 270px;
-    object-fit: cover;
+/* Image */
+.service-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
+/* Overlay Content */
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding-top: 7rem;
+  gap: 0.5rem; /* Space between title and button */
+}
+
+/* Title */
 .service-card-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #000000;
-    margin: 1rem 0 0.5rem;
+  font-size: 1.8rem;
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for better readability */
 }
 
-.service-card button {
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    background: #000000;
-    border: none;
-    border-radius: 8px;
-    padding: 0.8rem 1.5rem;
-    cursor: pointer;
-    margin-bottom: 1.5rem;
-    transition: background 0.3s ease, transform 0.3s ease;
+/* Button */
+.service-card-button {
+  font-size: 1rem;
+  font-weight: 600;
+  color: black;
+  background: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.service-card button:hover {
-    background: #333333;
-    transform: scale(1.05);
+.service-card-button:hover {
+  background: #000000;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .services-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .services-title,
+  .services-subtitle {
+    max-width: 100%;
+  }
+
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-card {
+    width: 100%;
+  }
 }
 
 .itinerary-container {

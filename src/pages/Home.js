@@ -32,48 +32,57 @@ const Home = () => {
       </div>
 
       <div className="services-container">
-        <div className="services-container">
-          <div className="services-text">
-            <h2 className="services-title">Our Services</h2>
-            <p className="services-subtitle">
-              Discover an incredible array of travel options thoughtfully designed to cater to all your journey needs, whether you're booking flights, renting cars, reserving hotels, or planning every detail of your dream trip—all in one convenient platform for a truly seamless travel experience.
-            </p>
-          </div>
+        {/* Top Section: Title and Subtitle */}
+        <div className="services-header">
+          <h2 className="services-title">Crafting Memorable Journeys for You</h2>
+          <p className="services-subtitle">
+            Discover an incredible array of travel options thoughtfully designed to cater to all your journey needs, whether you're booking flights, renting cars, reserving hotels, or planning every detail of your dream trip—all in one convenient platform for a truly seamless travel experience.
+          </p>
         </div>
 
+        {/* Bottom Section: Cards */}
         <div className="cards-container">
-
+          {/* Flight Card */}
           <div className="service-card">
             <img
-              src="/images/flight.png"
+              src="/images/flight_card.jpg"
               alt="Flights"
               className="service-card-image"
             />
-            <h3 className="service-card-title">Flights</h3>
-            <button>Explore Flights</button>
+            <div className="card-overlay">
+              <h3 className="service-card-title">Flights</h3>
+              <button className="service-card-button">Explore Flights</button>
+            </div>
           </div>
 
+          {/* Car Rentals Card */}
           <div className="service-card">
             <img
-              src="/images/carrentals.png"
+              src="/images/carRental_card.jpg"
               alt="Car Rentals"
               className="service-card-image"
             />
-            <h3 className="service-card-title">Car Rentals</h3>
-            <button>Rent a Car</button>
+            <div className="card-overlay">
+              <h3 className="service-card-title">Car Rentals</h3>
+              <button className="service-card-button">Rent a Car</button>
+            </div>
           </div>
 
+          {/* Hotels Card */}
           <div className="service-card">
             <img
-              src="/images/hotels.png"
+              src="/images/hotel_card.jpg"
               alt="Hotels"
               className="service-card-image"
             />
-            <h3 className="service-card-title">Hotels</h3>
-            <button>Book Hotels</button>
+            <div className="card-overlay">
+              <h3 className="service-card-title">Hotels</h3>
+              <button className="service-card-button">Book Hotels</button>
+            </div>
           </div>
         </div>
       </div>
+
 
 
       <div className="itinerary-container">
