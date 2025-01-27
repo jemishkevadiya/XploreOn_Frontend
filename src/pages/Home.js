@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import "../styles/Home.css";
 const Home = () => {
   const backgroundImage = "/images/home_screen.jpg";
@@ -125,12 +126,20 @@ const Home = () => {
 
 
       <div className="about-us-container">
-        <h2 className="about-title">About Us</h2>
-        <p className="about-description">
-          At XploreOn, we strive to make travel seamless and enjoyable. From flights
-          and hotels to personalized itineraries, we provide everything you need for
-          a memorable trip.
-        </p>
+        {/* Title */}
+        <div className="about-us-title">About Us</div>
+
+        {/* Subheading */}
+        <div className="about-us-subheading">The Vision That Guides Our Journey</div>
+
+        {/* Description */}
+        <div className="about-us-description">
+          At XploreOn, our vision is to simplify and enhance your travel planning
+          experience by providing a unified platform for flights, car rentals, hotels,
+          and personalized itineraries. We strive to empower every traveler with the
+          tools and confidence to explore the world, turning their travel dreams
+          into reality, one seamless journey at a time.
+        </div>
       </div>
 
 
@@ -156,6 +165,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
