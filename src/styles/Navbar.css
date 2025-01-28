@@ -11,6 +11,7 @@
   box-sizing: border-box;
   background-color: #ffffff; /* Add a white background for the navbar */
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+
 }
 
 /* Brand Name Styling */
@@ -20,6 +21,7 @@
   font-size: 1.7rem;
   letter-spacing: 1px;
   color: #000000;
+  cursor: pointer;
 }
 
 /* Navigation Links Container */

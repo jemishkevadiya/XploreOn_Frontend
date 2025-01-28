@@ -16,33 +16,33 @@ const Footer = () => {
       <div className="footer-section">
         <h4>Useful Links</h4>
         <ul>
-          <li>About Us</li>
-          <li>Contact Us</li>
-          <li>Reviews</li>
-          <li>Sign Up</li>
+        <li><a href="#about-us">About Us</a></li>
+        <li><a href="mailto:xploreon.co@gmail.com">Contact Us</a></li> {/* Opens the user's default email client */}
+        <li><a href="#testimonials">Reviews</a></li> {/* Scrolls to the Testimonials section */}
+        <li><a href="/signup">Sign Up</a></li> {/* Directs to the Sign Up page */}
         </ul>
       </div>
       <div className="footer-section">
         <h4>Socials</h4>
         <ul>
           <li>
-            <a href="#">
-              <img src="/icons/instagram.svg" alt="Instagram" /> Instagram
+          <a href="https://www.instagram.com/xploreonofficial/" target="_blank" rel="noopener noreferrer">
+          <img src="/images/instagram.svg" alt="Instagram" /> Instagram
             </a>
           </li>
           <li>
-            <a href="#">
-              <img src="/icons/twitter.svg" alt="Twitter" /> Twitter
+          <a href="https://x.com/Xplore_On" target="_blank" rel="noopener noreferrer">
+          <img src="/images/x1.svg" alt="X" /> X
             </a>
           </li>
           <li>
-            <a href="#">
-              <img src="/icons/youtube.svg" alt="YouTube" /> YouTube
+          <a href="https://www.youtube.com/@XploreOn" target="_blank" rel="noopener noreferrer">
+          <img src="/images/youtube.svg" alt="YouTube" /> YouTube
             </a>
           </li>
           <li>
-            <a href="#">
-              <img src="/icons/gmail.svg" alt="Gmail" /> Gmail
+          <a href="mailto:xploreon.co@gmail.com">
+          <img src="/images/gmail.svg" alt="Gmail" /> Gmail
             </a>
           </li>
         </ul>
