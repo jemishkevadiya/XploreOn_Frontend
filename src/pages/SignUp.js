@@ -21,8 +21,12 @@ const SignUp = () => {
   return (
     <div className="signup-page">
       <div className="signup-left">
-        <h1>WELCOME BACK!</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti, rem?</p>
+      <h1>Welcome to XploreOn!</h1>
+<p>
+  Join us today to unlock personalized travel itineraries, exclusive deals, and a seamless booking experience. 
+  Your next adventure starts here!
+</p>
+
       </div>
       <div className="signup-right">
         <h2>Sign Up</h2>

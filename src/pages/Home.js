@@ -24,7 +24,7 @@ const Home = () => {
             </h1>
             <button className="booking-button">
               <span className="button-icon">
-                <img src="/images/icon-car.png" alt="Car Icon" />
+                <img src="/images/icons8-calender-50.png" alt="Car Icon" />
               </span>
               Booking Now
             </button>
@@ -85,7 +85,6 @@ const Home = () => {
       </div>
 
 
-
       <div className="itinerary-container">
   <div className="itinerary-left">
     <img
@@ -141,11 +140,7 @@ const Home = () => {
 </div>
 
 
-
-
-
-
-      <div className="about-us-container">
+      <div id="about-us" className="about-us-container">
         {/* Title */}
         <div className="about-us-title">About Us</div>
 
@@ -163,28 +158,26 @@ const Home = () => {
       </div>
 
 
-      <div className="testimonials-container">
+
+      <div id="testimonials" className="testimonials-container">
         <h2 className="testimonials-title">What Our Customers Say</h2>
         <div className="testimonials-cards">
-
           <div className="testimonial-card">
             <p>"XploreOn made my trip planning so easy. Highly recommend!"</p>
             <span>- John Doe</span>
           </div>
-
           <div className="testimonial-card">
             <p>"Great service and amazing deals on hotels and car rentals."</p>
             <span>- Jane Smith</span>
           </div>
-
           <div className="testimonial-card">
-            <p>
-              "The itinerary generator was a game-changer for my vacation."
-            </p>
+            <p>"The itinerary generator was a game-changer for my vacation."</p>
             <span>- Alex Brown</span>
           </div>
         </div>
       </div>
+
+
       <Footer />
     </div>
   );
