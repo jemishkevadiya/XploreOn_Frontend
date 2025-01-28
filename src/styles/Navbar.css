@@ -1,117 +1,138 @@
+/* Navbar Container */
 .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 2rem;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-sizing: border-box;
+  background-color: #ffffff; /* Add a white background for the navbar */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
 }
 
+/* Brand Name Styling */
 .navbar-brand {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 1.7rem;
-    letter-spacing: 1px;
-    color: #000000;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 1.7rem;
+  letter-spacing: 1px;
+  color: #000000;
 }
 
+/* Navigation Links Container */
 .navbar-links {
-    display: flex;
-    gap: 3rem;
+  display: flex;
+  gap: 2.7rem;
 }
 
+/* Navigation Link Styles */
 .nav-link {
-    font-family: "Poppins", sans-serif;
-    color: #777777;
-    text-decoration: none;
-    font-size: 20px;
-    transition: color 0.3s ease, transform 0.3s ease;
+  font-family: "Poppins", sans-serif;
+  color: #444444;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  padding: 0.35rem 0.90rem;
+  background-color: #eeeeee; /* Off-white background */
+  border-radius: 30px; /* Rounded corners */
+  display: flex;
+  align-items: center;
+  gap: 0.45rem; /* Spacing between icon and text */
 }
-/* 
+
 .nav-link:hover {
-    color: #f0f0f0;
-    transform: scale(1.1);
-    /* Slight zoom effect on hover */
- */
-
-.navbar-profile {
-    display: flex;
-    align-items: center;
-    margin-right: 2rem;
-    color: black;
+  color: #ffffff; /* Darker text on hover */
+  background-color: #000000; /* Slightly darker off-white */
 }
 
+/* Icon Styling for Navigation Links */
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%; /* Circular icon */
+  padding: 0.08rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  background-color: white; /* Keep icon background white */
+}
+
+/* Profile Icon Container */
+.navbar-profile {
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+  color: black;
+}
+
+/* Profile Icon */
 .profile-icon {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .profile-icon img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid black;
-    object-fit: cover;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+  width: 40px; /* Adjusted size */
+  height: 40px;
+  border-radius: 50%; /* Circular profile icon */
+  border: 2px solid black;
+  object-fit: cover;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .profile-icon img:hover {
-    transform: scale(1.1);
-    border-color: #f0f0f0;
+  transform: scale(1.1); /* Slight zoom on hover */
+  border-color: #f0f0f0; /* Subtle hover border color change */
 }
 
+/* Navbar Actions (Login and Register Buttons) */
 .navbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .black-button {
-    background-color: black;
-    color: white;
-    padding: 0.5rem 2rem;
-    font-family: "Poppins", sans-serif;
-    font-size: 1rem;
-    border-radius: 25px;
-    border: 2px solid black;
-    text-decoration: none;
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .black-button:hover {
-    background-color: #333333;
-    transform: scale(1.05);
-  }
-  
-  .white-button {
-    background-color: white;
-    color: black;
-    padding: 0.5rem 1.5rem;
-    font-family: "Poppins", sans-serif;
-    font-size: 1rem;
-    border: 2px solid black;
-    border-radius: 25px;
-    text-decoration: none;
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
-  }
-  
-  .white-button:hover {
-    background-color: black;
-    color: white;
-    transform: scale(1.05);
-  }
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 
-  .nav-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 0.5rem;
-    vertical-align: middle; 
-  }
-  
+/* Black Button */
+.black-button {
+  background-color: black;
+  color: white;
+  padding: 0.5rem 2rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  border-radius: 25px;
+  border: 2px solid black;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.black-button:hover {
+  background-color: #333333;
+  transform: scale(1.05);
+}
+
+/* White Button */
+.white-button {
+  background-color: white;
+  color: black;
+  padding: 0.5rem 1.5rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  border: 2px solid black;
+  border-radius: 25px;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+.white-button:hover {
+  background-color: black;
+  color: white;
+  transform: scale(1.05);
+}
