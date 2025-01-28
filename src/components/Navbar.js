@@ -1,16 +1,29 @@
 import React from "react";
-import "../styles/Navbar.css";
 import { Link } from "react-router-dom"; 
-import FlightIcon from "../assets/icons/flight icno.svg";
-import CarRentalGif from "../assets/icons/icons8-car.svg"
+import "../styles/Navbar.css";
+import FlightIcon from "../assets/icons/flight icon.svg"; 
+import CarRentalGif from "../assets/icons/output-onlinegiftools.gif";
 import HotelIcon from "../assets/icons/hotels.svg";
 import CompassIcon from "../assets/icons/compass.svg";
 
 class Navbar extends React.Component {
+  // Scroll to top and navigate to home function
+  handleBrandClick = () => {
+    // Scroll to top and navigate to home
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Smooth scroll to top
+    });
+    // Navigate to the homepage
+    window.location.href = '/';
+  };
+
   render() {
     return (
       <nav className="navbar">
-        <div className="navbar-brand">XploreOn</div>
+        <div className="navbar-brand" onClick={this.handleBrandClick}>
+          XploreOn
+        </div>
 
         <div className="navbar-links">
           <a href="#flights" className="nav-link">
