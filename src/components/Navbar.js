@@ -1,12 +1,14 @@
 import React from "react";
 import "../styles/Navbar.css";
 import { Link } from "react-router-dom"; 
-import FlightIcon from "../assets/icons/flight icon.svg"; 
-import CarRentalGif from"../assets/icons/output-onlinegiftools.gif";
-import HotelIcon from "../assets/icons/hotels.svg";
-import CompassIcon from "../assets/icons/compass.svg";
 
+
+const FlightIcon = "/images/flight icno.svg"; 
+const CarRentalGif = "/images/icons8-car.svg";
+const HotelIcon ="/images/hotels.svg"
+const CompassIcon ="/images/compass.svg"
 class Navbar extends React.Component {
+   
   render() {
     return (
       <nav className="navbar">

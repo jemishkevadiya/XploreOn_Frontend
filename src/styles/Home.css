@@ -256,10 +256,10 @@ html, body {
     flex-direction: row;
     align-items: stretch; 
     justify-content: space-between;
-    padding: 1rem 1.5rem;
+    padding: 2rem 1.5rem;
     background: #ffffff;
     max-width: 1150px;
-    margin: 2rem auto;
+    margin: 8rem auto;
     gap: 1.5rem;
     height: auto;
   }
@@ -276,6 +276,7 @@ html, body {
     max-width: 450px;
     height: 85%; 
     object-fit: cover; 
+    border-radius: 15px;
   }
   
   /* Right Section (Content) */
@@ -284,7 +285,7 @@ html, body {
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
-    gap: 1rem;
+    gap: 1.5rem;
     height: 85%; 
   }
   
@@ -304,6 +305,8 @@ html, body {
   .itinerary-description {
     font-size: 1rem;
     padding-top: 5%;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     color: #000000; 
     text-align: left;
     line-height: 1.5;
@@ -322,7 +325,7 @@ html, body {
     background: #ffffff;
     padding: 0.8rem; 
     border-radius: 10px;
-    text-align: left;
+    text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
@@ -352,9 +355,9 @@ html, body {
   
   /* Button Section */
   .itinerary-button {
-    margin-top: auto; 
+    margin-top: 1rem; 
     padding: 0.6rem 1.8rem; 
-    background: #007acc;
+    background: #000000;
     color: white;
     font-size: 1rem;
     font-weight: 600;
@@ -366,7 +369,7 @@ html, body {
   }
   
   .itinerary-button:hover {
-    background: #005fa3;
+    background: #333333;
     transform: scale(1.05);
   }
   
