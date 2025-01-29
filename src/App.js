@@ -5,7 +5,8 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-
+import Flight from "./pages/Flight";
+import CarRentals from "./pages/CarRentals";
 class App extends React.Component {
   render() {
     const domain = "dev-kev7s4z6gs7nu4wv.us.auth0.com"; // Replace with your Auth0 domain
@@ -30,6 +31,8 @@ class App extends React.Component {
             <Route path="/" element={<Home />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path ="/flights" element={<Flight />} />
+            <Route path ="/carrentals" element={<CarRentals />} />
           </Routes>
         </Router>
       </Auth0Provider> 
