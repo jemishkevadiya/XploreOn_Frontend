@@ -7,6 +7,7 @@ const FlightIcon = "/images/flight.svg";
 const CarRentalGif = "/images/icons8-car.svg";
 const HotelIcon ="/images/hotels.svg"
 const CompassIcon ="/images/compass.svg"
+const DefaultProfile ="/images/profileicon.svg";
 class Navbar extends React.Component {
       // Scroll to top and navigate to home function
   handleBrandClick = () => {
@@ -29,7 +30,7 @@ class Navbar extends React.Component {
           <Link to="/flights" className="nav-link">
             <img src={FlightIcon} alt="Flights" className="nav-icon" />
             Flights
-          </a>
+          </Link>
 
           <a href="#car-rentals" className="nav-link">
             <img src={CarRentalGif} alt="Car Rentals" className="nav-icon" />
@@ -41,10 +42,7 @@ class Navbar extends React.Component {
             Hotels
           </a>
 
-          <a href="#itinerary" className="nav-link">
-            <img src={CompassIcon} alt="Itinerary Generator" className="nav-icon" />
-            Itinerary Generator
-          </Link>
+         
         </div>
 
         {/* Login and Register Buttons */}
