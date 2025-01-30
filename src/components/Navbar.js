@@ -27,25 +27,22 @@ class Navbar extends React.Component {
         </div>
 
         <div className="navbar-links">
-          <a href="#flights" className="nav-link">
+          <Link to="/flights" className="nav-link">
             <img src={FlightIcon} alt="Flights" className="nav-icon" />
             Flights
-          </a>
-
-          <a href="#car-rentals" className="nav-link">
+          </Link>
+          <Link to="/car-rentals" className="nav-link">
             <img src={CarRentalGif} alt="Car Rentals" className="nav-icon" />
             Car Rentals
-          </a>
-
-          <a href="#hotels" className="nav-link">
+          </Link>
+          <Link to="/hotels" className="nav-link">
             <img src={HotelIcon} alt="Hotels" className="nav-icon" />
             Hotels
-          </a>
-
-          <a href="#itinerary" className="nav-link">
+          </Link>
+          <Link to="/itinerary" className="nav-link">
             <img src={CompassIcon} alt="Itinerary Generator" className="nav-icon" />
             Itinerary Generator
-          </a>
+          </Link>
         </div>
 
         <div className="navbar-actions">
