@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../styles/SignIn.css";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +9,8 @@ const SignIn = () => {
     password: "",
   });
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showResend, setShowResend] = useState(false); // Show "Resend Email" button
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,12 +24,53 @@ const SignIn = () => {
 
   async function logIn() {
     try {
-      await signInWithEmailAndPassword(getAuth(), formData.email, formData.password);
-      navigate("/"); // Redirect to the articles page
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      const user = userCredential.user;
+
+      // ❌ Block access if email is not verified
+      if (!user.emailVerified) {
+        setError("Please verify your email before logging in.");
+        setShowResend(true); // Show the resend verification button
+        await auth.signOut(); // Force logout to prevent unauthorized access
+        return;
+      }
+
+      // ✅ Allow login if verified
+      navigate("/"); // Redirect to homepage
     } catch (e) {
-      setError(e.message); // Set error message
+      setError(e.message); // Display error message
     }
   }
+  async function resendVerificationEmail() {
+    try {
+      setError("");
+      setSuccessMessage("");
+  
+      const auth = getAuth();
+  
+      // ✅ Re-authenticate user temporarily
+      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      const user = userCredential.user;
+  
+      // ❌ Block resend if email is already verified
+      if (user.emailVerified) {
+        setSuccessMessage("Your email is already verified. Please log in.");
+        return;
+      }
+  
+      // ✅ Send verification email
+      await sendEmailVerification(user);
+      setSuccessMessage("A new verification email has been sent. Please check your inbox.");
+  
+      // ❌ Log the user out after sending the email
+      await auth.signOut();
+  
+    } catch (e) {
+      setError(e.message);
+    }
+  }
+  
 
   return (
     <div className="auth-container">
@@ -59,16 +102,24 @@ const SignIn = () => {
             />
           </div>
           {error && <p className="error-message">{error}</p>}
+          {successMessage && <p className="success-message">{successMessage}</p>}
           <button type="submit" className="auth-button">
             Sign In
           </button>
         </form>
+
+        {showResend && (
+          <button onClick={resendVerificationEmail} className="auth-button resend-button">
+            Resend Verification Email
+          </button>
+        )}
+
         <div className="auth-footer">
           <p>
             Don't have an account? <Link to="/signup">Register</Link>
           </p>
           <p>
-             <Link to="/signup">Forgot Password?</Link>
+            <Link to="/forgot-password">Forgot Password?</Link>
           </p>
         </div>
       </div>

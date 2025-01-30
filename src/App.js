@@ -7,17 +7,18 @@ import SignIn from "./pages/SignIn";
 import Flight from "./pages/Flight";
 import CarRentals from "./pages/CarRentals";
 import { initializeApp } from "firebase/app";
+import ForgotPassword from "./pages/ForgotPassword";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.APIKEY,
-  authDomain:process.env.AUTHDOMAIN,
-  projectId: process.env.PROJECTID,
-  storageBucket:process.env.STORAGEBUCKET ,
-  messagingSenderId:process.env.MESSAGINGSENDERID,
-  appId: process.env.APPID
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_PROJECTID,
+  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGINSENDERID,
+  appId: process.env.REACT_APP_APPID,
 };
 
 // Initialize Firebase
@@ -29,15 +30,17 @@ class App extends React.Component {
     
 
         <Router>
-          
+
           <Navbar />
           
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path ="/flights" element={<Flight />} />
             <Route path ="/carrentals" element={<CarRentals />} />
+
           </Routes>
         </Router>
     );

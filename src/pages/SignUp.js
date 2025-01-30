@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/SignUp.css";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
@@ -12,7 +12,27 @@ const SignUp = () => {
     confirmpassword: "",
   });
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [countdown, setCountdown] = useState(10); // Countdown timer
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (successMessage) {
+      const interval = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+
+      const timer = setTimeout(() => {
+        navigate("/signin"); // Redirect after 10 seconds
+      }, 10000);
+
+      return () => {
+        clearTimeout(timer);
+        clearInterval(interval);
+      };
+    }
+  }, [successMessage, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,28 +48,34 @@ const SignUp = () => {
         return;
       }
 
+      setIsLoading(true); // Start loading
+
       try {
-        await createUserWithEmailAndPassword(
-          getAuth(),
-         
-          formData.email,
-          formData.password
-        );
-        navigate("/");
+        const auth = getAuth();
+        const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+        const user = userCredential.user;
+
+        await sendEmailVerification(user);
+
+        setSuccessMessage("A verification email has been sent. Redirecting to Sign In in 10 seconds...");
+        setIsLoading(false); // Stop loading
       } catch (e) {
+        setIsLoading(false); // Stop loading
         setError(e.message);
       }
     }
 
-    createAccount(); 
+    createAccount();
   };
 
   return (
     <div className="signup-page">
       <div className="signup-left">
         <h1>WELCOME BACK!</h1>
-        <p>Join us today to unlock personalized travel itineraries, exclusive deals, and a seamless booking experience. 
-        Your next adventure starts here!</p>
+        <p>
+          Join us today to unlock personalized travel itineraries, exclusive deals, and a seamless
+          booking experience. Your next adventure starts here!
+        </p>
       </div>
       <div className="signup-right">
         <h2>Sign Up</h2>
@@ -110,8 +136,14 @@ const SignUp = () => {
             <span className="input-icon">🔒</span>
           </div>
           {error && <p className="error-message">{error}</p>}
-          <button type="submit" className="signup-button">
-            Sign Up
+          {successMessage && (
+            <p className="success-message">
+              {successMessage} Redirecting in <strong>{countdown}</strong> seconds...
+            </p>
+          )}
+          {isLoading && <p className="loading-message">Waiting for email verification...</p>}
+          <button type="submit" className="signup-button" disabled={isLoading}>
+            {isLoading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
         <p className="login-link">
