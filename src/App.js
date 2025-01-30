@@ -29,9 +29,9 @@ class App extends React.Component {
     
 
         <Router>
-          {/* Navbar remains visible on all pages */}
+          
           <Navbar />
-          {/* Define routes for different pages */}
+          
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />

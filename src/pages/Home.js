@@ -33,7 +33,6 @@ const Home = () => {
       </div>
 
       <div className="services-container">
-        {/* Top Section: Title and Subtitle */}
         <div className="services-header">
           <h2 className="services-title">Crafting Memorable Journeys for You</h2>
           <p className="services-subtitle">
@@ -41,9 +40,7 @@ const Home = () => {
           </p>
         </div>
 
-        {/* Bottom Section: Cards */}
         <div className="cards-container">
-          {/* Flight Card */}
           <div className="service-card">
             <img
               src="/images/flight_card.jpg"
@@ -56,7 +53,6 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Car Rentals Card */}
           <div className="service-card">
             <img
               src="/images/carRental_card.jpg"
@@ -69,7 +65,6 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Hotels Card */}
           <div className="service-card">
             <img
               src="/images/hotel_card.jpg"
@@ -141,13 +136,10 @@ const Home = () => {
 
 
       <div id="about-us" className="about-us-container">
-        {/* Title */}
         <div className="about-us-title">About Us</div>
 
-        {/* Subheading */}
         <div className="about-us-subheading">The Vision That Guides Our Journey</div>
-
-        {/* Description */}
+        
         <div className="about-us-description">
           At XploreOn, our vision is to simplify and enhance your travel planning
           experience by providing a unified platform for flights, car rentals, hotels,
