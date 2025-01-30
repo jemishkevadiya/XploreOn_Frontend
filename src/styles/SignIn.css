@@ -99,3 +99,20 @@
 .auth-footer a:hover {
   text-decoration: underline;
 }
+
+
+.resend-button {
+  background-color: #eeeeee;
+  color: black;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.resend-button:hover {
+  /* background-color:; */
+  color: white;
+}
+
