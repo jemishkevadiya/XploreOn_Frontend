@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 import "../styles/SignUp.css";
 import {
   getAuth,
@@ -23,7 +25,7 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [countdown, setCountdown] = useState(10); // Countdown timer
+  const [countdown, setCountdown] = useState(10); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +35,7 @@ const SignUp = () => {
       }, 1000);
 
       const timer = setTimeout(() => {
-        navigate("/signin"); // Redirect after 10 seconds
+        navigate("/signin")
       }, 10000);
 
       return () => {
@@ -46,17 +48,17 @@ const SignUp = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Sign-Up Data:", formData);
-  
+    
     async function createAccount() {
       if (formData.password !== formData.confirmpassword) {
         setError("Password and Confirm Password do not match!");
         return;
       }
   
-      setIsLoading(true); // Start loading
+      setIsLoading(true); 
   
       try {
         const auth = getAuth();
@@ -67,41 +69,53 @@ const SignUp = () => {
         );
         const user = userCredential.user;
   
-        // Use the updateProfile function to set the displayName
         await updateProfile(user, {
           displayName: `${formData.firstname} ${formData.lastname}`,
         });
   
-        // Send email verification
         await sendEmailVerification(user);
   
-        setSuccessMessage(
-          "A verification email has been sent. Redirecting to Sign In in 10 seconds..."
-        );
-        setIsLoading(false); // Stop loading
-      } catch (e) {
-        setIsLoading(false); // Stop loading
-        setError(e.message);
+        await axios.post("http://localhost:1111/api/user/create", {
+          uid: user.uid, 
+          firstname: formData.firstname,
+          lastname: formData.lastname,
+          email: formData.email,
+          photoURL: user.photoURL || "", 
+        });
+  
+        setSuccessMessage("Account created! Verification email sent.");
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        setError(error.message);
       }
     }
   
     createAccount();
   };
-
    
-
-  // Sign In with Google
   const signInWithGoogle = async () => {
     try {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
-      console.log("Google Sign-In Successful:", user);
-      navigate("/"); // Redirect to homepage
+  
+      console.log("✅ Google Sign-In Successful:", user);
+  
+      await axios.post("http://localhost:1111/api/user/create", {
+        uid: user.uid, 
+        firstname: user.displayName.split(" ")[0] || "", 
+        lastname: user.displayName.split(" ")[1] || "", 
+        email: user.email,
+        photoURL: user.photoURL || "",
+      });
+  
+      console.log("✅ User stored in MongoDB");
+  
+      navigate("/");
     } catch (error) {
-      setError(error.message);
+      console.error("❌ Error during Google Sign-In:", error.message);
     }
   };
 
