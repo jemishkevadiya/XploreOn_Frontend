@@ -8,4 +8,5 @@ const Flight = () => {
     );
 };
 
-export default Flight;
+export default Flight
+
