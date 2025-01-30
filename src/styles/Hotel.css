@@ -1,0 +1,174 @@
+/* Hotel.css */
+
+.hotel-container {
+    padding-top: 41px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .heroo-section {
+    height: 89vh; 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: flex-start; 
+    flex-direction: column;
+    margin: 30px;
+    position: relative;
+    border-radius: 15px; 
+    overflow: hidden; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); 
+    
+  }
+  .main-title{
+    color:#ffffff;
+    margin-top: 150px;
+    font-size: 70px;
+    ;
+  }
+  
+  
+  .search-bar-container {
+    display: flex;
+    border-radius: 25px;
+    justify-content: center;
+    width: 150px;
+    margin-top: 20px;
+  }
+  
+  .search-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: rgba(255, 255, 255);
+    height: 12px;
+    padding: 20px;
+    border-radius: 70px;
+    gap: 20px;
+  }
+  
+  .input-field {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+  }
+  
+  .input-field input {
+    border: none;
+    padding: 8px;
+    margin-left: 5px;
+  }
+  
+  .search-btn {
+    background: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    height: 45px;
+    width: 110px;
+    border-radius: 40px;
+
+  }
+  
+  .stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    font-size: 22px;
+    gap: 19px;
+    color: #ffffff;
+    align-self:flex-start;
+    margin-top: 230px;
+    margin-left: 60px;
+  }
+  
+  .explore-section {
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .destinations {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .destination-card {
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    width: 220px;
+  }
+  /* Add these to Hotel.css */
+.react-datepicker-wrapper {
+    display: block;
+  }
+  
+  .date-picker-input {
+    border: none;
+    padding: 8px;
+    margin-left: 5px;
+    width: 150px;
+    cursor: pointer;
+  }
+  
+  .react-datepicker__input-container input {
+    background: transparent;
+  }
+  
+  .react-datepicker {
+    font-family: Arial, sans-serif;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .react-datepicker__header {
+    background-color: #f8f8f8;
+  }
+ /* Guest Selector Styles */
+.guest-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 15px;
+  }
+  
+  .guest-controls {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .guest-type {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .guest-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .guest-button:hover:not(:disabled) {
+    background: #f8f8f8;
+  }
+  
+  .guest-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .guest-count {
+    min-width: 80px;
+    text-align: center;
+    font-weight: 500;
+  }
