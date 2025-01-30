@@ -1,0 +1,282 @@
+/* General Styling */
+body {
+    margin: 0;
+    font-family: "Arial", sans-serif;
+    background-color: #f5f5f5;
+  }
+  
+  .flight-container {
+    width: 100%;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    position: relative;
+    text-align: center;
+    margin-bottom: 40px;
+    background-color: white; /* Ensure full white background */
+  }
+  
+  .hero-background {
+    position: relative;
+    height: 300px; /* Height of the cloud container */
+    overflow: hidden; /* Prevent cloud from spilling outside */
+  }
+
+  .hero-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .hero-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Search Section */
+  .search-section {
+    background-color: #ffffff;
+    padding: 30px;
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    width: 90%;
+  }
+
+  .airplane-image {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%) scale(1.2); /* Adjust scale as needed */
+    width: 400px; /* Allow airplane to grow larger */
+    z-index: 2; /* Ensure airplane is above clouds */
+  }
+  
+  .cloud-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover; /* Ensures clouds stay within the container */
+    z-index: 1; /* Keep clouds below the airplane */
+  }
+
+  /* Class Toggle */
+  .class-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  .toggle-button {
+    padding: 10px 25px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    margin: 0 10px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .toggle-button.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .toggle-button:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  /* Search Fields */
+  .search-fields {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap; /* Allows wrapping for smaller screens */
+  }
+  
+  .search-field {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 15px 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .search-field:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .search-field input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    flex: 1;
+    padding-left: 10px;
+    color: #333;
+  }
+  
+  .search-field .icon {
+    font-size: 20px;
+    color: #007bff;
+  }
+  
+  .search-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .search-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Icon Styling */
+  .location-icon::before {
+    content: "📍";
+  }
+  
+  .travelers-icon::before {
+    content: "👥";
+  }
+  
+  .checkin-icon::before {
+    content: "📅";
+  }
+  
+  .checkout-icon::before {
+    content: "📅";
+  }
+  
+  .search-icon::before {
+    content: "🔍";
+  }
+  
+  /* Travel Support Section */
+.travel-support {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 50px 20px;
+    margin: 30px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    width: 90%;
+  }
+  
+  .travel-support-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .travel-support-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 40px;
+  }
+  
+  /* Layout */
+  .travel-support-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap; /* Ensures responsiveness */
+  }
+  
+  /* Left Side: Features */
+  .travel-support-left {
+    flex: 1;
+    max-width: 50%;
+  }
+  
+  .travel-feature {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+  }
+  
+  .feature-number {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+  }
+  
+  .feature-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .feature-description {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  /* Right Side: Images */
+  .travel-support-right {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+    position: relative;
+  }
+  
+  .travel-image {
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: absolute;
+  }
+  
+  .travel-image1 {
+    width: 120px;
+    height: 120px;
+    top: 0;
+    right: 80px;
+  }
+  
+  .travel-image2 {
+    width: 160px;
+    height: 160px;
+    top: 80px;
+    right: 40px;
+  }
+  
+  .travel-image3 {
+    width: 140px;
+    height: 140px;
+    top: 200px;
+    right: 0;
+  }
+  
