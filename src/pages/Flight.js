@@ -5,7 +5,7 @@ const FlightPage = () => {
   return (
     <div className="flight-container">
       {/* Hero Section */}
-      <header className="hero-section">
+      <header className="hero-section-flight">
         <div className="hero-background">
           <img src="images/airplane_bg.jpg" alt="Clouds" className="cloud-image" />
           <img src="images/airplane.png" alt="Airplane" className="airplane-image" />

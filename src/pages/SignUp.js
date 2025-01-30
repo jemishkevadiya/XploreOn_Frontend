@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "../styles/SignUp.css";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithPopup,
+  GoogleAuthProvider,
+  updateProfile
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+
+const googleicon = "/images/googleicon.svg";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -37,35 +46,63 @@ const SignUp = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Sign-Up Data:", formData);
-
+  
     async function createAccount() {
       if (formData.password !== formData.confirmpassword) {
         setError("Password and Confirm Password do not match!");
         return;
       }
-
+  
       setIsLoading(true); // Start loading
-
+  
       try {
         const auth = getAuth();
-        const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
         const user = userCredential.user;
-
+  
+        // Use the updateProfile function to set the displayName
+        await updateProfile(user, {
+          displayName: `${formData.firstname} ${formData.lastname}`,
+        });
+  
+        // Send email verification
         await sendEmailVerification(user);
-
-        setSuccessMessage("A verification email has been sent. Redirecting to Sign In in 10 seconds...");
+  
+        setSuccessMessage(
+          "A verification email has been sent. Redirecting to Sign In in 10 seconds..."
+        );
         setIsLoading(false); // Stop loading
       } catch (e) {
         setIsLoading(false); // Stop loading
         setError(e.message);
       }
     }
-
+  
     createAccount();
+  };
+
+   
+
+  // Sign In with Google
+  const signInWithGoogle = async () => {
+    try {
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      console.log("Google Sign-In Successful:", user);
+      navigate("/"); // Redirect to homepage
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -73,8 +110,9 @@ const SignUp = () => {
       <div className="signup-left">
         <h1>WELCOME BACK!</h1>
         <p>
-          Join us today to unlock personalized travel itineraries, exclusive deals, and a seamless
-          booking experience. Your next adventure starts here!
+          Join us today to unlock personalized travel itineraries, exclusive
+          deals, and a seamless booking experience. Your next adventure starts
+          here!
         </p>
       </div>
       <div className="signup-right">
@@ -138,14 +176,29 @@ const SignUp = () => {
           {error && <p className="error-message">{error}</p>}
           {successMessage && (
             <p className="success-message">
-              {successMessage} Redirecting in <strong>{countdown}</strong> seconds...
+              {successMessage} Redirecting in <strong>{countdown}</strong>{" "}
+              seconds...
             </p>
           )}
-          {isLoading && <p className="loading-message">Waiting for email verification...</p>}
+          {isLoading && (
+            <p className="loading-message">Waiting for email verification...</p>
+          )}
           <button type="submit" className="signup-button" disabled={isLoading}>
             {isLoading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
+
+        {/* Google Sign-In Button */}
+        <div className="social-signin">
+          <button className="google-signin" onClick={signInWithGoogle}>
+            <img
+              src={googleicon}
+              alt="Google Logo"
+            />
+            Sign Up with Google
+          </button>
+        </div>
+
         <p className="login-link">
           Already have an account? <a href="/signin">Login</a>
         </p>

@@ -5,7 +5,6 @@ import Navbar from "./components/Navbar";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Flight from "./pages/Flight";
-import CarRentals from "./pages/CarRentals";
 import { initializeApp } from "firebase/app";
 import ForgotPassword from "./pages/ForgotPassword";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -39,7 +38,6 @@ class App extends React.Component {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path ="/flights" element={<Flight />} />
-            <Route path ="/carrentals" element={<CarRentals />} />
 
           </Routes>
         </Router>
