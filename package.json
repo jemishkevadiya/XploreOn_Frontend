@@ -2,7 +2,6 @@
   "name": "xploreon_frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:1111/",
   "dependencies": {
     "@auth0/auth0-react": "^2.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
