@@ -184,7 +184,7 @@ html, body {
     padding: 0.8rem 1.5rem;
     cursor: pointer;
     margin-bottom: 1.5rem;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .service-card button:hover {
@@ -254,7 +254,7 @@ html, body {
     border-radius: 8px;
     padding: 0.8rem 2rem;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .itinerary-button:hover {
