@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "../styles/SignIn.css";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
@@ -27,19 +28,31 @@ const SignIn = () => {
       const auth = getAuth();
       const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
-
+  
       // ❌ Block access if email is not verified
       if (!user.emailVerified) {
         setError("Please verify your email before logging in.");
-        setShowResend(true); // Show the resend verification button
+        setShowResend(true);
         await auth.signOut(); // Force logout to prevent unauthorized access
         return;
       }
-
-      // ✅ Allow login if verified
-      navigate("/"); // Redirect to homepage
+  
+      // ✅ Fetch user details from MongoDB
+      const response = await axios.get(`http://localhost:1111/api/user/profile/${user.uid}`);
+  
+      if (response.data) {
+        console.log("User Data from MongoDB:", response.data);
+  
+        // Store user details in localStorage or state for later use
+        localStorage.setItem("user", JSON.stringify(response.data));
+  
+        // Redirect to homepage
+        navigate("/");
+      } else {
+        setError("User not found in database.");
+      }
     } catch (e) {
-      setError(e.message); // Display error message
+      setError(e.message);
     }
   }
   async function resendVerificationEmail() {

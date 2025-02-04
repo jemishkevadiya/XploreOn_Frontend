@@ -107,3 +107,46 @@
     text-decoration: underline;
   }
   
+
+
+  .social-signin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Increased gap for better spacing */
+    margin-top: 30px; /* Slightly increased margin for a clean layout */
+  }
+  
+  .google-signin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px; /* Added padding for a balanced button */
+    border: none;
+    border-radius: 25px; /* Rounded button for a modern look */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500; /* Slightly bold text */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    background-color: #172336;
+    color: white;
+  }
+  
+  .google-signin:hover {
+    background-color: #071727; /* Darker shade on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+  }
+  
+  .google-signin img {
+    width: 24px; /* Slightly larger icon */
+    height: 24px;
+    transition: transform 0.3s ease; /* Smooth scaling effect */
+  }
+  
+  .google-signin:hover img {
+    transform: scale(1.1); /* Slight zoom effect on hover */
+  }
+  

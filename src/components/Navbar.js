@@ -1,25 +1,63 @@
 import React from "react";
 import "../styles/Navbar.css";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
-
-const FlightIcon = "/images/flight.svg"; 
+const FlightIcon = "/images/flight.svg";
 const CarRentalGif = "/images/icons8-car.svg";
-const HotelIcon ="/images/hotels.svg"
-const CompassIcon ="/images/compass.svg"
+const HotelIcon = "/images/hotels.svg";
+const CompassIcon = "/images/compass.svg";
+const DefaultProfile = "/images/profileicon.svg";
+
 class Navbar extends React.Component {
-      // Scroll to top and navigate to home function
-  handleBrandClick = () => {
-    // Scroll to top and navigate to home
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth", // Smooth scroll to top
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoggedIn: false,
+      user: null,
+      isDropdownOpen: false,
+    };
+  }
+
+  componentDidMount() {
+    const auth = getAuth();
+    this.unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.setState({ isLoggedIn: true, user });
+      } else {
+        this.setState({ isLoggedIn: false, user: null });
+      }
     });
-    // Navigate to the homepage
-    window.location.href = '/';
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
+
+  handleLogout = async () => {
+    const auth = getAuth();
+    try {
+      await signOut(auth);
+      this.setState({ isLoggedIn: false, user: null, isDropdownOpen: false });
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
+  toggleDropdown = () => {
+    this.setState((prevState) => ({ isDropdownOpen: !prevState.isDropdownOpen }));
+  };
+
+  handleBrandClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.location.href = "/";
   };
 
   render() {
+    const { isLoggedIn, user, isDropdownOpen } = this.state;
+
     return (
       <nav className="navbar">
         <div className="navbar-brand" onClick={this.handleBrandClick}>
@@ -46,12 +84,38 @@ class Navbar extends React.Component {
         </div>
 
         <div className="navbar-actions">
-          <Link to="/signin" className="nav-button black-button">
-            Login
-          </Link>
-          <Link to="/signup" className="nav-button white-button">
-            Register
-          </Link>
+          {isLoggedIn ? (
+            <div className="profile-container">
+              <img
+                src={user?.photoURL || DefaultProfile} // Default profile photo
+                alt="Profile"
+                className="profile-icon"
+                onClick={this.toggleDropdown}
+              />
+              <span className="user-name">
+                {user?.displayName || `${user?.firstName || "User"} ${user?.lastName || ""}`}
+              </span>
+              {isDropdownOpen && (
+                <div className="dropdown-menu">
+                  <Link to="/my-bookings" className="dropdown-item">
+                    My Bookings
+                  </Link>
+                  <button className="dropdown-item logout-button" onClick={this.handleLogout}>
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link to="/signin" className="nav-button black-button">
+                Login
+              </Link>
+              <Link to="/signup" className="nav-button white-button">
+                Register
+              </Link>
+            </>
+          )}
         </div>
       </nav>
     );
