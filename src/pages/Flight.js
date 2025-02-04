@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/Flight.css";
 
+
 const FlightPage = () => {
+
+    const [isRoundTrip, setIsRoundTrip] = useState(true);
+    const [selectedClass, setSelectedClass] = useState("Economy");
+    const [travelers, setTravelers] = useState({ adults: 1, children: 0 });
+    const [selectedTravelerType, setSelectedTravelerType] = useState("Adults");
+
+    const handleClassChange = (className) => {
+        setSelectedClass(className);
+    };
+
+    const handleToggleChange = () => {
+        setIsRoundTrip(!isRoundTrip);
+    };
+
+    const handleTravelersChange = (type, value) => {
+        setTravelers((prev) => ({
+            ...prev,
+            [type]: value,
+        }));
+    };
+
     return (
         <div className="flight-container">
             {/* Hero Section */}
@@ -9,39 +31,90 @@ const FlightPage = () => {
                 <h1 className="hero-title-flight">
                     Find And Book
                     <br />
-                    A Great Experience </h1>
+                    A Great Experience
+                </h1>
                 <div className="hero-background-flight">
                     <img src="images/flight_bg.jpg" alt="Clouds" className="cloud-image" />
                 </div>
                 <img src="images/airplane_2.png" alt="Airplane" className="airplane-image" />
-
             </header>
 
-            <section className="search-section">
+            <section className={`search-section ${isRoundTrip ? "round-trip" : "one-way"}`}>
                 <div className="class-toggle">
-                    <button className="toggle-button active">Economy</button>
-                    <button className="toggle-button">Business Class</button>
-                    <button className="toggle-button">First Class</button>
+                    <button
+                        className={`toggle-button ${selectedClass === "Economy" ? "active" : ""}`}
+                        onClick={() => handleClassChange("Economy")}
+                    >
+                        Economy
+                    </button>
+                    <button
+                        className={`toggle-button ${selectedClass === "Business Class" ? "active" : ""}`}
+                        onClick={() => handleClassChange("Business Class")}
+                    >
+                        Business Class
+                    </button>
+                    <button
+                        className={`toggle-button ${selectedClass === "First Class" ? "active" : ""}`}
+                        onClick={() => handleClassChange("First Class")}
+                    >
+                        First Class
+                    </button>
+                    <div className="toggle-trip">
+                        <span>Round Trip</span>
+                        <label className="toggle-label">
+                            <input type="checkbox" checked={isRoundTrip} onChange={handleToggleChange} />
+                            <span className="toggle-slider"></span>
+                        </label>
+                    </div>
                 </div>
+
                 <div className="search-fields">
                     <div className="search-field">
-                        <i className="icon location-icon"></i>
-                        <input type="text" placeholder="Location" />
+                        <img src="images/location.svg" alt="Location" />
+                        <span>From</span>
+                        <input type="text" placeholder="Enter departure" />
                     </div>
                     <div className="search-field">
-                        <i className="icon travelers-icon"></i>
-                        <input type="text" placeholder="Travelers" />
+                        <img src="images/location.svg" alt="Location" />
+                        <span>To</span>
+                        <input type="text" placeholder="Enter destination" />
                     </div>
                     <div className="search-field">
-                        <i className="icon checkin-icon"></i>
+                        <img src="images/calendar.svg" alt="Check In" />
+                        <span>Check In</span>
                         <input type="date" />
                     </div>
-                    <div className="search-field">
-                        <i className="icon checkout-icon"></i>
-                        <input type="date" />
+                    {isRoundTrip && (
+                        <div className="search-field">
+                            <img src="images/calendar.svg" alt="Check Out" />
+                            <span>Check Out</span>
+                            <input type="date" />
+                        </div>
+                    )}
+                    <div className="search-field dropdown-field">
+                        <img src="images/person.svg" alt="Travelers" />
+                        <span>Persons</span>
+                        <select
+                            value={selectedTravelerType}
+                            onChange={(e) => setSelectedTravelerType(e.target.value)}
+                        >
+                            <option value="Adults">Adults</option>
+                            <option value="Children">Children</option>
+                        </select>
+                        <input
+                            type="number"
+                            min="0"
+                            value={travelers[selectedTravelerType.toLowerCase()]}
+                            onChange={(e) =>
+                                handleTravelersChange(
+                                    selectedTravelerType.toLowerCase(),
+                                    parseInt(e.target.value, 10)
+                                )
+                            }
+                        />
                     </div>
                     <button className="search-button">
-                        <i className="icon search-icon"></i>
+                        <img src="images/search.svg" alt="Search" />
                     </button>
                 </div>
             </section>
@@ -58,27 +131,27 @@ const FlightPage = () => {
                         <div className="travel-feature">
                             <div className="feature-number">01</div>
                             <div>
-                                <h3 className="feature-title">Travel requirements for Dubai</h3>
+                                <h3 className="feature-title">Hassle-Free Flight Bookings</h3>
                                 <p className="feature-description">
-                                    Momondo is by far one of the best travel websites for sourcing travel deals.
+                                    Effortlessly search and book flights with competitive pricing and flexible options to suit your travel plans.
                                 </p>
                             </div>
                         </div>
                         <div className="travel-feature">
                             <div className="feature-number">02</div>
                             <div>
-                                <h3 className="feature-title">Multi-risk travel insurance</h3>
+                                <h3 className="feature-title">Global Destinations at Your Fingertips</h3>
                                 <p className="feature-description">
-                                    Momondo is by far one of the best travel websites for sourcing travel deals.
+                                    Access flights to countless destinations worldwide, offering the best routes and airlines for your next adventure.
                                 </p>
                             </div>
                         </div>
                         <div className="travel-feature">
                             <div className="feature-number">03</div>
                             <div>
-                                <h3 className="feature-title">Travel requirements by destination</h3>
+                                <h3 className="feature-title">Flexible Travel Options</h3>
                                 <p className="feature-description">
-                                    Momondo is by far one of the best travel websites for sourcing travel deals.
+                                    Explore flexible flight options, including round trips and one-way tickets, tailored to your schedule and preferences.
                                 </p>
                             </div>
                         </div>
@@ -86,9 +159,9 @@ const FlightPage = () => {
 
                     {/* Right Side: Images */}
                     <div className="travel-support-right">
-                        <img src="image1.jpg" alt="Travel 1" className="travel-image travel-image1" />
-                        <img src="image2.jpg" alt="Travel 2" className="travel-image travel-image2" />
-                        <img src="image3.jpg" alt="Travel 3" className="travel-image travel-image3" />
+                        <img src="images/flight_card02.jpg" alt="Travel 1" className="travel-image travel-image1" />
+                        <img src="images/flight_card01.jpg" alt="Travel 2" className="travel-image travel-image2" />
+                        <img src="images/flight_card03.jpg" alt="Travel 3" className="travel-image travel-image3" />
                     </div>
                 </div>
             </section>
