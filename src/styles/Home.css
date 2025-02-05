@@ -209,17 +209,17 @@ margin: 0;
 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow for better readability */
 }
 
-/* Button */
-.service-card-button {
-font-size: 1rem;
-font-weight: 600;
-color: black;
-background: white;
-border: none;
-border-radius: 8px;
-padding: 0.8rem 1.5rem;
-cursor: pointer;
-transition: background 0.3s ease, transform 0.3s ease;
+.service-card button {
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: #005092;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .service-card-button:hover {
@@ -355,17 +355,15 @@ transform: scale(1.05);
 
 /* Button Section */
 .itinerary-button {
-  margin-top: 1rem; 
-  padding: 0.6rem 1.8rem; 
-  background: #000000;
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
-  align-self: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #003344;
+    background: #88bbef;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 2rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .itinerary-button:hover {
