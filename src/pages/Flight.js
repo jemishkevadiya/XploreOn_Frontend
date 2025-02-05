@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import "../styles/Flight.css";
+import Footer from "../components/Footer";
 
 const FlightPage = () => {
     const booknow = "/images/booknow.svg"
@@ -167,6 +168,60 @@ const FlightPage = () => {
                 </div>
             </div>
         </section>
+        <section className="trending-destinations">
+  <h2 className="section-title">Trending Destinations</h2>
+  <p className="section-subtitle">Explore the most popular places to visit around the world.</p>
+  <div className="destination-grid">
+    {/* <!-- Paris Card --> */}
+    <div className="destination-card">
+      <div className="destination-image-wrapper">
+        <img src="images/paris.jpg" alt="Paris" className="destination-image" />
+      </div>
+      <div className="hover-content">
+        <h3 className="destination-name">Paris</h3>
+        <p className="destination-description">Discover the city of love and lights.</p>
+        <button className="book-now-button">Book</button>
+      </div>
+    </div>
+
+    {/* <!-- Alberta Card --> */}
+    <div className="destination-card">
+      <div className="destination-image-wrapper">
+        <img src="images/banff.jpg" alt="Alberta" className="destination-image" />
+      </div>
+      <div className="hover-content">
+        <h3 className="destination-name">Alberta</h3>
+        <p className="destination-description">Explore the majestic mountains and lakes.</p>
+        <button className="book-now-button">Book</button>
+      </div>
+    </div>
+
+    {/* <!-- Tokyo Card --> */}
+    <div className="destination-card">
+      <div className="destination-image-wrapper">
+        <img src="images/tokyo.jpg" alt="Tokyo" className="destination-image" />
+      </div>
+      <div className="hover-content">
+        <h3 className="destination-name">Tokyo</h3>
+        <p className="destination-description">Experience the blend of tradition and innovation.</p>
+        <button className="book-now-button">Book</button>
+      </div>
+    </div>
+
+    {/* <!-- Rome Card --> */}
+    <div className="destination-card">
+      <div className="destination-image-wrapper">
+        <img src="images/rome3.jpg" alt="Rome" className="destination-image" />
+      </div>
+      <div className="hover-content">
+        <h3 className="destination-name">Rome</h3>
+        <p className="destination-description">Step into history with ancient landmarks.</p>
+        <button className="book-now-button">Book</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 
             <section className="memories-section">
   <div className="memories-header">
@@ -221,7 +276,9 @@ const FlightPage = () => {
     </div>
   </div>
 </section>     
+          <Footer/>
         </div>
+       
     );
 };
 
