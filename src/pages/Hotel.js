@@ -5,6 +5,7 @@ import { BsFillCalendarDateFill } from "react-icons/bs";
 import { useState, useRef, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Footer from "../components/Footer";
 
 const ReviewCarousel = () => {
   const carouselRef = useRef(null);
@@ -68,7 +69,7 @@ const ReviewCarousel = () => {
               <img src="../images/profileIcon.svg" alt="Reviewer" />
               <div>
                 <h4>Sheikh</h4>
-                <span>Saudi Arebia</span>
+                <span>Saudi Arabia</span>
                 <br/>⭐️⭐️⭐️⭐️⭐️
               </div>
             </div>
@@ -80,7 +81,7 @@ const ReviewCarousel = () => {
             <div className="reviewer-info">
               <img src="../images/profileIcon.svg" alt="Reviewer" />
               <div>
-                <h4>Danieal</h4>
+                <h4>Daniel</h4>
                 <span>Canada</span>
                 <br/>⭐️⭐️⭐️⭐️⭐️
               </div>
@@ -102,10 +103,11 @@ const ReviewCarousel = () => {
           </div>
 
           <div className="review-card">
-            <p>“I couldn't have asked for a better stay! The hotel was modern and stylish, and the staff made us feel like VIPs. The room was quiet, spacious, and well-equipped.”</p>
+            <p>“I couldn't have asked for a better stay! The hotel was modern and stylish, and the staff made us feel like VIPs. The room was quiet, spacious, and well-equipped.” </p>
             <div className="reviewer-info">
               <img src="../images/profileIcon.svg" alt="Reviewer" />
               <div>
+                <br/>
                 <h4>BagaKara</h4>
                 <span>Indonesia</span>
                 <br/>⭐️⭐️⭐️⭐️⭐️
@@ -120,11 +122,11 @@ const ReviewCarousel = () => {
               <img src="../images/profileIcon.svg" alt="Reviewer" />
               <div>
                 <h4>Steven Wart</h4>
-                <span>USA</span>
+                <span>New Mexico</span>
                 <br/>⭐️⭐️⭐️⭐️⭐️
               </div>
             </div>
-            <img src="../images/vegas.jpg" alt="Hotel" className="review-hotel-image" />
+            <img src="../images/review1.jpg" alt="Hotel" className="review-hotel-image" />
           </div>
         </div>
       </div>
@@ -133,9 +135,6 @@ const ReviewCarousel = () => {
     </section>
   );
 };
-
-
-
 
 const DiscoverPlaces = () => {
   return (
@@ -157,27 +156,27 @@ const DiscoverPlaces = () => {
           </div>
         </div>
 
-        {/* Germany */}
+        {/* Tokyo */}
         <div className="discover-place-card higher-card">
-          <img src="../images/vegas.jpg" alt="Germany" />
+          <img src="../images/ascott.jpg" alt="Tokyo" />
           <div className="discover-place-info">
-            <h3>Wynn Las Vegas</h3>
+            <h3>Ascott Marunouchi</h3>
             <button className="book-now-btn">Book Now</button>
           </div>
         </div>
 
-        {/* Germany */}
+        {/* Oman */}
         <div className="discover-place-card higher-card">
-          <img src="../images/zighy_bay.jpg" alt="Germany" />
+          <img src="../images/zighy_bay.jpg" alt="Oman" />
           <div className="discover-place-info">
             <h3>Six senses</h3>
             <button className="book-now-btn">Book Now</button>
           </div>
         </div>
 
-        {/* France */}
+        {/* Mexico */}
         <div className="discover-place-card lower-card">
-          <img src="../images/mexico.jpg" alt="France" />
+          <img src="../images/mexico.jpg" alt="Mexico" />
           <div className="discover-place-info">
             <h3>Chable Yucatan</h3>
             <button className="book-now-btn">Book Now</button>
@@ -263,6 +262,7 @@ const Hotel = () => {
       </div>
       <DiscoverPlaces />
       <ReviewCarousel/>
+      <Footer/>
     </div>
   );
 };
