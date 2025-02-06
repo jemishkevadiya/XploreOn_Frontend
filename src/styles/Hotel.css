@@ -1,6 +1,6 @@
 .hotel-container {
   padding-top: 41px;
-  font-family: Arial, sans-serif;
+  font-family: poppins;
 }
 
 .heroo-section {
@@ -25,7 +25,8 @@
   color: #ffffff;
   margin-top: 150px;
   font-size: 70px;
-  ;
+  font-family: poppins;
+  position: relative;
 }
 
 
@@ -37,15 +38,16 @@
   margin-top: 30px;
 }
 
-.search-bar {
+.search-bar{
   display: flex;
   flex-direction: row;
   align-items: center;
   background: rgba(255, 255, 255);
-  height: 12px;
-  padding: 20px;
+  height: 2rem;
+  padding: 0.7rem;
   border-radius: 70px;
-  gap: 20px;
+  gap: 2rem;
+  
 }
 
 .input-field {
@@ -236,16 +238,16 @@
 
 
 .book-now-btn {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.2rem;
+  font-family: poppins;
+  font-size: 1.8rem;
   font-weight: 600;
   padding: 1px 24px;
-  background: linear-gradient(to right, #8b5e3b, #c5a880);
+  background-color: #ffffff;
   border: none;
-  height: 3rem;
-  width: 3rem;
-  left: 17rem;
-  border-radius: 50%;
+  height: 5rem;
+  width: 8rem;
+  left: 12rem;
+  border-radius: 5rem;
   cursor: pointer;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
@@ -292,7 +294,7 @@
   text-align: center;
   font-size: 3rem;
   color: #000000;
-  font-family: palatino;
+  font-family: poppins;
   text-transform: uppercase;
 }
 
@@ -303,10 +305,10 @@
   left: 75%;
   max-width: 100%;
   transform: translateX(-50%);
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: #000000;
   text-align: center;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: poppins;
   font-weight: 100;
 }
 .review-carousel {
@@ -395,11 +397,13 @@
 }
 
 .prev-btn {
-  left: -10rem;
+  left: -42rem;
+  bottom: 15rem;
 }
 
 .next-btn {
-  right: -10rem;
+  right: -42rem;
+  bottom: 15rem;
 }
 
 .prev-btn:hover, .next-btn:hover {
