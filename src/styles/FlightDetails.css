@@ -1,0 +1,118 @@
+.flight-info {
+    background-color: #ffffff;
+    padding: 1.875rem;
+    border-radius: 0.625rem;
+    margin-top: 3%;
+    margin-bottom: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .flight-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 90%;
+    padding: 0rem;
+    margin-bottom: 9%;
+  }
+  
+  .departure, .arrival {
+    text-align: center;
+    margin: 0 0.5625rem;
+  }
+  
+  .city {
+    font-size: 1.375rem;
+    font-weight: bold;
+    margin-bottom: 0.3125rem;
+  }
+  
+  .airport {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .time {
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin-top: 0.3125rem;
+  }
+  
+  .flight-path {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .flight-linepath path {
+    fill: transparent;
+    stroke: rgb(0, 0, 0);
+    stroke-width: 2;
+    stroke-dasharray: 5, 5;
+  }
+  
+  .flight-path-svg {
+    width: 80%;
+    height: 10rem;
+  }
+  
+  /* Plane icon styling */
+  .plane-icon {
+    font-size: 5rem;
+    color: rgb(0, 0, 0);
+  }
+  
+  .duration {
+    font-size: 0.875rem;
+    color: #555;
+  }
+
+  .filter-section {
+    width: 20%;
+    margin-right: 5%;
+  }
+  
+  .filter {
+    margin-bottom: 20px;
+  }
+  
+  .filter label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .filter select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .filter-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .filter-button {
+    padding: 1rem 2rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .filter-button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  
