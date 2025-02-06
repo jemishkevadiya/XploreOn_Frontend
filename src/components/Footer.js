@@ -17,9 +17,9 @@ const Footer = () => {
         <h4>Useful Links</h4>
         <ul>
         <li><a href="#about-us">About Us</a></li>
-        <li><a href="mailto:xploreon.co@gmail.com">Contact Us</a></li> {/* Opens the user's default email client */}
-        <li><a href="#testimonials">Reviews</a></li> {/* Scrolls to the Testimonials section */}
-        <li><a href="/signup">Sign Up</a></li> {/* Directs to the Sign Up page */}
+        <li><a href="mailto:xploreon.co@gmail.com">Contact Us</a></li> 
+        <li><a href="#testimonials">Reviews</a></li> 
+        <li><a href="/signup">Sign Up</a></li> 
         </ul>
       </div>
       <div className="footer-section">

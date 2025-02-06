@@ -9,8 +9,8 @@
   width: 100%;
   z-index: 1000;
   box-sizing: border-box;
-  background-color: #ffffff; /* Add a white background for the navbar */
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+  background-color: #ffffff; 
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); 
 }
 
 /* Brand Name Styling */
@@ -37,37 +37,37 @@
   font-size: 14px;
   transition: color 0.3s ease, transform 0.3s ease;
   padding: 0.35rem 0.90rem;
-  background-color: #eeeeee; /* Off-white background */
-  border-radius: 30px; /* Rounded corners */
+  background-color: #eeeeee; 
+  border-radius: 30px; 
   display: flex;
   align-items: center;
-  gap: 0.50rem; /* Spacing between icon and text */
+  gap: 0.50rem;
   
 }
 
 .nav-link:hover {
   color: #ffffff;
-  background-color: #000000; /* Black background on hover */
+  background-color: #000000; 
 }
 
 /* Icon Styling for Navigation Links */
 .nav-icon {
   width: 24px;
   height: 24px;
-  border-radius: 50%; /* Circular icon */
+  border-radius: 50%; 
   padding: 0.08rem;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.3s ease, border-color 0.3s ease;
-  background-color: white; /* Keep icon background white */
+  background-color: white; 
 }
 
 /* Navbar Actions */
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* Reduced gap for tighter alignment */
+  gap: 0.5rem;
 }
 
 /* Profile Container */
@@ -75,8 +75,8 @@
   display: flex;
   align-items: center;
   position: relative;
-  gap: 8px; /* Reduced space between profile icon and name */
-  margin-right: 1rem; /* Move the profile section slightly left */
+  gap: 8px; 
+  margin-right: 1rem; 
 }
 
 /* Profile Icon */
@@ -101,7 +101,7 @@
   font-weight: 500;
   color: black;
   white-space: nowrap;
-  margin-left: -5px; /* Slightly reduce space between photo and name */
+  margin-left: -5px; 
 }
 
 /* Dropdown Menu */

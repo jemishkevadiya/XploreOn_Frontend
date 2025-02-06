@@ -22,7 +22,7 @@ const ForgotPassword = () => {
       const auth = getAuth();
       await sendPasswordResetEmail(auth, email);
       setSuccessMessage("A password reset link has been sent to your email.");
-      setTimeout(() => navigate("/signin"), 5000); // Redirect after 5 sec
+      setTimeout(() => navigate("/signin"), 5000); 
     } catch (e) {
       setError(e.message);
     }
@@ -37,15 +37,18 @@ const ForgotPassword = () => {
       <div className="auth-right">
         <h2>Forgot Password</h2>
         <form className="auth-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        <div className="form-group">
+  <input
+    type="email"
+    id="email"   // Add this id to link the label to the input
+    placeholder=" "  // Trigger the floating label behavior
+    value={email}
+    onChange={handleChange}
+    required
+  />
+  <label htmlFor="email">Enter your email</label>
+</div>
+
           {error && <p className="error-message">{error}</p>}
           {successMessage && <p className="success-message">{successMessage}</p>}
           <button type="submit" className="auth-button">

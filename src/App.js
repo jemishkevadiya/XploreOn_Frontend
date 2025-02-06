@@ -7,10 +7,8 @@ import SignIn from "./pages/SignIn";
 import Flight from "./pages/Flight";
 import { initializeApp } from "firebase/app";
 import ForgotPassword from "./pages/ForgotPassword";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import Hotel from "./pages/Hotel";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
   authDomain: process.env.REACT_APP_AUTHDOMAIN,
@@ -24,10 +22,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 class App extends React.Component {
   render() {
-
     return (
     
-
         <Router>
 
           <Navbar />
@@ -38,7 +34,8 @@ class App extends React.Component {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path ="/flights" element={<Flight />} />
-
+            <Route path = "/hotels" element={<Hotel />} />
+            
           </Routes>
         </Router>
     );

@@ -11,7 +11,7 @@ const SignIn = () => {
   });
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [showResend, setShowResend] = useState(false); // Show "Resend Email" button
+  const [showResend, setShowResend] = useState(false); 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,7 +20,7 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    logIn(); // Call the logIn function
+    logIn(); 
   };
 
   async function logIn() {
@@ -29,24 +29,20 @@ const SignIn = () => {
       const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
   
-      // ❌ Block access if email is not verified
       if (!user.emailVerified) {
         setError("Please verify your email before logging in.");
         setShowResend(true);
-        await auth.signOut(); // Force logout to prevent unauthorized access
+        await auth.signOut(); 
         return;
       }
   
-      // ✅ Fetch user details from MongoDB
       const response = await axios.get(`http://localhost:1111/api/user/profile/${user.uid}`);
   
       if (response.data) {
         console.log("User Data from MongoDB:", response.data);
   
-        // Store user details in localStorage or state for later use
         localStorage.setItem("user", JSON.stringify(response.data));
   
-        // Redirect to homepage
         navigate("/");
       } else {
         setError("User not found in database.");
@@ -62,21 +58,17 @@ const SignIn = () => {
   
       const auth = getAuth();
   
-      // ✅ Re-authenticate user temporarily
       const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
   
-      // ❌ Block resend if email is already verified
       if (user.emailVerified) {
         setSuccessMessage("Your email is already verified. Please log in.");
         return;
       }
   
-      // ✅ Send verification email
       await sendEmailVerification(user);
       setSuccessMessage("A new verification email has been sent. Please check your inbox.");
   
-      // ❌ Log the user out after sending the email
       await auth.signOut();
   
     } catch (e) {
@@ -94,26 +86,32 @@ const SignIn = () => {
       <div className="auth-right">
         <h2>Sign In</h2>
         <form className="auth-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        <div className="form-group">
+  <input
+    type="email"
+    name="email"
+    id="email"   // Add this id to link the label to the input
+    placeholder=" "  // Trigger the floating label behavior
+    value={formData.email}
+    onChange={handleChange}
+    required
+  />
+  <label htmlFor="email">Email</label>
+</div>
+
+<div className="form-group">
+  <input
+    type="password"
+    name="password"
+    id="password"  // Add this id to link the label to the input
+    placeholder=" "  // Trigger the floating label behavior
+    value={formData.password}
+    onChange={handleChange}
+    required
+  />
+  <label htmlFor="password">Password</label>
+</div>
+
           {error && <p className="error-message">{error}</p>}
           {successMessage && <p className="success-message">{successMessage}</p>}
           <button type="submit" className="auth-button">

@@ -1,152 +1,203 @@
-
+/* General styles */
 .signup-page {
-    display: flex;
-    height: 100vh;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .signup-left {
-    flex: 1;
-    background-color: black;
-    color: white;
-    display: flex;
+  display: flex;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.signup-left {
+  flex: 1;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.signup-left h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.signup-left p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #ccc; /* Softer white for text */
+}
+
+.signup-right {
+  flex: 1;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.signup-right h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.signup-form {
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Input field styles */
+.form-group {
+  position: relative;
+  width: 100%;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background: transparent; /* Make the background transparent so label is visible */
+  transition: border-color 0.3s ease;
+}
+
+/* Add focus effect to input */
+.form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Styling for the label */
+.form-group label {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  padding: 0px 5px;
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #aaa; /* Light grey for inactive label */
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+/* When the input is focused or has text, move the label */
+input:focus + label,
+input:not(:placeholder-shown) + label {
+  transform: translateY(-25px); /* Move label up when input is focused */
+  color: #007bff; /* Change label color when input is focused */
+  font-size: 0.9rem; /* Shrink font size */
+}
+
+/* Add the input icon */
+.input-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+/* Sign-up button styles */
+.signup-button {
+  padding: 12px;
+  background-color: black;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.signup-button:hover {
+  background-color: #333;
+  transform: scale(1.05); /* Slight zoom-in on hover */
+}
+
+.login-link {
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+.login-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Social Sign-In button styles */
+.social-signin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.google-signin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  background-color: #172336; /* Dark grey background */
+  color: white;
+}
+
+/* Hover effect for Google Sign-In */
+.google-signin:hover {
+  background-color: #071727;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* Google icon */
+.google-signin img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect on Google icon */
+.google-signin:hover img {
+  transform: scale(1.1); /* Slightly enlarge the Google icon on hover */
+}
+
+/* Add mobile responsiveness */
+@media (max-width: 768px) {
+  .signup-page {
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    text-align: center;
+    height: auto;
   }
-  
-  .signup-left h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
+
+  .signup-left, .signup-right {
+    padding: 20px;
+    width: 100%;
   }
-  
-  .signup-left p { 
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-  
-  .signup-right {
-    flex: 1;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-  }
-  
-  .signup-right h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
+
   .signup-form {
     width: 100%;
-    max-width: 350px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    max-width: 100%;
   }
-  
-  .form-group {
-    position: relative;
-    width: 100%;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 12px 15px;
-    font-size: 1rem;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
-  .form-group input:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
-  .input-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.2rem;
-    color: #aaa;
-  }
-  
-  .signup-button {
-    padding: 12px;
-    background-color: black;
-    color: white;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .signup-button:hover {
-    background-color: #333;
-  }
-  
-  .login-link {
-    margin-top: 15px;
-    font-size: 0.9rem;
-  }
-  
-  .login-link a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .login-link a:hover {
-    text-decoration: underline;
-  }
-  
-
-
-  .social-signin {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px; /* Increased gap for better spacing */
-    margin-top: 30px; /* Slightly increased margin for a clean layout */
-  }
-  
-  .google-signin {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 12px 20px; /* Added padding for a balanced button */
-    border: none;
-    border-radius: 25px; /* Rounded button for a modern look */
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500; /* Slightly bold text */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    transition: all 0.3s ease; /* Smooth transition for hover effects */
-    background-color: #172336;
-    color: white;
-  }
-  
-  .google-signin:hover {
-    background-color: #071727; /* Darker shade on hover */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
-    transform: translateY(-2px); /* Slight lift effect */
-  }
-  
-  .google-signin img {
-    width: 24px; /* Slightly larger icon */
-    height: 24px;
-    transition: transform 0.3s ease; /* Smooth scaling effect */
-  }
-  
-  .google-signin:hover img {
-    transform: scale(1.1); /* Slight zoom effect on hover */
-  }
-  
+}
