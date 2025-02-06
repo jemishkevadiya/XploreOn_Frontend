@@ -3,7 +3,7 @@ html, body {
     padding: 0;
     overflow-x: hidden;
     font-family: "Poppins", sans-serif;
-    font-size: 16px; /* Base font size for rem */
+    font-size: 16px; 
 }
 
 .flight-container {
@@ -22,7 +22,7 @@ html, body {
 }
 
 .background-image {
-  height: 80vh;
+  height: 75vh;
   width: 96%; 
   display: flex;
   justify-content: center;
@@ -30,39 +30,42 @@ html, body {
   margin-left: 2%;
   border-radius: 1rem;  
   box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.2);
-  z-index: -1;
+  position: relative;
+  z-index: 0;
 }
 
 .hero-title-flight {
   font-size: 2.25rem; 
   font-weight: bold;
   margin-bottom: 1.25rem; 
-  color: white; /* Ensure text is visible on the background */
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); /* Subtle shadow for visibility */
+  color: white; 
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); 
 }
 
 .airplane-image {
   position: absolute;
   top: 30%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1.2); /* Center the airplane */
-  width: 70%; /* Adjust width to make it responsive */
-  z-index: 2;
-  opacity: 0.9; /* Slight transparency */
+  transform: translate(-50%, -50%) scale(1.2); 
+  width: 70%; 
+  z-index: 0;
+  opacity: 0.9; 
 }
 
 /* -------------------- SEARCH SECTION -------------------- */
 .search-section {
-  background-color: #ffffff;
-  padding: 2rem 2.5rem; 
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1.5rem 2rem; 
   margin: 1.5rem auto; 
-  margin-top: -10%;     
+  margin-top: -8%;     
   border-radius: 1.5rem;   
   box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.2); 
-  max-width: 75%;
+  max-width: 76%;
   display: flex;
   flex-direction: column;
   gap: 2rem; 
+  position: relative;
+  z-index: 1;
 }
 
 .search-section.one-way .search-fields {
@@ -338,7 +341,6 @@ html, body {
 .search-button img {
   width: 1.2rem;  
   height: 1.2rem; 
-  filter: invert(1);
 }
 
 .search-button:hover {
@@ -394,7 +396,7 @@ html, body {
   background-color: #ffffff;
   padding: 1.25rem 1.25rem; 
   margin: auto;
-  width: 90%;
+  width: 100%;
   height: 100%;
 }
 
@@ -406,7 +408,6 @@ html, body {
   color: #333;
 }
 
-/* Reduced bottom margin from 5.625rem (90px) to 3rem */
 .travel-support-subtitle {
   font-size: 1rem;
   color: #555;
@@ -417,7 +418,7 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 25rem; 
+  gap: 10%; 
   flex-wrap: wrap;
 }
 
@@ -434,7 +435,7 @@ html, body {
 
 .feature-number {
   flex-shrink: 0;
-  font-size: 1.375rem; 
+  font-size: 100%; 
   font-weight: bold;
   color: white;
   background-color: #000;
@@ -444,11 +445,11 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 1.5625rem;
+  margin-right: 1%;
 }
 
 .feature-title {
-  font-size: 1.875rem; 
+  font-size: 150%; 
   font-weight: bold;
   margin-bottom: 0.3125rem; 
   color: #333;
@@ -457,9 +458,9 @@ html, body {
 }
 
 .feature-description {
-  font-size: 1.25rem; 
+  font-size: 120%; 
   color: #666;
-  line-height: 1.6;
+  line-height: 1.3;
   margin: 0;
   width: 43.75rem; 
 }
@@ -482,28 +483,148 @@ html, body {
 }
 
 .travel-image1 {
-  width: 16.875rem; 
-  height: 25rem;     
+  width: 13.875rem; 
+  height: 21rem;     
   border-radius: 10rem; 
-  z-index: 2;
+  z-index: 0;
   top: -5.625rem; 
-  left: -3.4375rem; 
+  left: -0.4375rem; 
 }
 
 .travel-image2 {
-  width: 14.375rem;  
-  height: 21.875rem; 
+  width: 12.375rem;  
+  height: 16.875rem; 
   border-radius: 10rem;
   top: -5.625rem;   
   left: 16.875rem;   
+  z-index: 2;
 }
 
 .travel-image3 {
-  width: 16.875rem;  
-  height: 26.875rem;
+  width: 12.875rem;  
+  height: 22.875rem;
   border-radius: 10rem;
   bottom: -8.125rem; 
-  left: 6.25rem;    
+  left: 8.25rem;    
+}
+
+
+/* -------------------- TRENDING DESTINATIONS SECTION -------------------- */
+.trending-destinations {
+  padding: 5rem; 
+  background-color: #ffffff;
+  text-align: center;
+  margin-bottom: 5%;
+}
+
+
+.trending-destinations .section-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 2rem; 
+  color: #333;
+}
+
+.section-subtitle {
+  font-size: 1.6rem;
+  margin-bottom: 8%;
+}
+
+/* Cards Container */
+.destination-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem; 
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Destination Card */
+.destination-card {
+  position: relative;
+  width: 15rem;  
+  height: 20rem; 
+  border-radius: 10rem; 
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.destination-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Image Wrapper */
+.destination-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.destination-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.destination-card:hover .destination-image {
+  transform: scale(1.1);
+}
+
+/* Hover Content (Text & Button) */
+.destination-card:hover .hover-content {
+  bottom: 0;
+  opacity: 1;
+}
+
+/* Hover Content Container */
+.hover-content {
+  position: absolute;
+  bottom: -5rem; 
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4); 
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+  transition: all 0.4s ease;
+  opacity: 0;
+}
+
+/* Destination Name */
+.hover-content .destination-name {
+  font-size: 1.25rem; 
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Destination Description */
+.hover-content .destination-description {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Book Now Button */
+.book-now-button {
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.book-now-button:hover {
+  background-color: #000;
+  color: #fff;
 }
 
 /* -------------------- MEMORIES SECTION -------------------- */
@@ -545,14 +666,12 @@ html, body {
   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
   text-align: center;
   overflow: hidden;
-
-  /* Fade-in on page load */
   opacity: 0;
   transform: translateY(1.25rem);
   animation: fadeUp 0.8s ease forwards;
-
-  /* Hover lift effect */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 4%;
+  margin-bottom: 2.5%;
 }
 
 @keyframes fadeUp {
@@ -651,116 +770,4 @@ html, body {
     height: 16.25rem; 
     border-radius: 8.125rem; 
   }
-}
-/* -------------------- TRENDING DESTINATIONS SECTION -------------------- */
-.trending-destinations {
-  padding: 3rem; 
-  background-color: #ffffff;
-  text-align: center;
-  margin-bottom: rem;
-}
-
-
-.trending-destinations .section-title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 2rem; 
-  color: #333;
-}
-
-/* Cards Container */
-.destination-grid {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem; 
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-/* Destination Card */
-.destination-card {
-  position: relative;
-  width: 15rem;  
-  height: 20rem; 
-  border-radius: 10rem; 
-  overflow: hidden;
-  background-color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: center;
-}
-
-.destination-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* Image Wrapper */
-.destination-image-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.destination-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.destination-card:hover .destination-image {
-  transform: scale(1.1);
-}
-
-/* Hover Content (Text & Button) */
-.destination-card:hover .hover-content {
-  bottom: 0;
-  opacity: 1;
-}
-
-/* Hover Content Container */
-.hover-content {
-  position: absolute;
-  bottom: -5rem; 
-  left: 0;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.4); 
-  color: #fff;
-  text-align: center;
-  padding: 1rem 0;
-  transition: all 0.4s ease;
-  opacity: 0;
-}
-
-/* Destination Name */
-.hover-content .destination-name {
-  font-size: 1.25rem; 
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-/* Destination Description */
-.hover-content .destination-description {
-  font-size: 1rem;
-  margin-bottom: 1rem;
-}
-
-/* Book Now Button */
-.book-now-button {
-  padding: 0.5rem 1.5rem;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #000;
-  background-color: #fff;
-  border: none;
-  border-radius: 2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.book-now-button:hover {
-  background-color: #000;
-  color: #fff;
 }
