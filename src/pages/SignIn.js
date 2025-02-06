@@ -28,7 +28,7 @@ const SignIn = () => {
       const auth = getAuth();
       const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
-  
+
       // ❌ Block access if email is not verified
       if (!user.emailVerified) {
         setError("Please verify your email before logging in.");
@@ -36,16 +36,16 @@ const SignIn = () => {
         await auth.signOut(); // Force logout to prevent unauthorized access
         return;
       }
-  
+
       // ✅ Fetch user details from MongoDB
       const response = await axios.get(`http://localhost:1111/api/user/profile/${user.uid}`);
-  
+
       if (response.data) {
         console.log("User Data from MongoDB:", response.data);
-  
+
         // Store user details in localStorage or state for later use
         localStorage.setItem("user", JSON.stringify(response.data));
-  
+
         // Redirect to homepage
         navigate("/");
       } else {
@@ -59,31 +59,31 @@ const SignIn = () => {
     try {
       setError("");
       setSuccessMessage("");
-  
+
       const auth = getAuth();
-  
+
       // ✅ Re-authenticate user temporarily
       const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
-  
+
       // ❌ Block resend if email is already verified
       if (user.emailVerified) {
         setSuccessMessage("Your email is already verified. Please log in.");
         return;
       }
-  
+
       // ✅ Send verification email
       await sendEmailVerification(user);
       setSuccessMessage("A new verification email has been sent. Please check your inbox.");
-  
+
       // ❌ Log the user out after sending the email
       await auth.signOut();
-  
+
     } catch (e) {
       setError(e.message);
     }
   }
-  
+
 
   return (
     <div className="auth-container">

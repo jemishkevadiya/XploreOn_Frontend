@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Hotel from "./pages/Hotel";
+import Flight from "./pages/Flight";
 import { initializeApp } from "firebase/app";
 import ForgotPassword from "./pages/ForgotPassword";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -12,12 +13,6 @@ import ForgotPassword from "./pages/ForgotPassword";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_APIKEY,
-  authDomain: process.env.REACT_APP_AUTHDOMAIN,
-  projectId: process.env.REACT_APP_PROJECTID,
-  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGINSENDERID,
-  appId: process.env.REACT_APP_APPID,
   apiKey: process.env.REACT_APP_APIKEY,
   authDomain: process.env.REACT_APP_AUTHDOMAIN,
   projectId: process.env.REACT_APP_PROJECTID,
@@ -43,6 +38,7 @@ class App extends React.Component {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path ="/hotels" element={<Hotel />} />
+            <Route path ="/flights" element={<Flight />} />
           </Routes>
         </Router>
     );
