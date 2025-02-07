@@ -1,4 +1,3 @@
-/* General styles */
 .signup-page {
   display: flex;
   height: 100vh;
@@ -26,7 +25,7 @@
 .signup-left p {
   font-size: 1rem;
   line-height: 1.5;
-  color: #ccc; /* Softer white for text */
+  color: #ccc; 
 }
 
 .signup-right {
@@ -53,31 +52,28 @@
   gap: 20px;
 }
 
-/* Input field styles */
-.form-group {
+.signup-form .form-group {
   position: relative;
   width: 100%;
 }
 
-.form-group input {
+.signup-form .form-group input {
   width: 100%;
   padding: 12px 15px;
   font-size: 1rem;
   border: 2px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
-  background: transparent; /* Make the background transparent so label is visible */
+  background: transparent; 
   transition: border-color 0.3s ease;
 }
 
-/* Add focus effect to input */
-.form-group input:focus {
+.signup-form .form-group input:focus {
   border-color: #007bff;
   outline: none;
 }
 
-/* Styling for the label */
-.form-group label {
+.signup-form .form-group label {
   position: absolute;
   left: 15px;
   top: 50%;
@@ -85,21 +81,19 @@
   background: white;
   padding: 0px 5px;
   transition: transform 0.3s ease, color 0.3s ease;
-  color: #aaa; /* Light grey for inactive label */
+  color: #aaa;
   font-size: 1rem;
   pointer-events: none;
 }
 
-/* When the input is focused or has text, move the label */
-input:focus + label,
-input:not(:placeholder-shown) + label {
-  transform: translateY(-25px); /* Move label up when input is focused */
-  color: #007bff; /* Change label color when input is focused */
-  font-size: 0.9rem; /* Shrink font size */
+.signup-form input:focus + label,
+.signup-form input:not(:placeholder-shown) + label {
+  transform: translateY(-25px);
+  color: #007bff; 
+  font-size: 0.9rem; 
 }
 
-/* Add the input icon */
-.input-icon {
+.signup-form .input-icon {
   position: absolute;
   right: 15px;
   top: 50%;
@@ -108,7 +102,6 @@ input:not(:placeholder-shown) + label {
   color: #aaa;
 }
 
-/* Sign-up button styles */
 .signup-button {
   padding: 12px;
   background-color: black;
@@ -122,7 +115,7 @@ input:not(:placeholder-shown) + label {
 
 .signup-button:hover {
   background-color: #333;
-  transform: scale(1.05); /* Slight zoom-in on hover */
+  transform: scale(1.05); 
 }
 
 .login-link {
@@ -139,7 +132,6 @@ input:not(:placeholder-shown) + label {
   text-decoration: underline;
 }
 
-/* Social Sign-In button styles */
 .social-signin {
   display: flex;
   flex-direction: column;
@@ -161,30 +153,26 @@ input:not(:placeholder-shown) + label {
   font-weight: 500;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  background-color: #172336; /* Dark grey background */
+  background-color: #172336;
   color: white;
 }
 
-/* Hover effect for Google Sign-In */
 .google-signin:hover {
   background-color: #071727;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px); /* Slight lift on hover */
+  transform: translateY(-2px);
 }
 
-/* Google icon */
 .google-signin img {
   width: 24px;
   height: 24px;
   transition: transform 0.3s ease;
 }
 
-/* Hover effect on Google icon */
 .google-signin:hover img {
-  transform: scale(1.1); /* Slightly enlarge the Google icon on hover */
+  transform: scale(1.1);
 }
 
-/* Add mobile responsiveness */
 @media (max-width: 768px) {
   .signup-page {
     flex-direction: column;

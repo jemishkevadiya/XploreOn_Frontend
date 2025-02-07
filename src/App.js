@@ -5,8 +5,11 @@ import Navbar from "./components/Navbar";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Flight from "./pages/Flight";
+import FlightDetails from "./pages/flightdetails";
+import CarRentalDetails from "./pages/carrentaldetails";
 import { initializeApp } from "firebase/app";
 import ForgotPassword from "./pages/ForgotPassword";
+import CarRental from "./pages/carRental";
 import Hotel from "./pages/Hotel";
 
 const firebaseConfig = {
@@ -35,7 +38,10 @@ class App extends React.Component {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path ="/flights" element={<Flight />} />
             <Route path = "/hotels" element={<Hotel />} />
-            
+            <Route path="/flightdetails" element={<FlightDetails />} />
+            <Route path ="/carrentals" element={<CarRental />}/>
+            <Route path ="/carrentaldetails" element={<CarRentalDetails />}/>
+
           </Routes>
         </Router>
     );

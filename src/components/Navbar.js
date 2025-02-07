@@ -69,7 +69,7 @@ class Navbar extends React.Component {
             <img src={FlightIcon} alt="Flights" className="nav-icon" />
             Flights
           </Link>
-          <Link to="/car-rentals" className="nav-link">
+          <Link to="/carrentals" className="nav-link">
             <img src={CarRentalGif} alt="Car Rentals" className="nav-icon" />
             Car Rentals
           </Link>

@@ -139,8 +139,8 @@ const SignUp = () => {
   <input
     type="text"
     name="firstname"
-    id="firstname"   // Add this id to link the label to the input
-    placeholder=" "  // Trigger the floating label behavior
+    id="firstname"   
+    placeholder=" "  
     value={formData.firstname}
     onChange={handleChange}
     required
@@ -153,8 +153,8 @@ const SignUp = () => {
   <input
     type="text"
     name="lastname"
-    id="lastname"   // Add this id to link the label to the input
-    placeholder=" "  // Trigger the floating label behavior
+    id="lastname"   
+    placeholder=" "  
     value={formData.lastname}
     onChange={handleChange}
     required
@@ -166,42 +166,42 @@ const SignUp = () => {
   <input
     type="text"
     name="email"
-    id="emaail"   // Add this id to link the label to the input
-    placeholder=" "  // Trigger the floating label behavior
+    id="emaail"   
+    placeholder=" "  
     value={formData.email}
     onChange={handleChange}
     required
   />
   <label htmlFor="email">Email</label>
-  <span className="input-icon">👤</span>
+  <span className="input-icon">📧</span>
 </div>
 
 <div className="form-group">
   <input
-    type="text"
+    type="password"
     name="password"
-    id="password"   // Add this id to link the label to the input
-    placeholder=" "  // Trigger the floating label behavior
+    id="password"   
+    placeholder=" "  
     value={formData.password}
     onChange={handleChange}
     required
   />
   <label htmlFor="password">Password</label>
-  <span className="input-icon">👤</span>
+  <span className="input-icon">🔑</span>
 </div>
          
 <div className="form-group">
   <input
-    type="text"
+    type="password"
     name="confirm password"
-    id="comfirm password"   // Add this id to link the label to the input
-    placeholder=" "  // Trigger the floating label behavior
+    id="comfirm password"   
+    placeholder=" "  
     value={formData.confirmpassword}
     onChange={handleChange}
     required
   />
-  <label htmlFor="confirm password">confirm password</label>
-  <span className="input-icon">👤</span>
+  <label htmlFor="confirm password">Confirm password</label>
+  <span className="input-icon">🔑</span>
 </div>
           {error && <p className="error-message">{error}</p>}
           {successMessage && (

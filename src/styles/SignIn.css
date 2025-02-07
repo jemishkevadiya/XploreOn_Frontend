@@ -1,5 +1,4 @@
-/* SignIn.css */
-
+/* General styles for SignIn page */
 .auth-container {
   display: flex;
   height: 100vh;
@@ -51,13 +50,13 @@
   gap: 20px;
 }
 
-/* Input field styles with floating label */
-.form-group {
+/* Scoped Input field styles for SignIn form */
+.auth-form .form-group {
   position: relative;
   width: 100%;
 }
 
-.form-group input {
+.auth-form .form-group input {
   width: 100%;
   padding: 12px 15px;
   font-size: 1rem;
@@ -69,13 +68,13 @@
 }
 
 /* Add focus effect to input */
-.form-group input:focus {
+.auth-form .form-group input:focus {
   border-color: #007bff;
   outline: none;
 }
 
 /* Styling for the label */
-.form-group label {
+.auth-form .form-group label {
   position: absolute;
   left: 15px;
   top: 50%;
@@ -83,21 +82,21 @@
   background: white;
   padding: 0px 5px;
   transition: transform 0.3s ease, color 0.3s ease;
-  color: #aaa; /* Light grey for inactive label */
+  color: #aaa;
   font-size: 1rem;
   pointer-events: none;
 }
 
 /* When the input is focused or has text, move the label */
-input:focus + label,
-input:not(:placeholder-shown) + label {
+.auth-form input:focus + label,
+.auth-form input:not(:placeholder-shown) + label {
   transform: translateY(-25px); /* Move label up when input is focused */
   color: #007bff; /* Change label color when input is focused */
   font-size: 0.9rem; /* Shrink font size */
 }
 
-/* Add the input icon if necessary */
-.input-icon {
+/* Add the input icon */
+.auth-form .input-icon {
   position: absolute;
   right: 15px;
   top: 50%;
@@ -122,6 +121,7 @@ input:not(:placeholder-shown) + label {
   background-color: #333;
 }
 
+/* Footer */
 .auth-footer {
   margin-top: 15px;
   font-size: 0.9rem;
