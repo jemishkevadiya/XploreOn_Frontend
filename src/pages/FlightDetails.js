@@ -1,16 +1,75 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { IoAirplaneOutline } from 'react-icons/io5';
 import '../styles/FlightDetails.css';
 
 const FlightDetails = () => {
+  const flights = [
+    {
+      airline: 'Air Canada',
+      logo: 'https://www.aircanada.com/etc/designs/aircanada/favicon.ico',
+      departureCity: 'New York',
+      arrivalCity: 'San Francisco',
+      departureCityCode: 'NYC',
+      arrivalCityCode: 'SFO',
+      departureTime: '08:30 AM',
+      arrivalTime: '10:00 AM',
+      duration: '1h 30m',
+      price: 'CAD $500',
+      baggage: '1 Carry-on, 1 Checked',
+      date: '2024-12-16',
+      extraBaggage: 'Checked bag from CAD $69.96',
+      co2Emissions: '27% lower than average for this route',
+    },
+    {
+      airline: 'Air Canada',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/United_Airlines_logo_2010.svg/2560px-United_Airlines_logo_2010.svg.png',
+      departureCity: 'San Francisco',
+      arrivalCity: 'New York',
+      departureCityCode: 'SFO',
+      arrivalCityCode: 'NYC',
+      departureTime: '09:45 AM',
+      arrivalTime: '12:00 PM',
+      duration: '2h 15m',
+      price: 'CAD $450',
+      baggage: '1 Carry-on, 1 Checked',
+      date: '2024-12-16',
+      extraBaggage: 'Checked bag from CAD $69.96',
+      co2Emissions: '27% lower than average for this route',
+    },
+    {
+      airline: 'Air Canada',
+      logo: 'https://www.aircanada.com/etc/designs/aircanada/favicon.ico',
+      departureCity: 'New York',
+      arrivalCity: 'San Francisco',
+      departureCityCode: 'NYC',
+      arrivalCityCode: 'SFO',
+      departureTime: '08:30 AM',
+      arrivalTime: '10:00 AM',
+      duration: '1h 30m',
+      price: 'CAD $500',
+      baggage: '1 Carry-on, 1 Checked',
+      date: '2024-12-16',
+      extraBaggage: 'Checked bag from CAD $69.96',
+      co2Emissions: '27% lower than average for this route',
+      returnFlight: {
+        departureCity: 'San Francisco',
+        arrivalCity: 'New York',
+        departureCityCode: 'SFO',
+        arrivalCityCode: 'NYC',
+        departureTime: '09:45 AM',
+        arrivalTime: '12:00 PM',
+      }
+    }
+  ];
+
   const [isRoundTrip, setIsRoundTrip] = useState(true);
   const [selectedClass, setSelectedClass] = useState("Economy");
   const [travelers, setTravelers] = useState({ adults: 1, children: 0 });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
-  // Filter States
   const [stopsFilter, setStopsFilter] = useState("Any");
-  const [airlinesFilter, setAirlinesFilter] = useState("Any");
-  const [durationFilter, setDurationFilter] = useState("Any");
+  const [selectedAirlines, setSelectedAirlines] = useState([]);
+  const [selectedFlight, setSelectedFlight] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const planeRef = useRef(null);
   const pathRef = useRef(null);
@@ -19,26 +78,21 @@ const FlightDetails = () => {
     const path = pathRef.current;
     const plane = planeRef.current;
 
-    // Path length
     const pathLength = path.getTotalLength();
 
     let startTime;
     const animatePlane = (timestamp) => {
       if (!startTime) startTime = timestamp;
 
-      // Calculate the progress (percentage)
-      const progress = (timestamp - startTime) / 4000; // 3000ms (3 seconds)
-      const offset = progress * pathLength; // How far along the path the plane should be
+      const progress = (timestamp - startTime) / 7000;
+      const offset = progress * pathLength;
 
-      // If we reach the end, reset the animation
-      if (progress >= 1) startTime = timestamp; // Reset the timer
+      if (progress >= 1) startTime = timestamp;
 
-      // Get the point at the current position along the path
       const point = path.getPointAtLength(offset);
-      plane.setAttribute("x", point.x - 17); // Adjust for plane icon size (if needed)
-      plane.setAttribute("y", point.y + 17); // Adjust for plane icon size (if needed)
+      plane.setAttribute("x", point.x - 17);
+      plane.setAttribute("y", point.y + 17);
 
-      // Request the next frame
       requestAnimationFrame(animatePlane);
     };
 
@@ -58,6 +112,29 @@ const FlightDetails = () => {
       ...prev,
       [type]: value < 0 ? 0 : value,
     }));
+  };
+
+  const handleStopsChange = (e) => {
+    setStopsFilter(e.target.value);
+  };
+
+  const handleAirlinesChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedAirlines((prev) =>
+      checked
+        ? [...prev, value]
+        : prev.filter((airline) => airline !== value)
+    );
+  };
+
+  const handleViewMore = (flight) => {
+    setSelectedFlight(flight);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedFlight(null);
   };
 
   return (
@@ -94,36 +171,7 @@ const FlightDetails = () => {
         </div>
       </div>
 
-      {/* Filters Section */}
-      <div className="filter-section">
-        <div className="filter">
-          <label>Stops</label>
-          <select value={stopsFilter} onChange={(e) => setStopsFilter(e.target.value)}>
-            <option value="Any">Any</option>
-            <option value="Non-stop">Non-stop</option>
-            <option value="1 stop">1 stop</option>
-            <option value="2 stops">2 stops</option>
-          </select>
-        </div>
-        <div className="filter">
-          <label>Airlines</label>
-          <select value={airlinesFilter} onChange={(e) => setAirlinesFilter(e.target.value)}>
-            <option value="Any">Any</option>
-            <option value="Delta">Delta</option>
-            <option value="American Airlines">American Airlines</option>
-            <option value="United">United</option>
-          </select>
-        </div>
-        <div className="filter">
-          <label>Duration</label>
-          <select value={durationFilter} onChange={(e) => setDurationFilter(e.target.value)}>
-            <option value="Any">Any</option>
-            <option value="Under 5h">Under 5h</option>
-            <option value="5-10h">5-10h</option>
-            <option value="Over 10h">Over 10h</option>
-          </select>
-        </div>
-      </div>
+
 
       {/* Search Section */}
       <section className={`search-section ${isRoundTrip ? "round-trip" : "one-way"}`}>
@@ -230,6 +278,261 @@ const FlightDetails = () => {
         <button className="filter-button">Cheapest</button>
         <button className="filter-button">Best</button>
         <button className="filter-button">Fastest</button>
+      </div>
+
+      <div className="flight-info-filter">
+
+
+        {/* Filter Section */}
+        <div className="filters">
+          <div className="filter">
+            <label className="filter-label">Stops</label>
+            <div className="filter-options">
+              <div className="filter-option">
+                <input
+                  type="radio"
+                  id="any-stop"
+                  name="stops"
+                  value="Any"
+                  checked={stopsFilter === 'Any'}
+                  onChange={handleStopsChange}
+                />
+                <label htmlFor="any-stop">Any</label>
+              </div>
+              <div className="filter-option">
+                <input
+                  type="radio"
+                  id="direct-only"
+                  name="stops"
+                  value="Direct only"
+                  checked={stopsFilter === 'Direct only'}
+                  onChange={handleStopsChange}
+                />
+                <label htmlFor="direct-only">Direct only</label>
+              </div>
+              <div className="filter-option">
+                <input
+                  type="radio"
+                  id="one-stop-max"
+                  name="stops"
+                  value="1 stop max"
+                  checked={stopsFilter === '1 stop max'}
+                  onChange={handleStopsChange}
+                />
+                <label htmlFor="one-stop-max">1 stop max</label>
+              </div>
+            </div>
+          </div>
+
+          <div className="filter">
+            <label className="filter-label">Airlines</label>
+            <div className="checkboxes">
+              <div className="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="porter-airlines"
+                  value="Porter Airlines"
+                  checked={selectedAirlines.includes('Porter Airlines')}
+                  onChange={handleAirlinesChange}
+                />
+                <label htmlFor="porter-airlines">Porter Airlines</label>
+                <span>40</span>
+              </div>
+
+              <div className="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="flair-airlines"
+                  value="Flair Airlines"
+                  checked={selectedAirlines.includes('Flair Airlines')}
+                  onChange={handleAirlinesChange}
+                />
+                <label htmlFor="flair-airlines">Flair Airlines</label>
+                <span>2</span>
+              </div>
+
+              <div className="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="air-canada"
+                  value="Air Canada"
+                  checked={selectedAirlines.includes('Air Canada')}
+                  onChange={handleAirlinesChange}
+                />
+                <label htmlFor="air-canada">Air Canada</label>
+                <span>191</span>
+              </div>
+
+              <div className="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="american-airlines"
+                  value="American Airlines"
+                  checked={selectedAirlines.includes('American Airlines')}
+                  onChange={handleAirlinesChange}
+                />
+                <label htmlFor="american-airlines">American Airlines</label>
+                <span>28</span>
+              </div>
+
+              <div className="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="united-airlines"
+                  value="United Airlines"
+                  checked={selectedAirlines.includes('United Airlines')}
+                  onChange={handleAirlinesChange}
+                />
+                <label htmlFor="united-airlines">United Airlines</label>
+                <span>98</span>
+              </div>
+
+              <div className="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="united-airlines"
+                  value="United Airlines"
+                  checked={selectedAirlines.includes('United Airlines')}
+                  onChange={handleAirlinesChange}
+                />
+                <label htmlFor="united-airlines">United Airlines</label>
+                <span>98</span>
+              </div>
+
+              <div className="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="united-airlines"
+                  value="United Airlines"
+                  checked={selectedAirlines.includes('United Airlines')}
+                  onChange={handleAirlinesChange}
+                />
+                <label htmlFor="united-airlines">United Airlines</label>
+                <span>98</span>
+              </div>
+
+              <div className="checkbox-option">
+                <input
+                  type="checkbox"
+                  id="united-airlines"
+                  value="United Airlines"
+                  checked={selectedAirlines.includes('United Airlines')}
+                  onChange={handleAirlinesChange}
+                />
+                <label htmlFor="united-airlines">United Airlines</label>
+                <span>98</span>
+              </div>
+
+              <div className="show-all">
+                <button>Show all</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Flight Details Section */}
+        <div className="flight-details-list">
+          {flights.map((flight, index) => (
+            <div key={index} className="flight-detail">
+              <div className="flight-logo">
+                <img src={flight.logo} alt={flight.airline} />
+              </div>
+              <div className="flight-info-container">
+                <h3>{flight.airline}</h3>
+                <div className="flight-route">
+                  <span>{flight.departureCityCode}</span>
+                  <IoAirplaneOutline className="flight-icon" />
+                  <span>{flight.arrivalCityCode}</span>
+                </div>
+                <div className="flight-time-departure">
+                  <p><strong>Departure:</strong> {flight.departureTime}</p>
+                </div>
+                <div className="flight-time-arrival">
+                  <p><strong>Arrival:</strong> {flight.arrivalTime}</p>
+                </div>
+                <p className="flight-duration">Duration: {flight.duration}</p>
+                <button className="flight-viewmore" onClick={() => handleViewMore(flight)}>View More </button>
+                <p className="flight-price">Price: {flight.price}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {isModalOpen && selectedFlight && (
+          <div className="flight-details-modal">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h2>Your flight to {selectedFlight.arrivalCity}</h2>
+              </div>
+              <div className="modal-body">
+                <div className="modal-airline">
+                  <img
+                    src={selectedFlight.logo}
+                    alt={selectedFlight.airline}
+                    className="modal-airline-logo"
+                  />
+                  <h3>{selectedFlight.airline}</h3>
+                </div>
+
+                {/* Departure & Arrival Details */}
+                <div className="flight-departure-arrival">
+                  <div className="flight-departure">
+                    <strong>Departure:</strong>
+                    <p>{selectedFlight.departureCity} ({selectedFlight.departureCityCode}) - {selectedFlight.departureTime}</p>
+                  </div>
+                  <div className="flight-arrival">
+                    <strong>Arrival:</strong>
+                    <p>{selectedFlight.arrivalCity} ({selectedFlight.arrivalCityCode}) - {selectedFlight.arrivalTime}</p>
+                  </div>
+                </div>
+
+                {/* Round Trip Check */}
+                {isRoundTrip && selectedFlight.returnFlight && (
+                  <div className="flight-departure-arrival">
+                    <div className="flight-departure">
+                      <strong>Return Departure:</strong>
+                      <p>{selectedFlight.returnFlight.departureCity} ({selectedFlight.returnFlight.departureCityCode}) - {selectedFlight.returnFlight.departureTime}</p>
+                    </div>
+                    <div className="flight-arrival">
+                      <strong>Return Arrival:</strong>
+                      <p>{selectedFlight.returnFlight.arrivalCity} ({selectedFlight.returnFlight.arrivalCityCode}) - {selectedFlight.returnFlight.arrivalTime}</p>
+                    </div>
+                  </div>
+                )}
+
+                <div className="baggage-info">
+                  <strong>Included Baggage:</strong>
+                  <p>{selectedFlight.baggage}</p>
+                </div>
+
+                <div className="extra-baggage">
+                  <strong>Extra Baggage:</strong>
+                  <p>{selectedFlight.extraBaggage}</p>
+                </div>
+
+                <div className="fare-rules">
+                  <strong>Fare Rules:</strong>
+                  <p>{selectedFlight.fareRules}</p>
+                </div>
+
+                <div className="co2-emissions">
+                  <strong>CO2 Emissions Estimate:</strong>
+                  <p>{selectedFlight.co2Emissions}</p>
+                </div>
+
+                <div className="modal-price">
+                  <strong>Price:</strong>
+                  <p>{selectedFlight.price}</p>
+                </div>
+
+                <div className="buttons">
+                  <button className="close-btn" onClick={closeModal}>Close</button>
+                  <button className="book-now-btn">Book Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
