@@ -1,83 +1,109 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { IoAirplaneOutline } from 'react-icons/io5';
-import '../styles/FlightDetails.css';
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import { IoAirplaneOutline } from "react-icons/io5";
+import "../styles/FlightDetails.css";
+import axios from "axios";
+
+const calculateLayoverTime = (arrivalTime, nextDepartureTime) => {
+  if (!arrivalTime || !nextDepartureTime) return "N/A";
+
+  const arrival = new Date(arrivalTime);
+  const nextDeparture = new Date(nextDepartureTime);
+  const diffInMinutes = Math.floor((nextDeparture - arrival) / (1000 * 60));
+  if (diffInMinutes < 0) return "Invalid layover time";
+
+  const hours = Math.floor(diffInMinutes / 60);
+  const minutes = diffInMinutes % 60;
+
+  return `${hours}h ${minutes}m`;
+};
 
 const FlightDetails = () => {
-  const flights = [
-    {
-      airline: 'Air Canada',
-      logo: 'https://www.aircanada.com/etc/designs/aircanada/favicon.ico',
-      departureCity: 'New York',
-      arrivalCity: 'San Francisco',
-      departureCityCode: 'NYC',
-      arrivalCityCode: 'SFO',
-      departureTime: '08:30 AM',
-      arrivalTime: '10:00 AM',
-      duration: '1h 30m',
-      price: 'CAD $500',
-      baggage: '1 Carry-on, 1 Checked',
-      date: '2024-12-16',
-      extraBaggage: 'Checked bag from CAD $69.96',
-      co2Emissions: '27% lower than average for this route',
-    },
-    {
-      airline: 'Air Canada',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/United_Airlines_logo_2010.svg/2560px-United_Airlines_logo_2010.svg.png',
-      departureCity: 'San Francisco',
-      arrivalCity: 'New York',
-      departureCityCode: 'SFO',
-      arrivalCityCode: 'NYC',
-      departureTime: '09:45 AM',
-      arrivalTime: '12:00 PM',
-      duration: '2h 15m',
-      price: 'CAD $450',
-      baggage: '1 Carry-on, 1 Checked',
-      date: '2024-12-16',
-      extraBaggage: 'Checked bag from CAD $69.96',
-      co2Emissions: '27% lower than average for this route',
-    },
-    {
-      airline: 'Air Canada',
-      logo: 'https://www.aircanada.com/etc/designs/aircanada/favicon.ico',
-      departureCity: 'New York',
-      arrivalCity: 'San Francisco',
-      departureCityCode: 'NYC',
-      arrivalCityCode: 'SFO',
-      departureTime: '08:30 AM',
-      arrivalTime: '10:00 AM',
-      duration: '1h 30m',
-      price: 'CAD $500',
-      baggage: '1 Carry-on, 1 Checked',
-      date: '2024-12-16',
-      extraBaggage: 'Checked bag from CAD $69.96',
-      co2Emissions: '27% lower than average for this route',
-      returnFlight: {
-        departureCity: 'San Francisco',
-        arrivalCity: 'New York',
-        departureCityCode: 'SFO',
-        arrivalCityCode: 'NYC',
-        departureTime: '09:45 AM',
-        arrivalTime: '12:00 PM',
-      }
-    }
-  ];
+  const location = useLocation();
 
-  const [isRoundTrip, setIsRoundTrip] = useState(true);
-  const [selectedClass, setSelectedClass] = useState("Economy");
-  const [travelers, setTravelers] = useState({ adults: 1, children: 0 });
+  const [flights, setFlights] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [stopsFilter, setStopsFilter] = useState("Any");
   const [selectedAirlines, setSelectedAirlines] = useState([]);
   const [selectedFlight, setSelectedFlight] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sort, setSort] = useState("BEST");
+
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
+
+  const [searchParams, setSearchParams] = useState({
+    departure: location.state?.departure || "",
+    destination: location.state?.destination || "",
+    departureDate: location.state?.departureDate || getTodayDate(),
+    returnDate: location.state?.returnDate || "",
+    travelClass: location.state?.travelClass || "Economy",
+    travelers: location.state?.travelers || { adults: 1, children: 0 },
+    isRoundTrip: location.state?.isRoundTrip || false,
+    tripType: location.state?.isRoundTrip ? "roundtrip" : "oneway",
+    sort: location.state?.sort || ""
+  });
+
+  // Fetch Flights
+  const fetchFlights = async (sortOption) => {
+    try {
+      setLoading(true);
+
+      const params = {
+        origin: searchParams.departure,
+        destination: searchParams.destination,
+        departureDate: searchParams.departureDate,
+        returnDate: searchParams.isRoundTrip ? searchParams.returnDate : undefined,
+        passengers: searchParams.travelers.adults,
+        travelClass: searchParams.travelClass,
+        currency_code: "CAD",
+        tripType: searchParams.tripType,
+        sort: sortOption, 
+      };
+
+        const response = await axios.get("http://localhost:1111/flights/searchFlights", { params });
+
+        const flights =
+          response.data?.data?.flightOffers || [];
+
+        console.log("Extracted Flights:", flights);
+
+        if (flights.length === 0) {
+          console.warn("⚠️ No flights found for the given search criteria.");
+          setFlights([]); 
+          setError("No flights available for your search criteria.");
+          return;
+        }
+
+        setFlights(flights);
+      } catch (err) {
+        console.error("API Error:", err.response?.data || err.message);
+        setError("Failed to fetch flight data. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    useEffect(() => {
+      fetchFlights(sort); 
+    }, [searchParams, sort]);
 
   const planeRef = useRef(null);
   const pathRef = useRef(null);
 
+  const handleSortClick = (sortValue) => {
+    setSort(sortValue); 
+    fetchFlights(sortValue); 
+  };
+
   useEffect(() => {
+    if (!flights.length) return;
     const path = pathRef.current;
     const plane = planeRef.current;
-
     const pathLength = path.getTotalLength();
 
     let startTime;
@@ -97,21 +123,28 @@ const FlightDetails = () => {
     };
 
     requestAnimationFrame(animatePlane);
-  }, []);
+  }, [flights]);
 
-  const handleClassChange = (className) => {
-    setSelectedClass(className);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSearchParams((prev) => ({ ...prev, [name]: value }));
   };
+
+
+  
 
   const handleToggleChange = () => {
-    setIsRoundTrip(!isRoundTrip);
+    setSearchParams((prev) => ({
+      ...prev,
+      isRoundTrip: !prev.isRoundTrip,
+      returnDate: !prev.isRoundTrip ? prev.returnDate : "",
+      tripType: !prev.isRoundTrip ? "roundtrip" : "oneway",
+    }));
   };
 
-  const handleTravelersChange = (type, value) => {
-    setTravelers((prev) => ({
-      ...prev,
-      [type]: value < 0 ? 0 : value,
-    }));
+  const handleClassChange = (className) => {
+    setSearchParams((prev) => ({ ...prev, travelClass: className }));
   };
 
   const handleStopsChange = (e) => {
@@ -121,14 +154,20 @@ const FlightDetails = () => {
   const handleAirlinesChange = (e) => {
     const { value, checked } = e.target;
     setSelectedAirlines((prev) =>
-      checked
-        ? [...prev, value]
-        : prev.filter((airline) => airline !== value)
+      checked ? [...prev, value] : prev.filter((airline) => airline !== value)
     );
   };
 
   const handleViewMore = (flight) => {
-    setSelectedFlight(flight);
+    setSelectedFlight({
+      ...flight,
+      origin: flight?.segments?.[0]?.departureAirport?.cityName || "Unknown",
+      originCode: flight?.segments?.[0]?.departureAirport?.code || "N/A",
+      destination: flight?.segments?.[0]?.arrivalAirport?.cityName || "Unknown",
+      destinationCode: flight?.segments?.[0]?.arrivalAirport?.code || "N/A",
+      includedProducts: flight?.includedProducts?.segments?.[0] || [],
+      priceBreakdown: flight?.unifiedPriceBreakdown?.items || [],
+    });
     setIsModalOpen(true);
   };
 
@@ -137,59 +176,85 @@ const FlightDetails = () => {
     setSelectedFlight(null);
   };
 
+  const handleTravelersChange = (type, value) => {
+    setSearchParams((prev) => ({
+      ...prev,
+      travelers: {
+        ...prev.travelers,
+        [type]: value < 0 ? 0 : value,
+      },
+    }));
+  };
+
   return (
     <div className="flight-info">
       <div className="flight-details">
         <div className="departure">
-          <p className="city">Moscow</p>
-          <p className="airport">SFO</p>
-          <p className="time">14:45</p>
+          {flights.length > 0 && flights[0]?.segments?.[0]?.legs?.[0] ? (
+            <>
+              <p className="cityName">
+                {flights[0]?.segments?.[0]?.legs?.[0]?.departureAirport?.cityName || "Enter Departure"}
+              </p>
+              <p className="cityCode">
+                {flights[0]?.segments?.[0]?.legs?.[0]?.departureAirport?.code || "Enter City Code"}
+              </p>
+            </>
+          ) : (
+            <p>No flight information available</p>
+          )}
         </div>
+
+
         <div className="flight-linepath">
           <svg width="1000" height="100">
-            {/* Curved dotted path */}
-            <path
-              ref={pathRef}
-              d="M 10 50 Q 550 10, 1110 60"
-              fill="transparent"
-              stroke="white"
-              strokeWidth="2"
-              strokeDasharray="5,5"
-            />
-            {/* Start and End black circles */}
+            <path ref={pathRef} d="M 10 50 Q 550 10, 1110 60" fill="transparent" stroke="white" strokeWidth="2" strokeDasharray="5,5" />
             <circle cx="10" cy="50" r="6" fill="black" />
             <circle cx="994" cy="50" r="6" fill="black" />
-            {/* Plane icon (using the Unicode airplane symbol) */}
             <text ref={planeRef} x="10" y="45" fontSize="65" fill="black">&#9992;</text>
           </svg>
         </div>
 
         <div className="arrival">
-          <p className="city">New York</p>
-          <p className="airport">NYC</p>
-          <p className="time">17:25</p>
+          {flights.length > 0 && flights[0]?.segments?.[0]?.legs?.length > 0 ? (
+            <>
+              <p className="cityName">
+                {
+                  flights[0]?.segments?.[0]?.legs?.[flights[0]?.segments?.[0]?.legs.length - 1]?.arrivalAirport?.cityName ||
+                  "Enter Destination"
+                }
+              </p>
+              <p className="cityCode">
+                {
+                  flights[0]?.segments?.[0]?.legs?.[flights[0]?.segments?.[0]?.legs.length - 1]?.arrivalAirport?.code ||
+                  "Enter City Code"
+                }
+              </p>
+            </>
+          ) : (
+            <p>No flight information available</p>
+          )}
         </div>
       </div>
 
 
 
       {/* Search Section */}
-      <section className={`search-section ${isRoundTrip ? "round-trip" : "one-way"}`}>
+      <section className={`search-section ${searchParams.isRoundTrip ? "roundtrip" : "oneway"}`}>
         <div className="class-toggle">
           <button
-            className={`toggle-button ${selectedClass === "Economy" ? "active" : ""}`}
+            className={`toggle-button ${searchParams.travelClass === "Economy" ? "active" : ""}`}
             onClick={() => handleClassChange("Economy")}
           >
             Economy
           </button>
           <button
-            className={`toggle-button ${selectedClass === "Business Class" ? "active" : ""}`}
+            className={`toggle-button ${searchParams.travelClass === "Business Class" ? "active" : ""}`}
             onClick={() => handleClassChange("Business Class")}
           >
             Business Class
           </button>
           <button
-            className={`toggle-button ${selectedClass === "First Class" ? "active" : ""}`}
+            className={`toggle-button ${searchParams.travelClass === "First Class" ? "active" : ""}`}
             onClick={() => handleClassChange("First Class")}
           >
             First Class
@@ -197,7 +262,7 @@ const FlightDetails = () => {
           <div className="toggle-trip">
             <span>Round Trip</span>
             <label className="toggle-label">
-              <input type="checkbox" checked={isRoundTrip} onChange={handleToggleChange} />
+              <input type="checkbox" checked={searchParams.isRoundTrip} onChange={handleToggleChange} />
               <span className="toggle-slider"></span>
             </label>
           </div>
@@ -205,37 +270,28 @@ const FlightDetails = () => {
 
         <div className="search-fields">
           <div className="search-field">
-            <img src="images/location.svg" alt="Location" />
             <span>From</span>
-            <input type="text" placeholder="Enter departure" />
+            <input type="text" name="departure" value={searchParams.departure} onChange={handleInputChange} />
           </div>
           <div className="search-field">
-            <img src="images/location.svg" alt="Location" />
             <span>To</span>
-            <input type="text" placeholder="Enter destination" />
+            <input type="text" name="destination" value={searchParams.destination} onChange={handleInputChange} />
           </div>
           <div className="search-field">
-            <img src="images/calendar.svg" alt="Check In" />
-            <span>Check In</span>
-            <input type="date" />
+            <span>Departure</span>
+            <input type="date" name="departureDate" value={searchParams.departureDate} min={getTodayDate()} onChange={handleInputChange} />
           </div>
-          {isRoundTrip && (
+          {searchParams.isRoundTrip && (
             <div className="search-field">
-              <img src="images/calendar.svg" alt="Check Out" />
-              <span>Check Out</span>
-              <input type="date" />
+              <span>Return</span>
+              <input type="date" name="returnDate" value={searchParams.returnDate} min={searchParams.departureDate} onChange={handleInputChange} />
             </div>
           )}
           <div className="dropdown-field">
-            <div
-              className="dropdown-header"
-              onClick={() => setIsDropdownOpen((prev) => !prev)}
-            >
-              <img src="images/person.svg" alt="Travelers" />
+            <div className="dropdown-header" onClick={() => setIsDropdownOpen((prev) => !prev)}>
               <span>
-                {travelers.adults} Adult{travelers.adults !== 1 ? "s" : ""},{" "}
-                <br />
-                {travelers.children} Child{travelers.children !== 1 ? "ren" : ""}
+                {searchParams.travelers.adults} Adult{searchParams.travelers.adults !== 1 ? "s" : ""},{" "}
+                {searchParams.travelers.children} Child{searchParams.travelers.children !== 1 ? "ren" : ""}
               </span>
             </div>
 
@@ -243,46 +299,45 @@ const FlightDetails = () => {
               <div className="dropdown-menu">
                 <div className="dropdown-item">
                   <label>Adults:</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={travelers.adults}
-                    onChange={(e) =>
-                      handleTravelersChange("adults", parseInt(e.target.value, 10))
-                    }
-                  />
+                  <input type="number" min="1" value={searchParams.travelers.adults} onChange={(e) => handleTravelersChange("adults", parseInt(e.target.value, 10))} />
                 </div>
                 <div className="dropdown-item">
                   <label>Children:</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={travelers.children}
-                    onChange={(e) =>
-                      handleTravelersChange("children", parseInt(e.target.value, 10))
-                    }
-                  />
+                  <input type="number" min="0" value={searchParams.travelers.children} onChange={(e) => handleTravelersChange("children", parseInt(e.target.value, 10))} />
                 </div>
               </div>
             )}
           </div>
-
-          <button className="search-button">
+          <button className="search-button" onClick={() => window.location.reload()}>
             <img src="images/search.svg" alt="Search" />
           </button>
         </div>
       </section>
 
+
       {/* Buttons for Cheapest, Best, and Fastest */}
       <div className="filter-buttons">
-        <button className="filter-button">Cheapest</button>
-        <button className="filter-button">Best</button>
-        <button className="filter-button">Fastest</button>
+        <button
+          className={`filter-button ${sort === "CHEAPEST" ? "active" : ""}`}
+          onClick={() => handleSortClick("CHEAPEST")}
+        >
+          Cheapest
+        </button>
+        <button
+          className={`filter-button ${sort === "BEST" ? "active" : ""}`}
+          onClick={() => handleSortClick("BEST")}
+        >
+          Best
+        </button>
+        <button
+          className={`filter-button ${sort === "FASTEST" ? "active" : ""}`}
+          onClick={() => handleSortClick("FASTEST")}
+        >
+          Fastest
+        </button>
       </div>
 
       <div className="flight-info-filter">
-
-
         {/* Filter Section */}
         <div className="filters">
           <div className="filter">
@@ -402,7 +457,7 @@ const FlightDetails = () => {
               <div className="checkbox-option">
                 <input
                   type="checkbox"
-                  id="united-airlines"
+                  id="united-airlines2"
                   value="United Airlines"
                   checked={selectedAirlines.includes('United Airlines')}
                   onChange={handleAirlinesChange}
@@ -414,7 +469,7 @@ const FlightDetails = () => {
               <div className="checkbox-option">
                 <input
                   type="checkbox"
-                  id="united-airlines"
+                  id="united-airlines3"
                   value="United Airlines"
                   checked={selectedAirlines.includes('United Airlines')}
                   onChange={handleAirlinesChange}
@@ -430,109 +485,186 @@ const FlightDetails = () => {
           </div>
         </div>
 
-        {/* Flight Details Section */}
-        <div className="flight-details-list">
-          {flights.map((flight, index) => (
-            <div key={index} className="flight-detail">
-              <div className="flight-logo">
-                <img src={flight.logo} alt={flight.airline} />
-              </div>
-              <div className="flight-info-container">
-                <h3>{flight.airline}</h3>
-                <div className="flight-route">
-                  <span>{flight.departureCityCode}</span>
-                  <IoAirplaneOutline className="flight-icon" />
-                  <span>{flight.arrivalCityCode}</span>
-                </div>
-                <div className="flight-time-departure">
-                  <p><strong>Departure:</strong> {flight.departureTime}</p>
-                </div>
-                <div className="flight-time-arrival">
-                  <p><strong>Arrival:</strong> {flight.arrivalTime}</p>
-                </div>
-                <p className="flight-duration">Duration: {flight.duration}</p>
-                <button className="flight-viewmore" onClick={() => handleViewMore(flight)}>View More </button>
-                <p className="flight-price">Price: {flight.price}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <p>Loading flights...</p>
+        ) : error ? (
+          <p className="error">{error}</p>
+        ) : flights.length > 0 ? (
+          <div className="flight-details-list">
+            {flights.map((flight, index) => {
+              const segment = flight?.segments?.[0]; // Get the first segment
+              const legs = segment?.legs || []; // Get legs from the segment
+              const stops = legs.length - 1;
+              const carrierData = legs[0]?.carriersData?.[0]; // Get the first carrier data from the first leg
+              const price = `${flight.priceBreakdown?.total?.currencyCode} ${flight.priceBreakdown?.total?.units}`;
+              const airlineName = carrierData?.name || 'Unknown Airline';
+              const airlineLogo = carrierData?.logo || null;
+              const departureCity = segment?.departureAirport?.city || 'Unknown';
+              const arrivalCity = segment?.arrivalAirport?.city || 'Unknown';
+              const departureTime = legs[0]?.departureTime || 'N/A';
+              const arrivalTime = legs[legs.length - 1]?.arrivalTime || 'N/A';
 
+              const totalMinutes = segment?.totalTime || 0;
+              const hours = Math.floor(totalMinutes / 3600);
+              const minutes = totalMinutes % 60;
+              const formattedTotalTime = `${hours}h ${minutes}m`;
+
+              // Calculate layover times
+              const layovers = legs.length > 1
+                ? legs.slice(1).map((leg, idx) => {
+                  const prevArrivalTime = new Date(legs[idx].arrivalTime);
+                  const nextDepartureTime = new Date(leg.departureTime);
+                  const layoverDuration = Math.abs(nextDepartureTime - prevArrivalTime) / (1000 * 60); // In minutes
+                  return `${Math.floor(layoverDuration / 60)}h ${layoverDuration % 60}m`;
+                })
+                : [];
+
+              return (
+                <div key={index} className="flight-detail">
+                  <div className="flight-summary">
+                    <div className="flight-summary-header">
+                      <div className="flight-logo">
+                        {airlineLogo ? (
+                          <img src={airlineLogo} alt={airlineName} />
+                        ) : (
+                          <p>No logo available</p>
+                        )}
+                      </div>
+                      <div className="flight-info-container">
+                        <h3>{airlineName}</h3>
+                        <div className="flight-route">
+                          <span>{departureCity}</span>
+                          <IoAirplaneOutline className="flight-icon" />
+                          <span>{arrivalCity}</span>
+                        </div>
+                        <p className="flight-time-departure"><strong>Departure:</strong> {departureTime}</p>
+                        <p className="flight-time-arrival"><strong>Arrival:</strong> {arrivalTime}</p>
+                        <p className="flight-total-time"><strong>Total Time:</strong> {formattedTotalTime}</p>
+                        <p className="flight-stops">
+                          <strong>Stops:</strong> {stops === 0 ? 'Direct' : `${stops} stop${stops > 1 ? 's' : ''}`}
+                        </p>
+                        {layovers.length > 0 && (
+                          <p className="flight-layover">
+                            <strong>Layovers:</strong> {layovers.join(', ')}
+                          </p>
+                        )}
+                        <p className="flight-price"><strong>Price:</strong> {price}</p>
+                      </div>
+                    </div>
+                    <button className="flight-viewmore" onClick={() => handleViewMore(flight)}>View More</button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <>
+            <p className="error">No flights available.</p>
+            <pre>{JSON.stringify(flights, null, 2)}</pre>
+          </>
+        )}
+
+        {/* View More Modal */}
         {isModalOpen && selectedFlight && (
           <div className="flight-details-modal">
             <div className="modal-content">
               <div className="modal-header">
-                <h2>Your flight to {selectedFlight.arrivalCity}</h2>
+                <h2>Your flight to {selectedFlight.destination || "Destination"}</h2>
+                <button className="close-btn-flight" onClick={closeModal}>X</button>
               </div>
-              <div className="modal-body">
-                <div className="modal-airline">
-                  <img
-                    src={selectedFlight.logo}
-                    alt={selectedFlight.airline}
-                    className="modal-airline-logo"
-                  />
-                  <h3>{selectedFlight.airline}</h3>
-                </div>
 
-                {/* Departure & Arrival Details */}
+              {/* Modal Body */}
+              <div className="modal-body">
+                {/* Departure & Arrival */}
                 <div className="flight-departure-arrival">
                   <div className="flight-departure">
-                    <strong>Departure:</strong>
-                    <p>{selectedFlight.departureCity} ({selectedFlight.departureCityCode}) - {selectedFlight.departureTime}</p>
+                    <strong>From:</strong>
+                    <p>{selectedFlight.origin} ({selectedFlight.originCode})</p>
                   </div>
                   <div className="flight-arrival">
-                    <strong>Arrival:</strong>
-                    <p>{selectedFlight.arrivalCity} ({selectedFlight.arrivalCityCode}) - {selectedFlight.arrivalTime}</p>
+                    <strong>To:</strong>
+                    <p>{selectedFlight.destination} ({selectedFlight.destinationCode})</p>
                   </div>
                 </div>
 
-                {/* Round Trip Check */}
-                {isRoundTrip && selectedFlight.returnFlight && (
-                  <div className="flight-departure-arrival">
-                    <div className="flight-departure">
-                      <strong>Return Departure:</strong>
-                      <p>{selectedFlight.returnFlight.departureCity} ({selectedFlight.returnFlight.departureCityCode}) - {selectedFlight.returnFlight.departureTime}</p>
-                    </div>
-                    <div className="flight-arrival">
-                      <strong>Return Arrival:</strong>
-                      <p>{selectedFlight.returnFlight.arrivalCity} ({selectedFlight.returnFlight.arrivalCityCode}) - {selectedFlight.returnFlight.arrivalTime}</p>
-                    </div>
+                {/* Flight Segments */}
+                {selectedFlight.segments?.[0]?.legs.map((leg, legIndex) => (
+                  <div key={legIndex} className="modal-leg-detail">
+                    <strong>Flight Segment {legIndex + 1}</strong>
+                    <p>
+                      <strong>Airline:</strong> {leg.carriersData?.[0]?.name || "Unknown Airline"}
+                    </p>
+                    <p>
+                      <strong>Departure:</strong> {leg.departureAirport?.code || "N/A"} - {leg.departureTime || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Arrival:</strong> {leg.arrivalAirport?.code || "N/A"} - {leg.arrivalTime || "N/A"}
+                    </p>
+                    {legIndex < selectedFlight.segments?.[0]?.legs.length - 1 && (
+                      <p>
+                        <strong>Layover:</strong>{" "}
+                        {calculateLayoverTime(
+                          leg.arrivalTime,
+                          selectedFlight.segments?.[0]?.legs[legIndex + 1]?.departureTime
+                        )}
+                      </p>
+                    )}
                   </div>
-                )}
+                ))}
 
                 <div className="baggage-info">
-                  <strong>Included Baggage:</strong>
-                  <p>{selectedFlight.baggage}</p>
+                  <h3>Baggage Information</h3>
+                  {selectedFlight?.includedProducts?.length > 0 ? (
+                    selectedFlight.includedProducts.map((baggage, index) => (
+                      <div key={index} className="info-items">
+                        <p className="info-item"><strong>Baggage Type:</strong> {baggage.luggageType || "N/A"}</p>
+                        <p className="info-item"><strong>Max Pieces:</strong> {baggage.maxPiece || "N/A"}</p>
+                        <p className="info-item">
+                          <strong>Piece Per Passenger:</strong> {baggage.piecePerPax || "N/A"}
+                        </p>
+                        {baggage.maxWeightPerPiece && (
+                          <p>
+                            <strong>Max Weight Per Piece:</strong> {baggage.maxWeightPerPiece} {baggage.massUnit || "kg"}
+                          </p>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <p>No baggage information available.</p>
+                  )}
                 </div>
 
-                <div className="extra-baggage">
-                  <strong>Extra Baggage:</strong>
-                  <p>{selectedFlight.extraBaggage}</p>
+                <div className="price-breakdown">
+                  <h3>Price Breakdown</h3>
+                  {selectedFlight?.priceBreakdown?.length > 0 ? (
+                    selectedFlight.priceBreakdown.map((item, index) => (
+                      <div key={index} className="info-item">
+                        <p><strong>Scope:</strong> {item.scope || "N/A"}</p>
+                        <p><strong>Title:</strong> {item.title || "N/A"}</p>
+                        <p>
+                          <strong>Price:</strong> {item.price?.currencyCode || "N/A"}{" "}
+                          {(item.price?.units || 0).toFixed(2)}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No price breakdown available.</p>
+                  )}
                 </div>
 
-                <div className="fare-rules">
-                  <strong>Fare Rules:</strong>
-                  <p>{selectedFlight.fareRules}</p>
-                </div>
-
-                <div className="co2-emissions">
-                  <strong>CO2 Emissions Estimate:</strong>
-                  <p>{selectedFlight.co2Emissions}</p>
-                </div>
-
-                <div className="modal-price">
-                  <strong>Price:</strong>
-                  <p>{selectedFlight.price}</p>
-                </div>
-
+                {/* Buttons */}
                 <div className="buttons">
-                  <button className="close-btn" onClick={closeModal}>Close</button>
-                  <button className="book-now-btn">Book Now</button>
+                  <button className="close-btn-flight" onClick={closeModal}>
+                    Close
+                  </button>
+                  <button className="book-now-btn-flight">Book Now</button>
                 </div>
               </div>
             </div>
           </div>
         )}
+
+
       </div>
     </div>
   );
