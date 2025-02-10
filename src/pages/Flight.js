@@ -67,7 +67,7 @@ const FlightPage = () => {
       </div>
       <img src="images/airplane_2.png" alt="Airplane" className="airplane-image" />
 
-      <section className={`search-section ${isRoundTrip ? "round-trip" : "one-way"}`}>
+      <section className={`search-section ${isRoundTrip ? "roundtrip" : "oneway"}`}>
         <div className="class-toggle">
           <button
             className={`toggle-button ${selectedClass === "Economy" ? "active" : ""}`}
@@ -222,7 +222,7 @@ const FlightPage = () => {
               <div>
                 <h3 className="feature-title">Flexible Travel Options</h3>
                 <p className="feature-description">
-                  Explore flexible flight options, including round trips and one-way tickets, tailored to your schedule and preferences.
+                  Explore flexible flight options, including round trips and oneway tickets, tailored to your schedule and preferences.
                 </p>
               </div>
             </div>

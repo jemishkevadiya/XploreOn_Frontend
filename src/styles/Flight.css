@@ -74,7 +74,7 @@ html, body {
   gap: 1.25rem;
 }
 
-.search-section.round-trip .search-fields {
+.search-section.roundtrip .search-fields {
   display: grid;
   grid-template-columns: repeat(5, 1fr) auto;
   gap: 1.25rem;

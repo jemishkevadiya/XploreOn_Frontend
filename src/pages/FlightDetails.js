@@ -42,62 +42,75 @@ const FlightDetails = () => {
     departureDate: location.state?.departureDate || getTodayDate(),
     returnDate: location.state?.returnDate || "",
     travelClass: location.state?.travelClass || "Economy",
-    travelers: location.state?.travelers || { adults: 1, children: 0 },
+    adults: location.state?.adults || 1,
+    children: location.state?.children || 0,
     isRoundTrip: location.state?.isRoundTrip || false,
     tripType: location.state?.isRoundTrip ? "roundtrip" : "oneway",
     sort: location.state?.sort || ""
   });
 
-  // Fetch Flights
+
   const fetchFlights = async (sortOption) => {
     try {
       setLoading(true);
+      setError(null);
+
+      const childrenParam = searchParams.children > 0 ? searchParams.childrenAges.join(",") : "";
 
       const params = {
         origin: searchParams.departure,
         destination: searchParams.destination,
         departureDate: searchParams.departureDate,
         returnDate: searchParams.isRoundTrip ? searchParams.returnDate : undefined,
-        passengers: searchParams.travelers.adults,
+        adults: searchParams.adults,
+        children: childrenParam,
         travelClass: searchParams.travelClass,
         currency_code: "CAD",
         tripType: searchParams.tripType,
-        sort: sortOption, 
+        sort: sortOption,
       };
 
-        const response = await axios.get("http://localhost:1111/flights/searchFlights", { params });
+      console.log("📡 Sending API Request with:", params);
 
-        const flights =
-          response.data?.data?.flightOffers || [];
+      const response = await axios.get("http://localhost:1111/flights/searchFlights", { params });
 
-        console.log("Extracted Flights:", flights);
 
-        if (flights.length === 0) {
-          console.warn("⚠️ No flights found for the given search criteria.");
-          setFlights([]); 
-          setError("No flights available for your search criteria.");
-          return;
-        }
+      const flights =
+        response.data?.data?.flightOffers || [];
 
-        setFlights(flights);
-      } catch (err) {
-        console.error("API Error:", err.response?.data || err.message);
-        setError("Failed to fetch flight data. Please try again.");
-      } finally {
-        setLoading(false);
+      console.log("Extracted Flights:", flights);
+
+      if (flights.length === 0) {
+        console.warn("⚠️ No flights found for the given search criteria.");
+        setFlights([]);
+        setError("No flights available for your search criteria.");
+        return;
       }
-    };
 
-    useEffect(() => {
-      fetchFlights(sort); 
-    }, [searchParams, sort]);
+      setFlights(flights);
+      setError(null);
+    } catch (err) {
+      console.error("API Error:", err.response?.data || err.message);
+      setError("Failed to fetch flight data. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFlights(sort);
+  }, [searchParams, sort]);
 
   const planeRef = useRef(null);
   const pathRef = useRef(null);
 
   const handleSortClick = (sortValue) => {
-    setSort(sortValue); 
-    fetchFlights(sortValue); 
+    setSort(sortValue);
+    fetchFlights(sortValue);
+  };
+
+  const handleSearchClick = () => {
+    fetchFlights(searchParams.sort);
   };
 
   useEffect(() => {
@@ -131,9 +144,6 @@ const FlightDetails = () => {
     setSearchParams((prev) => ({ ...prev, [name]: value }));
   };
 
-
-  
-
   const handleToggleChange = () => {
     setSearchParams((prev) => ({
       ...prev,
@@ -165,6 +175,7 @@ const FlightDetails = () => {
       originCode: flight?.segments?.[0]?.departureAirport?.code || "N/A",
       destination: flight?.segments?.[0]?.arrivalAirport?.cityName || "Unknown",
       destinationCode: flight?.segments?.[0]?.arrivalAirport?.code || "N/A",
+      allSegments: flight?.segments || [],
       includedProducts: flight?.includedProducts?.segments?.[0] || [],
       priceBreakdown: flight?.unifiedPriceBreakdown?.items || [],
     });
@@ -176,15 +187,45 @@ const FlightDetails = () => {
     setSelectedFlight(null);
   };
 
-  const handleTravelersChange = (type, value) => {
-    setSearchParams((prev) => ({
-      ...prev,
-      travelers: {
-        ...prev.travelers,
-        [type]: value < 0 ? 0 : value,
-      },
-    }));
+  // const handleTravelersChange = (type, value) => {
+  //   setSearchParams((prev) => ({
+  //     ...prev,
+  //     [type]: value < 0 ? 0 : value,
+  //   }));
+  // };
+
+  const handleTravelersChange = (type, value, index = null) => {
+    setSearchParams((prev) => {
+      if (type === "children") {
+        let childrenAges = prev.childrenAges || [];
+
+        if (value > childrenAges.length) {
+          childrenAges = [...childrenAges, ...Array(value - childrenAges.length).fill(5)];
+        } else {
+          childrenAges = childrenAges.slice(0, value);
+        }
+
+        return {
+          ...prev,
+          children: value,
+          childrenAges,
+        };
+      }
+
+      if (type === "childAge") {
+        let updatedAges = [...prev.childrenAges];
+        updatedAges[index] = value;
+
+        return {
+          ...prev,
+          childrenAges: updatedAges,
+        };
+      }
+
+      return { ...prev, [type]: value };
+    });
   };
+
 
   return (
     <div className="flight-info">
@@ -290,25 +331,57 @@ const FlightDetails = () => {
           <div className="dropdown-field">
             <div className="dropdown-header" onClick={() => setIsDropdownOpen((prev) => !prev)}>
               <span>
-                {searchParams.travelers.adults} Adult{searchParams.travelers.adults !== 1 ? "s" : ""},{" "}
-                {searchParams.travelers.children} Child{searchParams.travelers.children !== 1 ? "ren" : ""}
+                {searchParams.adults} Adult{searchParams.adults !== 1 ? "s" : ""},{" "}
+                {searchParams.children} Child{searchParams.children !== 1 ? "ren" : ""}
               </span>
             </div>
 
             {isDropdownOpen && (
               <div className="dropdown-menu">
+                {/* Adults Input */}
                 <div className="dropdown-item">
                   <label>Adults:</label>
-                  <input type="number" min="1" value={searchParams.travelers.adults} onChange={(e) => handleTravelersChange("adults", parseInt(e.target.value, 10))} />
+                  <input
+                    type="number"
+                    min="1"
+                    value={searchParams.adults}
+                    onChange={(e) => handleTravelersChange("adults", parseInt(e.target.value, 10))}
+                  />
                 </div>
+
+                {/* Children Count Input */}
                 <div className="dropdown-item">
                   <label>Children:</label>
-                  <input type="number" min="0" value={searchParams.travelers.children} onChange={(e) => handleTravelersChange("children", parseInt(e.target.value, 10))} />
+                  <input
+                    type="number"
+                    min="0"
+                    value={searchParams.children}
+                    onChange={(e) => handleTravelersChange("children", parseInt(e.target.value, 10))}
+                  />
                 </div>
+
+                {/* Display age selection for each child */}
+                {searchParams.children > 0 && (
+                  <div className="dropdown-item">
+                    <label>Children Ages:</label>
+                    {searchParams.childrenAges?.map((age, index) => (
+                      <select
+                        key={index}
+                        value={age}
+                        onChange={(e) => handleTravelersChange("childAge", parseInt(e.target.value, 10), index)}
+                      >
+                        {Array.from({ length: 18 }, (_, i) => (
+                          <option key={i} value={i}>{i} years</option>
+                        ))}
+                      </select>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
+
           </div>
-          <button className="search-button" onClick={() => window.location.reload()}>
+          <button className="search-button" onClick={handleSearchClick}>
             <img src="images/search.svg" alt="Search" />
           </button>
         </div>
@@ -587,30 +660,40 @@ const FlightDetails = () => {
                   </div>
                 </div>
 
-                {/* Flight Segments */}
-                {selectedFlight.segments?.[0]?.legs.map((leg, legIndex) => (
-                  <div key={legIndex} className="modal-leg-detail">
-                    <strong>Flight Segment {legIndex + 1}</strong>
-                    <p>
-                      <strong>Airline:</strong> {leg.carriersData?.[0]?.name || "Unknown Airline"}
-                    </p>
-                    <p>
-                      <strong>Departure:</strong> {leg.departureAirport?.code || "N/A"} - {leg.departureTime || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Arrival:</strong> {leg.arrivalAirport?.code || "N/A"} - {leg.arrivalTime || "N/A"}
-                    </p>
-                    {legIndex < selectedFlight.segments?.[0]?.legs.length - 1 && (
-                      <p>
-                        <strong>Layover:</strong>{" "}
-                        {calculateLayoverTime(
-                          leg.arrivalTime,
-                          selectedFlight.segments?.[0]?.legs[legIndex + 1]?.departureTime
+                {/* Loop through both departure & return segments */}
+                {selectedFlight?.allSegments?.map((segment, segmentIndex) => (
+                  <div key={segmentIndex} className="modal-segment-detail">
+                    <h3>Flight Segment {segmentIndex + 1} {segmentIndex === 0 ? "(Departure)" : "(Return)"}</h3>
+
+                    {/* Loop through each leg inside the segment */}
+                    {segment.legs.map((leg, legIndex) => (
+                      <div key={legIndex} className="modal-leg-detail">
+                        <strong>Flight Leg {legIndex + 1}</strong>
+                        <p>
+                          <strong>Airline:</strong> {leg.carriersData?.[0]?.name || "Unknown Airline"}
+                        </p>
+                        <p>
+                          <strong>Departure:</strong> {leg.departureAirport?.code || "N/A"} - {leg.departureTime || "N/A"}
+                        </p>
+                        <p>
+                          <strong>Arrival:</strong> {leg.arrivalAirport?.code || "N/A"} - {leg.arrivalTime || "N/A"}
+                        </p>
+
+                        {/* Display layover time between legs */}
+                        {legIndex < segment.legs.length - 1 && (
+                          <p>
+                            <strong>Layover:</strong>{" "}
+                            {calculateLayoverTime(
+                              leg.arrivalTime,
+                              segment.legs[legIndex + 1]?.departureTime
+                            )}
+                          </p>
                         )}
-                      </p>
-                    )}
+                      </div>
+                    ))}
                   </div>
                 ))}
+
 
                 <div className="baggage-info">
                   <h3>Baggage Information</h3>
@@ -641,10 +724,12 @@ const FlightDetails = () => {
                       <div key={index} className="info-item">
                         <p><strong>Scope:</strong> {item.scope || "N/A"}</p>
                         <p><strong>Title:</strong> {item.title || "N/A"}</p>
-                        <p>
-                          <strong>Price:</strong> {item.price?.currencyCode || "N/A"}{" "}
-                          {(item.price?.units || 0).toFixed(2)}
-                        </p>
+                        {/* Show adult and child prices separately if available */}
+                        {item.scope.toLowerCase().includes("child") ? (
+                          <p><strong>Child Price:</strong> {item.price?.currencyCode || "N/A"} {(item.price?.units || 0).toFixed(2)}</p>
+                        ) : (
+                          <p><strong>Adult Price:</strong> {item.price?.currencyCode || "N/A"} {(item.price?.units || 0).toFixed(2)}</p>
+                        )}
                       </div>
                     ))
                   ) : (
