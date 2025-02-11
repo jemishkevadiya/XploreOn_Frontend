@@ -31,6 +31,11 @@ const FlightDetails = () => {
   const [selectedFlight, setSelectedFlight] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sort, setSort] = useState("BEST");
+  const [pageNo, setPageNo] = useState(1);
+  const [availableAirlines, setAvailableAirlines] = useState([]);
+  const [showAllAirlines, setShowAllAirlines] = useState(false);
+
+
 
   const getTodayDate = () => {
     const today = new Date();
@@ -45,13 +50,21 @@ const FlightDetails = () => {
     travelClass: location.state?.travelClass || "Economy",
     adults: location.state?.adults || 1,
     children: location.state?.children || 0,
+    childrenAges: location.state?.childrenAges || [],
     isRoundTrip: location.state?.isRoundTrip || false,
     tripType: location.state?.isRoundTrip ? "roundtrip" : "oneway",
-    sort: location.state?.sort || ""
+    sort: location.state?.sort || "",
+    pageNo,
   });
 
-  // Fetch Flights
-  const fetchFlights = async (sortOption) => {
+  const [filters, setFilters] = useState({
+    stops: "Any",
+    airlines: [],
+    priceRange: [0, 10000],
+    durationRange: [0, 24],
+  });
+
+  const fetchFlights = async (sortOption = searchParams.sort, page = pageNo) => {
     try {
       setLoading(true);
       setError(null);
@@ -69,6 +82,7 @@ const FlightDetails = () => {
         currency_code: "CAD",
         tripType: searchParams.tripType,
         sort: sortOption,
+        pageNo: page,
       };
 
       console.log("📡 Sending API Request with:", params);
@@ -76,8 +90,7 @@ const FlightDetails = () => {
       const response = await axios.get("http://localhost:1111/flights/searchFlights", { params });
 
 
-      const flights =
-        response.data?.data?.flightOffers || [];
+      const flights = response.data?.data?.flightOffers || [];
 
       console.log("Extracted Flights:", flights);
 
@@ -88,7 +101,15 @@ const FlightDetails = () => {
         return;
       }
 
+      const extractAllAirlines = (responseData) => {
+        return responseData?.data?.aggregation?.airlines?.map(airline => airline.name) || [];
+      };
+
+      const airlines = extractAllAirlines(response.data);
+
+
       setFlights(flights);
+      setAvailableAirlines(airlines);
       setHasSearched(true);
       setError(null);
     } catch (err) {
@@ -99,51 +120,77 @@ const FlightDetails = () => {
     }
   };
 
+  const filteredFlights = flights.filter((flight) => {
+    const stops = flight.segments?.[0]?.legs?.length - 1 || 0; // Ensure legs exist
+  
+    console.log(`🔍 Filtering flight: Stops=${stops}, Selected Filter=${stopsFilter}`);
+  
+    if (stopsFilter === "Direct" && stops !== 0) return false;
+    if (stopsFilter === "1 Stop" && stops !== 1) return false;
+    if (stopsFilter === "2+ Stops" && stops < 2) return false;
+  
+    return true;
+  });
+  
+
+
+  // const handlePageChange = (newPage) => {
+  //   if (newPage < 1) return; 
+
+  //   console.log("Changing to page:", newPage);
+  //   setPageNo(newPage); 
+  // };
+
+  const handlePageChange = (newPage) => {
+    setPageNo(newPage);
+    fetchFlights(sort, newPage);
+  };
+
+
+
+
   useEffect(() => {
     if (hasSearched) {
-      fetchFlights(sort);
+      fetchFlights(sort, pageNo);
     }
-  }, [sort]);
+  }, [pageNo, stopsFilter]);
+
+
 
   const planeRef = useRef(null);
   const pathRef = useRef(null);
 
   const handleSortClick = (sortValue) => {
     setSort(sortValue);
-    fetchFlights(sortValue);
+    fetchFlights(sortValue, pageNo);
   };
-
-  // const handleSearchClick = () => {
-  //   fetchFlights(searchParams.sort);
-  // };
 
   const handleSearchClick = () => {
     setSearchParams((prev) => {
       const updatedParams = { ...prev };
 
-      // ✅ Ensure children is properly formatted or removed
       if (updatedParams.children > 0) {
         updatedParams.children = updatedParams.childrenAges.join(",");
       } else {
-        delete updatedParams.children; // ✅ Remove if 0
-        updatedParams.childrenAges = []; // Reset ages
+        delete updatedParams.children;
+        updatedParams.childrenAges = [];
       }
 
-      // ✅ Ensure "sort" is always set to last selected value
       if (!updatedParams.sort || updatedParams.sort.trim() === "") {
-        updatedParams.sort = sort; // Use the current sort state
+        updatedParams.sort = sort;
       }
 
       console.log("🔄 Updated searchParams before search button click:", updatedParams);
 
+      setPageNo(1);
+      setFlights([]);
       setHasSearched(true);
 
-      // ✅ Delay API request slightly to ensure state updates fully
       setTimeout(() => {
-        fetchFlights(updatedParams.sort);
+        fetchFlights(updatedParams.sort, 1);
       }, 50);
 
-      return updatedParams; // ✅ Update state immediately
+      return updatedParams;
     });
   };
 
@@ -194,7 +241,7 @@ const FlightDetails = () => {
       travelClass: className,
     }));
   };
-  
+
 
   const handleStopsChange = (e) => {
     setStopsFilter(e.target.value);
@@ -225,13 +272,6 @@ const FlightDetails = () => {
     setIsModalOpen(false);
     setSelectedFlight(null);
   };
-
-  // const handleTravelersChange = (type, value) => {
-  //   setSearchParams((prev) => ({
-  //     ...prev,
-  //     [type]: value < 0 ? 0 : value,
-  //   }));
-  // };
 
   const handleTravelersChange = (type, value, index = null) => {
     setSearchParams((prev) => {
@@ -457,149 +497,104 @@ const FlightDetails = () => {
       <div className="flight-info-filter">
         {/* Filter Section */}
         <div className="filters">
-          <div className="filter">
+          {/* <div className="filter">
             <label className="filter-label">Stops</label>
             <div className="filter-options">
-              <div className="filter-option">
+              <label>
                 <input
                   type="radio"
-                  id="any-stop"
                   name="stops"
                   value="Any"
-                  checked={stopsFilter === 'Any'}
-                  onChange={handleStopsChange}
+                  checked={filters.stops === "Any"}
+                  onChange={(e) => setFilters({ ...filters, stops: e.target.value })}
                 />
-                <label htmlFor="any-stop">Any</label>
-              </div>
-              <div className="filter-option">
+                Any
+              </label>
+              <label>
                 <input
                   type="radio"
-                  id="direct-only"
                   name="stops"
-                  value="Direct only"
-                  checked={stopsFilter === 'Direct only'}
-                  onChange={handleStopsChange}
+                  value="Direct"
+                  checked={filters.stops === "Direct"}
+                  onChange={(e) => setFilters({ ...filters, stops: e.target.value })}
                 />
-                <label htmlFor="direct-only">Direct only</label>
-              </div>
-              <div className="filter-option">
+                Direct Only
+              </label>
+              <label>
                 <input
                   type="radio"
-                  id="one-stop-max"
                   name="stops"
-                  value="1 stop max"
-                  checked={stopsFilter === '1 stop max'}
-                  onChange={handleStopsChange}
+                  value="1 Stop"
+                  checked={filters.stops === "1 Stop"}
+                  onChange={(e) => setFilters({ ...filters, stops: e.target.value })}
                 />
-                <label htmlFor="one-stop-max">1 stop max</label>
-              </div>
+                1 Stop Max
+              </label>
             </div>
-          </div>
+          </div> */}
+          <label>Stops:</label>
+          <select value={stopsFilter} onChange={(e) => setStopsFilter(e.target.value)}>
+            <option value="Any">Any</option>
+            <option value="Direct">Direct</option>
+            <option value="1 Stop">1 Stop</option>
+            <option value="2+ Stops">2+ Stops</option>
+          </select>
+
 
           <div className="filter">
             <label className="filter-label">Airlines</label>
             <div className="checkboxes">
-              <div className="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="porter-airlines"
-                  value="Porter Airlines"
-                  checked={selectedAirlines.includes('Porter Airlines')}
-                  onChange={handleAirlinesChange}
-                />
-                <label htmlFor="porter-airlines">Porter Airlines</label>
-                <span>40</span>
-              </div>
+              {(showAllAirlines ? availableAirlines : availableAirlines.slice(0, 5)).map((airline, index) => (
+                <div key={index} className="checkbox-option">
+                  <input
+                    type="checkbox"
+                    id={`airline-${index}`}
+                    value={airline}
+                    checked={selectedAirlines.includes(airline)}
+                    onChange={handleAirlinesChange}
+                  />
+                  <label htmlFor={`airline-${index}`}>{airline}</label>
+                </div>
+              ))}
 
-              <div className="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="flair-airlines"
-                  value="Flair Airlines"
-                  checked={selectedAirlines.includes('Flair Airlines')}
-                  onChange={handleAirlinesChange}
-                />
-                <label htmlFor="flair-airlines">Flair Airlines</label>
-                <span>2</span>
-              </div>
-
-              <div className="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="air-canada"
-                  value="Air Canada"
-                  checked={selectedAirlines.includes('Air Canada')}
-                  onChange={handleAirlinesChange}
-                />
-                <label htmlFor="air-canada">Air Canada</label>
-                <span>191</span>
-              </div>
-
-              <div className="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="american-airlines"
-                  value="American Airlines"
-                  checked={selectedAirlines.includes('American Airlines')}
-                  onChange={handleAirlinesChange}
-                />
-                <label htmlFor="american-airlines">American Airlines</label>
-                <span>28</span>
-              </div>
-
-              <div className="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="united-airlines"
-                  value="United Airlines"
-                  checked={selectedAirlines.includes('United Airlines')}
-                  onChange={handleAirlinesChange}
-                />
-                <label htmlFor="united-airlines">United Airlines</label>
-                <span>98</span>
-              </div>
-
-              <div className="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="united-airlines"
-                  value="United Airlines"
-                  checked={selectedAirlines.includes('United Airlines')}
-                  onChange={handleAirlinesChange}
-                />
-                <label htmlFor="united-airlines">United Airlines</label>
-                <span>98</span>
-              </div>
-
-              <div className="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="united-airlines2"
-                  value="United Airlines"
-                  checked={selectedAirlines.includes('United Airlines')}
-                  onChange={handleAirlinesChange}
-                />
-                <label htmlFor="united-airlines">United Airlines</label>
-                <span>98</span>
-              </div>
-
-              <div className="checkbox-option">
-                <input
-                  type="checkbox"
-                  id="united-airlines3"
-                  value="United Airlines"
-                  checked={selectedAirlines.includes('United Airlines')}
-                  onChange={handleAirlinesChange}
-                />
-                <label htmlFor="united-airlines">United Airlines</label>
-                <span>98</span>
-              </div>
-
-              <div className="show-all">
-                <button>Show all</button>
-              </div>
+              {/* "Show All" Button */}
+              {availableAirlines.length > 5 && (
+                <button onClick={() => setShowAllAirlines(prev => !prev)}>
+                  {showAllAirlines ? "Show Less" : "Show All"}
+                </button>
+              )}
             </div>
           </div>
+
+
+
+          <div className="filter">
+            <label className="filter-label">Price Range (CAD)</label>
+            <input
+              type="range"
+              min="0"
+              max="2000"
+              step="50"
+              value={filters.priceRange[1]}
+              onChange={(e) => setFilters({ ...filters, priceRange: [filters.priceRange[0], parseInt(e.target.value, 10)] })}
+            />
+            <p>${filters.priceRange[0]} - ${filters.priceRange[1]}</p>
+          </div>
+
+          <div className="filter">
+            <label className="filter-label">Flight Duration (Hours)</label>
+            <input
+              type="range"
+              min="0"
+              max="24"
+              step="1"
+              value={filters.durationRange[1]}
+              onChange={(e) => setFilters({ ...filters, durationRange: [filters.durationRange[0], parseInt(e.target.value, 10)] })}
+            />
+            <p>{filters.durationRange[0]}h - {filters.durationRange[1]}h</p>
+          </div>
+
+
         </div>
 
         {hasSearched && (
@@ -608,13 +603,13 @@ const FlightDetails = () => {
               <p>Loading flights...</p>
             ) : error ? (
               <p className="error">{error}</p>
-            ) : flights.length > 0 ? (
+            ) : filteredFlights.length > 0 ? (
               <div className="flight-details-list">
-                {flights.map((flight, index) => {
-                  const segment = flight?.segments?.[0]; // Get the first segment
-                  const legs = segment?.legs || []; // Get legs from the segment
+                {filteredFlights.map((flight, index) => {
+                  const segment = flight?.segments?.[0];
+                  const legs = segment?.legs || [];
                   const stops = legs.length - 1;
-                  const carrierData = legs[0]?.carriersData?.[0]; // Get the first carrier data from the first leg
+                  const carrierData = legs[0]?.carriersData?.[0];
                   const price = `${flight.priceBreakdown?.total?.currencyCode} ${flight.priceBreakdown?.total?.units}`;
                   const airlineName = carrierData?.name || 'Unknown Airline';
                   const airlineLogo = carrierData?.logo || null;
@@ -628,12 +623,11 @@ const FlightDetails = () => {
                   const minutes = totalMinutes % 60;
                   const formattedTotalTime = `${hours}h ${minutes}m`;
 
-                  // Calculate layover times
                   const layovers = legs.length > 1
                     ? legs.slice(1).map((leg, idx) => {
                       const prevArrivalTime = new Date(legs[idx].arrivalTime);
                       const nextDepartureTime = new Date(leg.departureTime);
-                      const layoverDuration = Math.abs(nextDepartureTime - prevArrivalTime) / (1000 * 60); // In minutes
+                      const layoverDuration = Math.abs(nextDepartureTime - prevArrivalTime) / (1000 * 60);
                       return `${Math.floor(layoverDuration / 60)}h ${layoverDuration % 60}m`;
                     })
                     : [];
@@ -679,7 +673,6 @@ const FlightDetails = () => {
             ) : (
               <>
                 <p className="error">No flights available.</p>
-                <pre>{JSON.stringify(flights, null, 2)}</pre>
               </>
             )}
           </>
@@ -797,6 +790,24 @@ const FlightDetails = () => {
 
 
       </div>
+      {flights.length > 0 && (
+        <div className="pagination">
+          <button
+            disabled={pageNo === 1}
+            onClick={() => handlePageChange(pageNo - 1)}
+          >
+            Previous
+          </button>
+
+          <span>Page {pageNo}</span>
+
+          <button
+            onClick={() => handlePageChange(pageNo + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };
