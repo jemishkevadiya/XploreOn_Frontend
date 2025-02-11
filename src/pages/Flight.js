@@ -76,6 +76,12 @@ const FlightPage = () => {
             Economy
           </button>
           <button
+            className={`toggle-button ${searchParams.travelClass === "PREMIUM_ECONOMY" ? "active" : ""}`}
+            onClick={() => handleClassChange("PREMIUM_ECONOMY")}
+          >
+            Premium Economy
+          </button>
+          <button
             className={`toggle-button ${selectedClass === "Business Class" ? "active" : ""}`}
             onClick={() => handleClassChange("Business Class")}
           >
