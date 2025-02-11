@@ -24,6 +24,7 @@ const FlightDetails = () => {
   const [flights, setFlights] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hasSearched, setHasSearched] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [stopsFilter, setStopsFilter] = useState("Any");
   const [selectedAirlines, setSelectedAirlines] = useState([]);
@@ -49,7 +50,7 @@ const FlightDetails = () => {
     sort: location.state?.sort || ""
   });
 
-
+  // Fetch Flights
   const fetchFlights = async (sortOption) => {
     try {
       setLoading(true);
@@ -88,6 +89,7 @@ const FlightDetails = () => {
       }
 
       setFlights(flights);
+      setHasSearched(true);
       setError(null);
     } catch (err) {
       console.error("API Error:", err.response?.data || err.message);
@@ -98,8 +100,10 @@ const FlightDetails = () => {
   };
 
   useEffect(() => {
-    fetchFlights(sort);
-  }, [searchParams, sort]);
+    if (hasSearched) {
+      fetchFlights(sort);
+    }
+  }, [sort]);
 
   const planeRef = useRef(null);
   const pathRef = useRef(null);
@@ -109,9 +113,40 @@ const FlightDetails = () => {
     fetchFlights(sortValue);
   };
 
+  // const handleSearchClick = () => {
+  //   fetchFlights(searchParams.sort);
+  // };
+
   const handleSearchClick = () => {
-    fetchFlights(searchParams.sort);
+    setSearchParams((prev) => {
+      const updatedParams = { ...prev };
+
+      // ✅ Ensure children is properly formatted or removed
+      if (updatedParams.children > 0) {
+        updatedParams.children = updatedParams.childrenAges.join(",");
+      } else {
+        delete updatedParams.children; // ✅ Remove if 0
+        updatedParams.childrenAges = []; // Reset ages
+      }
+
+      // ✅ Ensure "sort" is always set to last selected value
+      if (!updatedParams.sort || updatedParams.sort.trim() === "") {
+        updatedParams.sort = sort; // Use the current sort state
+      }
+
+      console.log("🔄 Updated searchParams before search button click:", updatedParams);
+
+      setHasSearched(true);
+
+      // ✅ Delay API request slightly to ensure state updates fully
+      setTimeout(() => {
+        fetchFlights(updatedParams.sort);
+      }, 50);
+
+      return updatedParams; // ✅ Update state immediately
+    });
   };
+
 
   useEffect(() => {
     if (!flights.length) return;
@@ -154,8 +189,12 @@ const FlightDetails = () => {
   };
 
   const handleClassChange = (className) => {
-    setSearchParams((prev) => ({ ...prev, travelClass: className }));
+    setSearchParams((prev) => ({
+      ...prev,
+      travelClass: className,
+    }));
   };
+  
 
   const handleStopsChange = (e) => {
     setStopsFilter(e.target.value);
@@ -213,7 +252,7 @@ const FlightDetails = () => {
       }
 
       if (type === "childAge") {
-        let updatedAges = [...prev.childrenAges];
+        let updatedAges = [...prev.childrenAges] || [];
         updatedAges[index] = value;
 
         return {
@@ -283,20 +322,26 @@ const FlightDetails = () => {
       <section className={`search-section ${searchParams.isRoundTrip ? "roundtrip" : "oneway"}`}>
         <div className="class-toggle">
           <button
-            className={`toggle-button ${searchParams.travelClass === "Economy" ? "active" : ""}`}
-            onClick={() => handleClassChange("Economy")}
+            className={`toggle-button ${searchParams.travelClass === "ECONOMY" ? "active" : ""}`}
+            onClick={() => handleClassChange("ECONOMY")}
           >
             Economy
           </button>
           <button
-            className={`toggle-button ${searchParams.travelClass === "Business Class" ? "active" : ""}`}
-            onClick={() => handleClassChange("Business Class")}
+            className={`toggle-button ${searchParams.travelClass === "PREMIUM_ECONOMY" ? "active" : ""}`}
+            onClick={() => handleClassChange("PREMIUM_ECONOMY")}
+          >
+            Premium Economy
+          </button>
+          <button
+            className={`toggle-button ${searchParams.travelClass === "BUSINESS" ? "active" : ""}`}
+            onClick={() => handleClassChange("BUSINESS")}
           >
             Business Class
           </button>
           <button
-            className={`toggle-button ${searchParams.travelClass === "First Class" ? "active" : ""}`}
-            onClick={() => handleClassChange("First Class")}
+            className={`toggle-button ${searchParams.travelClass === "FIRST" ? "active" : ""}`}
+            onClick={() => handleClassChange("FIRST")}
           >
             First Class
           </button>
@@ -332,7 +377,7 @@ const FlightDetails = () => {
             <div className="dropdown-header" onClick={() => setIsDropdownOpen((prev) => !prev)}>
               <span>
                 {searchParams.adults} Adult{searchParams.adults !== 1 ? "s" : ""},{" "}
-                {searchParams.children} Child{searchParams.children !== 1 ? "ren" : ""}
+                {searchParams.children} {searchParams.children === 1 ? "Child" : "Children"}
               </span>
             </div>
 
@@ -360,23 +405,22 @@ const FlightDetails = () => {
                   />
                 </div>
 
-                {/* Display age selection for each child */}
-                {searchParams.children > 0 && (
-                  <div className="dropdown-item">
-                    <label>Children Ages:</label>
-                    {searchParams.childrenAges?.map((age, index) => (
-                      <select
-                        key={index}
+                {/* Display Child Ages in a Column */}
+                <div className="child-age-container">
+                  {searchParams.childrenAges.map((age, index) => (
+                    <div key={index} className="child-age-item">
+                      <label>Child {index + 1} Age:</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="17"
                         value={age}
                         onChange={(e) => handleTravelersChange("childAge", parseInt(e.target.value, 10), index)}
-                      >
-                        {Array.from({ length: 18 }, (_, i) => (
-                          <option key={i} value={i}>{i} years</option>
-                        ))}
-                      </select>
-                    ))}
-                  </div>
-                )}
+                      />
+                    </div>
+                  ))}
+                </div>
+
               </div>
             )}
 
@@ -558,82 +602,86 @@ const FlightDetails = () => {
           </div>
         </div>
 
-        {loading ? (
-          <p>Loading flights...</p>
-        ) : error ? (
-          <p className="error">{error}</p>
-        ) : flights.length > 0 ? (
-          <div className="flight-details-list">
-            {flights.map((flight, index) => {
-              const segment = flight?.segments?.[0]; // Get the first segment
-              const legs = segment?.legs || []; // Get legs from the segment
-              const stops = legs.length - 1;
-              const carrierData = legs[0]?.carriersData?.[0]; // Get the first carrier data from the first leg
-              const price = `${flight.priceBreakdown?.total?.currencyCode} ${flight.priceBreakdown?.total?.units}`;
-              const airlineName = carrierData?.name || 'Unknown Airline';
-              const airlineLogo = carrierData?.logo || null;
-              const departureCity = segment?.departureAirport?.city || 'Unknown';
-              const arrivalCity = segment?.arrivalAirport?.city || 'Unknown';
-              const departureTime = legs[0]?.departureTime || 'N/A';
-              const arrivalTime = legs[legs.length - 1]?.arrivalTime || 'N/A';
+        {hasSearched && (
+          <>
+            {loading ? (
+              <p>Loading flights...</p>
+            ) : error ? (
+              <p className="error">{error}</p>
+            ) : flights.length > 0 ? (
+              <div className="flight-details-list">
+                {flights.map((flight, index) => {
+                  const segment = flight?.segments?.[0]; // Get the first segment
+                  const legs = segment?.legs || []; // Get legs from the segment
+                  const stops = legs.length - 1;
+                  const carrierData = legs[0]?.carriersData?.[0]; // Get the first carrier data from the first leg
+                  const price = `${flight.priceBreakdown?.total?.currencyCode} ${flight.priceBreakdown?.total?.units}`;
+                  const airlineName = carrierData?.name || 'Unknown Airline';
+                  const airlineLogo = carrierData?.logo || null;
+                  const departureCity = segment?.departureAirport?.city || 'Unknown';
+                  const arrivalCity = segment?.arrivalAirport?.city || 'Unknown';
+                  const departureTime = legs[0]?.departureTime || 'N/A';
+                  const arrivalTime = legs[legs.length - 1]?.arrivalTime || 'N/A';
 
-              const totalMinutes = segment?.totalTime || 0;
-              const hours = Math.floor(totalMinutes / 3600);
-              const minutes = totalMinutes % 60;
-              const formattedTotalTime = `${hours}h ${minutes}m`;
+                  const totalMinutes = segment?.totalTime || 0;
+                  const hours = Math.floor(totalMinutes / 3600);
+                  const minutes = totalMinutes % 60;
+                  const formattedTotalTime = `${hours}h ${minutes}m`;
 
-              // Calculate layover times
-              const layovers = legs.length > 1
-                ? legs.slice(1).map((leg, idx) => {
-                  const prevArrivalTime = new Date(legs[idx].arrivalTime);
-                  const nextDepartureTime = new Date(leg.departureTime);
-                  const layoverDuration = Math.abs(nextDepartureTime - prevArrivalTime) / (1000 * 60); // In minutes
-                  return `${Math.floor(layoverDuration / 60)}h ${layoverDuration % 60}m`;
-                })
-                : [];
+                  // Calculate layover times
+                  const layovers = legs.length > 1
+                    ? legs.slice(1).map((leg, idx) => {
+                      const prevArrivalTime = new Date(legs[idx].arrivalTime);
+                      const nextDepartureTime = new Date(leg.departureTime);
+                      const layoverDuration = Math.abs(nextDepartureTime - prevArrivalTime) / (1000 * 60); // In minutes
+                      return `${Math.floor(layoverDuration / 60)}h ${layoverDuration % 60}m`;
+                    })
+                    : [];
 
-              return (
-                <div key={index} className="flight-detail">
-                  <div className="flight-summary">
-                    <div className="flight-summary-header">
-                      <div className="flight-logo">
-                        {airlineLogo ? (
-                          <img src={airlineLogo} alt={airlineName} />
-                        ) : (
-                          <p>No logo available</p>
-                        )}
-                      </div>
-                      <div className="flight-info-container">
-                        <h3>{airlineName}</h3>
-                        <div className="flight-route">
-                          <span>{departureCity}</span>
-                          <IoAirplaneOutline className="flight-icon" />
-                          <span>{arrivalCity}</span>
+                  return (
+                    <div key={index} className="flight-detail">
+                      <div className="flight-summary">
+                        <div className="flight-summary-header">
+                          <div className="flight-logo">
+                            {airlineLogo ? (
+                              <img src={airlineLogo} alt={airlineName} />
+                            ) : (
+                              <p>No logo available</p>
+                            )}
+                          </div>
+                          <div className="flight-info-container">
+                            <h3>{airlineName}</h3>
+                            <div className="flight-route">
+                              <span>{departureCity}</span>
+                              <IoAirplaneOutline className="flight-icon" />
+                              <span>{arrivalCity}</span>
+                            </div>
+                            <p className="flight-time-departure"><strong>Departure:</strong> {departureTime}</p>
+                            <p className="flight-time-arrival"><strong>Arrival:</strong> {arrivalTime}</p>
+                            <p className="flight-total-time"><strong>Total Time:</strong> {formattedTotalTime}</p>
+                            <p className="flight-stops">
+                              <strong>Stops:</strong> {stops === 0 ? 'Direct' : `${stops} stop${stops > 1 ? 's' : ''}`}
+                            </p>
+                            {layovers.length > 0 && (
+                              <p className="flight-layover">
+                                <strong>Layovers:</strong> {layovers.join(', ')}
+                              </p>
+                            )}
+                            <p className="flight-price"><strong>Price:</strong> {price}</p>
+                          </div>
                         </div>
-                        <p className="flight-time-departure"><strong>Departure:</strong> {departureTime}</p>
-                        <p className="flight-time-arrival"><strong>Arrival:</strong> {arrivalTime}</p>
-                        <p className="flight-total-time"><strong>Total Time:</strong> {formattedTotalTime}</p>
-                        <p className="flight-stops">
-                          <strong>Stops:</strong> {stops === 0 ? 'Direct' : `${stops} stop${stops > 1 ? 's' : ''}`}
-                        </p>
-                        {layovers.length > 0 && (
-                          <p className="flight-layover">
-                            <strong>Layovers:</strong> {layovers.join(', ')}
-                          </p>
-                        )}
-                        <p className="flight-price"><strong>Price:</strong> {price}</p>
+                        <button className="flight-viewmore" onClick={() => handleViewMore(flight)}>View More</button>
                       </div>
                     </div>
-                    <button className="flight-viewmore" onClick={() => handleViewMore(flight)}>View More</button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <>
-            <p className="error">No flights available.</p>
-            <pre>{JSON.stringify(flights, null, 2)}</pre>
+                  );
+                })}
+              </div>
+            ) : (
+              <>
+                <p className="error">No flights available.</p>
+                <pre>{JSON.stringify(flights, null, 2)}</pre>
+              </>
+            )}
           </>
         )}
 
@@ -724,12 +772,10 @@ const FlightDetails = () => {
                       <div key={index} className="info-item">
                         <p><strong>Scope:</strong> {item.scope || "N/A"}</p>
                         <p><strong>Title:</strong> {item.title || "N/A"}</p>
-                        {/* Show adult and child prices separately if available */}
-                        {item.scope.toLowerCase().includes("child") ? (
-                          <p><strong>Child Price:</strong> {item.price?.currencyCode || "N/A"} {(item.price?.units || 0).toFixed(2)}</p>
-                        ) : (
-                          <p><strong>Adult Price:</strong> {item.price?.currencyCode || "N/A"} {(item.price?.units || 0).toFixed(2)}</p>
-                        )}
+                        <p>
+                          <strong>Price:</strong> {item.price?.currencyCode || "N/A"}{" "}
+                          {(item.price?.units || 0).toFixed(2)}
+                        </p>
                       </div>
                     ))
                   ) : (
