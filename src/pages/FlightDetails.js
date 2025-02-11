@@ -121,7 +121,8 @@ const FlightDetails = () => {
   };
 
   const filteredFlights = flights.filter((flight) => {
-    const stops = flight.segments?.[0]?.legs?.length - 1 || 0; // Ensure legs exist
+    const stops = flight.segments?.[0]?.legs?.length - 1 || 0; 
+    const airlineName = flight.segments?.[0]?.legs?.[0]?.carriersData?.[0]?.name || "";
   
     console.log(`🔍 Filtering flight: Stops=${stops}, Selected Filter=${stopsFilter}`);
   
@@ -129,17 +130,13 @@ const FlightDetails = () => {
     if (stopsFilter === "1 Stop" && stops !== 1) return false;
     if (stopsFilter === "2+ Stops" && stops < 2) return false;
   
+    if (selectedAirlines.length > 0 && !selectedAirlines.includes(airlineName)) {
+      return false;
+    }
+
     return true;
   });
   
-
-
-  // const handlePageChange = (newPage) => {
-  //   if (newPage < 1) return; 
-
-  //   console.log("Changing to page:", newPage);
-  //   setPageNo(newPage); 
-  // };
 
   const handlePageChange = (newPage) => {
     setPageNo(newPage);
@@ -147,13 +144,11 @@ const FlightDetails = () => {
   };
 
 
-
-
   useEffect(() => {
     if (hasSearched) {
       fetchFlights(sort, pageNo);
     }
-  }, [pageNo, stopsFilter]);
+  }, [pageNo, stopsFilter, selectedAirlines]);
 
 
 
@@ -252,7 +247,7 @@ const FlightDetails = () => {
     setSelectedAirlines((prev) =>
       checked ? [...prev, value] : prev.filter((airline) => airline !== value)
     );
-  };
+  };  
 
   const handleViewMore = (flight) => {
     setSelectedFlight({
@@ -497,41 +492,6 @@ const FlightDetails = () => {
       <div className="flight-info-filter">
         {/* Filter Section */}
         <div className="filters">
-          {/* <div className="filter">
-            <label className="filter-label">Stops</label>
-            <div className="filter-options">
-              <label>
-                <input
-                  type="radio"
-                  name="stops"
-                  value="Any"
-                  checked={filters.stops === "Any"}
-                  onChange={(e) => setFilters({ ...filters, stops: e.target.value })}
-                />
-                Any
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="stops"
-                  value="Direct"
-                  checked={filters.stops === "Direct"}
-                  onChange={(e) => setFilters({ ...filters, stops: e.target.value })}
-                />
-                Direct Only
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="stops"
-                  value="1 Stop"
-                  checked={filters.stops === "1 Stop"}
-                  onChange={(e) => setFilters({ ...filters, stops: e.target.value })}
-                />
-                1 Stop Max
-              </label>
-            </div>
-          </div> */}
           <label>Stops:</label>
           <select value={stopsFilter} onChange={(e) => setStopsFilter(e.target.value)}>
             <option value="Any">Any</option>
