@@ -42,7 +42,6 @@ const FlightDetails = () => {
     const today = new Date();
     return today.toISOString().split("T")[0];
   };
-
   const [searchParams, setSearchParams] = useState({
     departure: location.state?.departure || "",
     destination: location.state?.destination || "",
@@ -267,7 +266,8 @@ const FlightDetails = () => {
       destinationCode: flight?.segments?.[0]?.arrivalAirport?.code || "N/A",
       allSegments: flight?.segments || [],
       includedProducts: flight?.includedProducts?.segments?.[0] || [],
-      priceBreakdown: flight?.unifiedPriceBreakdown?.items || [],
+      TotalpriceBreakdown: flight?.priceBreakdown || [],
+      unifiedPriceBreakdown: flight?.unifiedPriceBreakdown?.items || [],
     });
     setIsModalOpen(true);
   };
@@ -309,32 +309,6 @@ const FlightDetails = () => {
     });
   };
 
-  // const handleProceedToPassengerDetails = (flight) => {
-  //   const adults = searchParams.adults || 1;
-  //   const children = searchParams.children || 0;
-  
-  //   const priceBreakdown = flight?.priceBreakdown || {};
-  //   const totalPrice = priceBreakdown?.total?.units || "N/A";
-  //   const currency = priceBreakdown?.total?.currencyCode || "CAD";
-  
-    
-  //   const priceDetails = {
-  //     baseFare: priceBreakdown?.baseFare?.units || "N/A",
-  //     tax: priceBreakdown?.tax?.units || "N/A",
-  //     fee: priceBreakdown?.fee?.units || "N/A",
-  //     totalPrice,
-  //     currency,
-  //   };
-  
-  //   navigate("/passenger-details", {
-  //     state: {
-  //       adults,
-  //       children,
-  //       priceDetails, 
-  //     },
-  //   });
-  // };
-  
   const handleProceedToPassengerDetails = () => {
     if (!selectedFlight) {
       alert("Please select a flight first!");
@@ -346,36 +320,33 @@ const FlightDetails = () => {
       return;
     }
   
-    console.log("Selected Flight Data:", selectedFlight); // Debugging
-  
+    console.log("Selected Flight Data:", selectedFlight); 
+    console.log(selectedFlight.TotalpriceBreakdown)
     const priceBreakdown = selectedFlight?.priceBreakdown
       ? {
-          baseFare: selectedFlight.priceBreakdown || { currencyCode: "CAD", units: "N/A" },
-          tax: selectedFlight.priceBreakdown || { currencyCode: "CAD", units: "N/A" },
-          fee: selectedFlight.priceBreakdown || { currencyCode: "CAD", units: "N/A" },
-          total: selectedFlight.priceBreakdown || { currencyCode: "CAD", units: "N/A" },
+          baseFare: selectedFlight.priceBreakdown.baseFare || { currencyCode: "CAD", units: "N/A" },
+          tax: selectedFlight.priceBreakdown.tax || { currencyCode: "CAD", units: "N/A" },
+          fee: selectedFlight.priceBreakdown.fee || { currencyCode: "CAD", units: 0 },
+          total: selectedFlight.priceBreakdown.total || { currencyCode: "CAD", units: "N/A" },
         }
       : {
           baseFare: { currencyCode: "CAD", units: "N/A" },
           tax: { currencyCode: "CAD", units: "N/A" },
-          fee: { currencyCode: "CAD", units: "N/A" },
+          fee: { currencyCode: "CAD", units: 0 },
           total: { currencyCode: "CAD", units: "N/A" },
         };
   
-    console.log("Price Breakdown before Navigation:", priceBreakdown); // Debugging
+    console.log("Price Breakdown before Navigation:", priceBreakdown); 
   
+    console.log ("Printing passing object: ", searchParams);
     navigate("/passenger-details", {
       state: {
         adults: searchParams.adults || 1,
-        children: searchParams.children || 0,
+        children: searchParams.childrenAges.length || 0,
         priceBreakdown: priceBreakdown,
       },
     });
   };
-  
-  
-  
-  
   
 
 
@@ -609,6 +580,7 @@ const FlightDetails = () => {
           <div className="filter">
             <label className="filter-label">Price Range (CAD)</label>
             <input
+              className="price-range-input"
               type="range"
               min="0"
               max="20000"
@@ -782,8 +754,8 @@ const FlightDetails = () => {
                     {/* Price Breakdown */}
                     <div className="price-breakdown">
                       <h3>Price Breakdown</h3>
-                      {selectedFlight?.priceBreakdown?.length > 0 ? (
-                        selectedFlight.priceBreakdown.map((item, index) => (
+                      {selectedFlight?.unifiedPriceBreakdown?.length > 0 ? (
+                        selectedFlight.unifiedPriceBreakdown.map((item, index) => (
                           <div key={index} className="price-item">
                             <p><strong>Scope:</strong> {item.scope || "N/A"}</p>
                             <p><strong>Title:</strong> {item.title || "N/A"}</p>
