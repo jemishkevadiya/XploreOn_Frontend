@@ -9,82 +9,74 @@
   width: 100%;
   z-index: 1000;
   box-sizing: border-box;
-  background-color: #ffffff; /* Add a white background for the navbar */
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+  background-color: #ffffff; 
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1); 
 }
 
-/* Brand Name Styling */
 .navbar-brand {
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   font-size: 1.7rem;
-  letter-spacing: 1px;
+  letter-spacing: 0.0625rem;
   color: #000000;
   cursor: pointer;
 }
 
-/* Navigation Links Container */
 .navbar-links {
   display: flex;
   gap: 2.7rem;
 }
 
-/* Navigation Link Styles */
 .nav-link {
   font-family: "Poppins", sans-serif;
   color: #444444;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 0.875rem;
   transition: color 0.3s ease, transform 0.3s ease;
-  padding: 0.35rem 0.90rem;
-  background-color: #eeeeee; /* Off-white background */
-  border-radius: 30px; /* Rounded corners */
+  padding: 0.35rem 0.9rem;
+  background-color: #eeeeee; 
+  border-radius: 1.875rem; 
   display: flex;
   align-items: center;
-  gap: 0.50rem; /* Spacing between icon and text */
-  
+  gap: 0.5rem; 
 }
 
 .nav-link:hover {
   color: #ffffff;
-  background-color: #000000; /* Black background on hover */
+  background-color: #000000; 
 }
 
-/* Icon Styling for Navigation Links */
 .nav-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%; /* Circular icon */
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%; 
   padding: 0.08rem;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.3s ease, border-color 0.3s ease;
-  background-color: white; /* Keep icon background white */
+  background-color: white; 
 }
 
-/* Navbar Actions */
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* Reduced gap for tighter alignment */
+  gap: 0.5rem;
 }
 
-/* Profile Container */
 .profile-container {
   display: flex;
   align-items: center;
   position: relative;
-  gap: 8px; /* Reduced space between profile icon and name */
-  margin-right: 1rem; /* Move the profile section slightly left */
+  gap: 0.5rem; 
+  margin-right: 1rem;
 }
 
-/* Profile Icon */
 .profile-icon {
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
-  border: 2px solid black;
+  border: 0.125rem solid black;
   cursor: pointer;
   object-fit: cover;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -92,34 +84,32 @@
 
 .profile-icon:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.2);
 }
 
-/* User Name */
 .user-name {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   color: black;
   white-space: nowrap;
-  margin-left: -5px; /* Slightly reduce space between photo and name */
+  margin-left: -0.3125rem;
 }
 
-/* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
-  top: 50px;
+  top: 3.125rem;
   right: 0;
   background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  width: 150px;
-  padding: 10px 0;
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  width: 9.375rem;
+  padding: 0.625rem 0;
   z-index: 1000;
 }
 
 .dropdown-item {
-  padding: 10px 15px;
-  font-size: 14px;
+  padding: 0.625rem 0.9375rem;
+  font-size: 0.875rem;
   color: black;
   text-decoration: none;
   display: block;
@@ -131,30 +121,28 @@
   background-color: #f5f5f5;
 }
 
-/* Logout Button */
 .logout-button {
   border: none;
   background: none;
   text-align: left;
   width: 100%;
   cursor: pointer;
-  padding: 10px 15px;
-  font-size: 14px;
+  padding: 0.625rem 0.9375rem;
+  font-size: 0.875rem;
 }
 
 .logout-button:hover {
   background-color: #f5f5f5;
 }
 
-/* Black Button */
 .black-button {
   background-color: black;
   color: white;
   padding: 0.5rem 2rem;
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
-  border-radius: 25px;
-  border: 2px solid black;
+  border-radius: 1.56rem;
+  border: 0.125rem solid black;
   text-decoration: none;
   text-align: center;
   transition: background-color 0.3s ease, transform 0.3s ease;
@@ -165,15 +153,14 @@
   transform: scale(1.05);
 }
 
-/* White Button */
 .white-button {
   background-color: white;
   color: black;
   padding: 0.5rem 1.5rem;
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
-  border: 2px solid black;
-  border-radius: 25px;
+  border: 0.125rem solid black;
+  border-radius: 1.5625rem;
   text-decoration: none;
   text-align: center;
   transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
