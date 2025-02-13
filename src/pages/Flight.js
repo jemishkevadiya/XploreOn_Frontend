@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/Flight.css";
+import Footer from "../components/Footer";
 
 
 const FlightPage = () => {
@@ -219,7 +220,7 @@ const FlightPage = () => {
                     </div>
                 </div>
             </section>
-
+            <Footer/>
         </div>
     );
 };
