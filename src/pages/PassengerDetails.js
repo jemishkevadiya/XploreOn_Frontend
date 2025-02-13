@@ -6,6 +6,7 @@ import { createFlightBooking } from "../services/api";
 const PassengerDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   // Extract state from location (Ensure a default fallback)
   const { adults = 1, children = 0, priceBreakdown = {} } = location.state || {};
@@ -92,9 +93,18 @@ const PassengerDetails = () => {
       const payload = {
         "flightDetails": flightDetails,
         "userId": uid,
-        "totalAmount": totalPrice
+        "totalAmount": priceBreakdown.total.units
       };
-      await createFlightBooking(payload);
+      try{
+        const response = await createFlightBooking(payload);
+        if (response.status === 201){
+          window.location.href = response.data.paymentUrl;
+        }else{
+          setErrors("Error Creating Booking");
+        }
+      }catch(e){
+        setError("Error Booking Flight. Please Try Again!")
+      }
     }
   };
   
@@ -103,6 +113,11 @@ const PassengerDetails = () => {
 
   return (
     <div className="passenger-container">
+      {error && (
+      <div className="error-banner">
+        <p>{error}</p>
+      </div>
+      )}
       {/* Left: Passenger Form */}
       <div className="passenger-form">
         <h2>Passenger {currentPassengerIndex + 1} Details</h2>

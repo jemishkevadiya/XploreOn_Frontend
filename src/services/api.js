@@ -28,8 +28,8 @@ export const fetchFlightSearchResults = async (searchParams) => {
 
 export const createFlightBooking = async (payload) => {
     try{
-        const response = await axios.get(`${API_BASE_URL}/flightbooking`, payload);
-        return response.data;
+        const response = await axios.post(`${API_BASE_URL}/flightbooking`, payload);
+        return response;
     }catch(error){
         console.error("Error fetching flight search results:", error);
         throw error;
