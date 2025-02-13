@@ -176,6 +176,10 @@
   text-decoration: underline;
 }
 
+.price-range-input {
+  accent-color: #000;
+}
+
 .filter-buttons {
   display: flex;
   justify-content: center;

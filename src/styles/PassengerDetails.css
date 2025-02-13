@@ -1,100 +1,161 @@
+/* Main Container */
 .passenger-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 2rem;
+    max-width: 1100px;
+    width: 90%;
     gap: 2rem;
+    padding: 3rem;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 4.3rem auto;
   }
   
+  /* Passenger Form Section */
   .passenger-form {
     flex: 1.2;
-    padding: 2rem;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    background: #f9f9f9;
+    border-radius: 16px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .passenger-form:hover {
+    transform: translateY(-4px);
   }
   
   .passenger-form h2 {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: #000;
   }
   
   .passenger-subtitle {
     font-size: 1rem;
-    color: #777;
+    color: #666;
     margin-bottom: 1.5rem;
   }
   
   .passenger-form label {
     display: block;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #000;
   }
   
+  /* Input Fields */
   .passenger-form input,
   .passenger-form select {
     width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 1rem;
+    padding: 0.9rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    margin-bottom: 1.2rem;
     font-size: 1rem;
+    background-color: #fff;
+    color: #000;
+    transition: all 0.3s ease-in-out;
   }
-
+  
+  /* Placeholder Effect (Border Appears on Focus) */
+  .passenger-form input::placeholder,
+  .passenger-form select::placeholder {
+    color: #aaa;
+  }
+  
+  .passenger-form input:focus,
+  .passenger-form select:focus {
+    border-color: #000;
+    outline: none;
+    background: #f1f1f1;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Error Messages */
   .error-text {
     color: red;
     font-size: 0.9rem;
-    margin-top: -0.8rem;
-    margin-bottom: 1rem;
+    margin-top: -0.6rem;
+    margin-bottom: 1.2rem;
   }
   
+  /* Price Summary Section */
   .price-summary {
     flex: 0.8;
-    padding: 2rem;
+    padding: 2.5rem;
     background: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .price-summary:hover {
+    transform: translateY(-4px);
   }
   
   .price-summary h2 {
-    font-size: 1.6rem;
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: 700;
     margin-bottom: 1.5rem;
+    color: #000;
   }
   
+  /* Price Item */
   .price-item {
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem 0;
+    padding: 0.7rem 0;
     font-size: 1.1rem;
+    color: #444;
   }
   
+  /* Total Price */
   .total-price {
     display: flex;
     justify-content: space-between;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: bold;
-    padding-top: 1rem;
-    border-top: 2px solid #ccc;
+    padding-top: 1.2rem;
+    border-top: 2px solid #000;
+    color: #000;
   }
   
+  /* Next Button */
   .next-button {
     width: 100%;
     padding: 1rem;
-    margin-top: 1.5rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    background-color: #007bff;
-    color: white;
+    margin-top: 1.8rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #000, #333);
+    color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background 0.2s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
   }
   
-  
   .next-button:hover {
-    background: #0056b3;
+    background: linear-gradient(135deg, #222, #444);
+    transform: scale(1.05);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 900px) {
+    .passenger-container {
+      flex-direction: column;
+      padding: 2rem;
+    }
+  
+    .passenger-form,
+    .price-summary {
+      width: 100%;
+    }
   }
   
