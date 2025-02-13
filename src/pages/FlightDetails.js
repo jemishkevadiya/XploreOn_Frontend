@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoAirplaneOutline } from "react-icons/io5";
 import "../styles/FlightDetails.css";
 import axios from "axios";
@@ -21,6 +21,7 @@ const calculateLayoverTime = (arrivalTime, nextDepartureTime) => {
 const FlightDetails = () => {
   const location = useLocation();
 
+  const navigate = useNavigate();
   const [flights, setFlights] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -89,7 +90,6 @@ const FlightDetails = () => {
 
       const response = await axios.get("http://localhost:1111/flights/searchFlights", { params });
 
-
       const flights = response.data?.data?.flightOffers || [];
 
       console.log("Extracted Flights:", flights);
@@ -121,22 +121,28 @@ const FlightDetails = () => {
   };
 
   const filteredFlights = flights.filter((flight) => {
-    const stops = flight.segments?.[0]?.legs?.length - 1 || 0; 
+    const stops = flight.segments?.[0]?.legs?.length - 1 || 0;
     const airlineName = flight.segments?.[0]?.legs?.[0]?.carriersData?.[0]?.name || "";
-  
+    const price = flight.priceBreakdown?.total?.units || 0;
+
+
     console.log(`🔍 Filtering flight: Stops=${stops}, Selected Filter=${stopsFilter}`);
-  
+
     if (stopsFilter === "Direct" && stops !== 0) return false;
     if (stopsFilter === "1 Stop" && stops !== 1) return false;
     if (stopsFilter === "2+ Stops" && stops < 2) return false;
-  
+
     if (selectedAirlines.length > 0 && !selectedAirlines.includes(airlineName)) {
+      return false;
+    }
+
+    if (price < filters.priceRange[0] || price > filters.priceRange[1]) {
       return false;
     }
 
     return true;
   });
-  
+
 
   const handlePageChange = (newPage) => {
     setPageNo(newPage);
@@ -237,17 +243,20 @@ const FlightDetails = () => {
     }));
   };
 
-
-  const handleStopsChange = (e) => {
-    setStopsFilter(e.target.value);
+  const handlePriceRangeChange = (event) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      priceRange: [prevFilters.priceRange[0], parseInt(event.target.value, 10)]
+    }));
   };
+
 
   const handleAirlinesChange = (e) => {
     const { value, checked } = e.target;
     setSelectedAirlines((prev) =>
       checked ? [...prev, value] : prev.filter((airline) => airline !== value)
     );
-  };  
+  };
 
   const handleViewMore = (flight) => {
     setSelectedFlight({
@@ -299,6 +308,75 @@ const FlightDetails = () => {
       return { ...prev, [type]: value };
     });
   };
+
+  // const handleProceedToPassengerDetails = (flight) => {
+  //   const adults = searchParams.adults || 1;
+  //   const children = searchParams.children || 0;
+  
+  //   const priceBreakdown = flight?.priceBreakdown || {};
+  //   const totalPrice = priceBreakdown?.total?.units || "N/A";
+  //   const currency = priceBreakdown?.total?.currencyCode || "CAD";
+  
+    
+  //   const priceDetails = {
+  //     baseFare: priceBreakdown?.baseFare?.units || "N/A",
+  //     tax: priceBreakdown?.tax?.units || "N/A",
+  //     fee: priceBreakdown?.fee?.units || "N/A",
+  //     totalPrice,
+  //     currency,
+  //   };
+  
+  //   navigate("/passenger-details", {
+  //     state: {
+  //       adults,
+  //       children,
+  //       priceDetails, 
+  //     },
+  //   });
+  // };
+  
+  const handleProceedToPassengerDetails = () => {
+    if (!selectedFlight) {
+      alert("Please select a flight first!");
+      return;
+    }
+  
+    if (!searchParams.adults || searchParams.adults < 1) {
+      alert("At least one adult must be included.");
+      return;
+    }
+  
+    console.log("Selected Flight Data:", selectedFlight); // Debugging
+  
+    const priceBreakdown = selectedFlight?.priceBreakdown
+      ? {
+          baseFare: selectedFlight.priceBreakdown || { currencyCode: "CAD", units: "N/A" },
+          tax: selectedFlight.priceBreakdown || { currencyCode: "CAD", units: "N/A" },
+          fee: selectedFlight.priceBreakdown || { currencyCode: "CAD", units: "N/A" },
+          total: selectedFlight.priceBreakdown || { currencyCode: "CAD", units: "N/A" },
+        }
+      : {
+          baseFare: { currencyCode: "CAD", units: "N/A" },
+          tax: { currencyCode: "CAD", units: "N/A" },
+          fee: { currencyCode: "CAD", units: "N/A" },
+          total: { currencyCode: "CAD", units: "N/A" },
+        };
+  
+    console.log("Price Breakdown before Navigation:", priceBreakdown); // Debugging
+  
+    navigate("/passenger-details", {
+      state: {
+        adults: searchParams.adults || 1,
+        children: searchParams.children || 0,
+        priceBreakdown: priceBreakdown,
+      },
+    });
+  };
+  
+  
+  
+  
+  
 
 
   return (
@@ -412,7 +490,7 @@ const FlightDetails = () => {
             <div className="dropdown-header" onClick={() => setIsDropdownOpen((prev) => !prev)}>
               <span>
                 {searchParams.adults} Adult{searchParams.adults !== 1 ? "s" : ""},{" "}
-                {searchParams.children} {searchParams.children === 1 ? "Child" : "Children"}
+                {searchParams.children} Child{searchParams.children !== 1 ? "ren" : ""}
               </span>
             </div>
 
@@ -533,34 +611,26 @@ const FlightDetails = () => {
             <input
               type="range"
               min="0"
-              max="2000"
+              max="20000"
               step="50"
               value={filters.priceRange[1]}
-              onChange={(e) => setFilters({ ...filters, priceRange: [filters.priceRange[0], parseInt(e.target.value, 10)] })}
+              onChange={handlePriceRangeChange}
             />
             <p>${filters.priceRange[0]} - ${filters.priceRange[1]}</p>
           </div>
-
-          <div className="filter">
-            <label className="filter-label">Flight Duration (Hours)</label>
-            <input
-              type="range"
-              min="0"
-              max="24"
-              step="1"
-              value={filters.durationRange[1]}
-              onChange={(e) => setFilters({ ...filters, durationRange: [filters.durationRange[0], parseInt(e.target.value, 10)] })}
-            />
-            <p>{filters.durationRange[0]}h - {filters.durationRange[1]}h</p>
-          </div>
-
-
         </div>
 
         {hasSearched && (
           <>
             {loading ? (
-              <p>Loading flights...</p>
+              <div className="loading-container">
+                <div className="loading-animation">
+                  <div className="airplane-track">
+                    <div className="airplane-icon">✈️</div>
+                  </div>
+                  <p className="loading-text">Finding the Best Flights for You...</p>
+                </div>
+              </div>
             ) : error ? (
               <p className="error">{error}</p>
             ) : filteredFlights.length > 0 ? (
@@ -573,8 +643,8 @@ const FlightDetails = () => {
                   const price = `${flight.priceBreakdown?.total?.currencyCode} ${flight.priceBreakdown?.total?.units}`;
                   const airlineName = carrierData?.name || 'Unknown Airline';
                   const airlineLogo = carrierData?.logo || null;
-                  const departureCity = segment?.departureAirport?.city || 'Unknown';
-                  const arrivalCity = segment?.arrivalAirport?.city || 'Unknown';
+                  const departureCity = segment?.departureAirport?.code || 'Unknown';
+                  const arrivalCity = segment?.arrivalAirport?.code || 'Unknown';
                   const departureTime = legs[0]?.departureTime || 'N/A';
                   const arrivalTime = legs[legs.length - 1]?.arrivalTime || 'N/A';
 
@@ -638,115 +708,106 @@ const FlightDetails = () => {
           </>
         )}
 
+
         {/* View More Modal */}
         {isModalOpen && selectedFlight && (
           <div className="flight-details-modal">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h2>Your flight to {selectedFlight.destination || "Destination"}</h2>
-                <button className="close-btn-flight" onClick={closeModal}>X</button>
-              </div>
+            <div className="modal-overlay">
+              <div className="modal-content">
+                {/* Close Button */}
+                <button className="close-btn-flight" onClick={closeModal}>✖</button>
 
-              {/* Modal Body */}
-              <div className="modal-body">
-                {/* Departure & Arrival */}
-                <div className="flight-departure-arrival">
-                  <div className="flight-departure">
-                    <strong>From:</strong>
-                    <p>{selectedFlight.origin} ({selectedFlight.originCode})</p>
-                  </div>
-                  <div className="flight-arrival">
-                    <strong>To:</strong>
-                    <p>{selectedFlight.destination} ({selectedFlight.destinationCode})</p>
-                  </div>
+                {/* Header */}
+                <div className="modal-header">
+                  <h2>Your Flight to {selectedFlight.destination || "Destination"}</h2>
                 </div>
 
-                {/* Loop through both departure & return segments */}
-                {selectedFlight?.allSegments?.map((segment, segmentIndex) => (
-                  <div key={segmentIndex} className="modal-segment-detail">
-                    <h3>Flight Segment {segmentIndex + 1} {segmentIndex === 0 ? "(Departure)" : "(Return)"}</h3>
+                {/* Modal Body (Two-Column Layout) */}
+                <div className="modal-body">
+                  {/* Left Side: Flight Route & Segments */}
+                  <div className="modal-left">
+                    <div className="flight-route-model">
+                      <div className="flight-departure">
+                        <strong>From:</strong>
+                        <p>{selectedFlight.origin} ({selectedFlight.originCode})</p>
+                      </div>
+                      <div className="flight-arrow">✈</div>
+                      <div className="flight-arrival">
+                        <strong>To:</strong>
+                        <p>{selectedFlight.destination} ({selectedFlight.destinationCode})</p>
+                      </div>
+                    </div>
 
-                    {/* Loop through each leg inside the segment */}
-                    {segment.legs.map((leg, legIndex) => (
-                      <div key={legIndex} className="modal-leg-detail">
-                        <strong>Flight Leg {legIndex + 1}</strong>
-                        <p>
-                          <strong>Airline:</strong> {leg.carriersData?.[0]?.name || "Unknown Airline"}
-                        </p>
-                        <p>
-                          <strong>Departure:</strong> {leg.departureAirport?.code || "N/A"} - {leg.departureTime || "N/A"}
-                        </p>
-                        <p>
-                          <strong>Arrival:</strong> {leg.arrivalAirport?.code || "N/A"} - {leg.arrivalTime || "N/A"}
-                        </p>
+                    {/* Flight Segments */}
+                    <div className="flight-segments">
+                      {selectedFlight?.allSegments?.map((segment, segmentIndex) => (
+                        <div key={segmentIndex} className="segment">
+                          <h3>Flight Segment {segmentIndex + 1} {segmentIndex === 0 ? "(Departure)" : "(Return)"}</h3>
+                          {segment.legs.map((leg, legIndex) => (
+                            <div key={legIndex} className="flight-leg">
+                              <p><strong>Airline:</strong> {leg.carriersData?.[0]?.name || "Unknown Airline"}</p>
+                              <p><strong>Departure:</strong> {leg.departureAirport?.code} - {leg.departureTime}</p>
+                              <p><strong>Arrival:</strong> {leg.arrivalAirport?.code} - {leg.arrivalTime}</p>
+                              {legIndex < segment.legs.length - 1 && (
+                                <p><strong>Layover:</strong> {calculateLayoverTime(leg.arrivalTime, segment.legs[legIndex + 1]?.departureTime)}</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-                        {/* Display layover time between legs */}
-                        {legIndex < segment.legs.length - 1 && (
-                          <p>
-                            <strong>Layover:</strong>{" "}
-                            {calculateLayoverTime(
-                              leg.arrivalTime,
-                              segment.legs[legIndex + 1]?.departureTime
+                  {/* Right Side: Baggage & Price Breakdown */}
+                  <div className="modal-right">
+                    {/* Baggage Info */}
+                    <div className="baggage-info">
+                      <h3>Baggage Information</h3>
+                      {selectedFlight?.includedProducts?.length > 0 ? (
+                        selectedFlight.includedProducts.map((baggage, index) => (
+                          <div key={index} className="baggage-item">
+                            <p><strong>Type:</strong> {baggage.luggageType || "N/A"}</p>
+                            <p><strong>Max Pieces:</strong> {baggage.maxPiece || "N/A"}</p>
+                            <p><strong>Piece Per Passenger:</strong> {baggage.piecePerPax || "N/A"}</p>
+                            {baggage.maxWeightPerPiece && (
+                              <p><strong>Max Weight:</strong> {baggage.maxWeightPerPiece} {baggage.massUnit || "kg"}</p>
                             )}
-                          </p>
-                        )}
-                      </div>
-                    ))}
+                          </div>
+                        ))
+                      ) : (
+                        <p>No baggage information available.</p>
+                      )}
+                    </div>
+
+                    {/* Price Breakdown */}
+                    <div className="price-breakdown">
+                      <h3>Price Breakdown</h3>
+                      {selectedFlight?.priceBreakdown?.length > 0 ? (
+                        selectedFlight.priceBreakdown.map((item, index) => (
+                          <div key={index} className="price-item">
+                            <p><strong>Scope:</strong> {item.scope || "N/A"}</p>
+                            <p><strong>Title:</strong> {item.title || "N/A"}</p>
+                            <p><strong>Price:</strong> {item.price?.currencyCode} {item.price?.units.toFixed(2)}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p>No price breakdown available.</p>
+                      )}
+                    </div>
                   </div>
-                ))}
-
-
-                <div className="baggage-info">
-                  <h3>Baggage Information</h3>
-                  {selectedFlight?.includedProducts?.length > 0 ? (
-                    selectedFlight.includedProducts.map((baggage, index) => (
-                      <div key={index} className="info-items">
-                        <p className="info-item"><strong>Baggage Type:</strong> {baggage.luggageType || "N/A"}</p>
-                        <p className="info-item"><strong>Max Pieces:</strong> {baggage.maxPiece || "N/A"}</p>
-                        <p className="info-item">
-                          <strong>Piece Per Passenger:</strong> {baggage.piecePerPax || "N/A"}
-                        </p>
-                        {baggage.maxWeightPerPiece && (
-                          <p>
-                            <strong>Max Weight Per Piece:</strong> {baggage.maxWeightPerPiece} {baggage.massUnit || "kg"}
-                          </p>
-                        )}
-                      </div>
-                    ))
-                  ) : (
-                    <p>No baggage information available.</p>
-                  )}
-                </div>
-
-                <div className="price-breakdown">
-                  <h3>Price Breakdown</h3>
-                  {selectedFlight?.priceBreakdown?.length > 0 ? (
-                    selectedFlight.priceBreakdown.map((item, index) => (
-                      <div key={index} className="info-item">
-                        <p><strong>Scope:</strong> {item.scope || "N/A"}</p>
-                        <p><strong>Title:</strong> {item.title || "N/A"}</p>
-                        <p>
-                          <strong>Price:</strong> {item.price?.currencyCode || "N/A"}{" "}
-                          {(item.price?.units || 0).toFixed(2)}
-                        </p>
-                      </div>
-                    ))
-                  ) : (
-                    <p>No price breakdown available.</p>
-                  )}
                 </div>
 
                 {/* Buttons */}
-                <div className="buttons">
-                  <button className="close-btn-flight" onClick={closeModal}>
-                    Close
-                  </button>
-                  <button className="book-now-btn-flight">Book Now</button>
+                <div className="modal-buttons">
+                  <button className="book-now-btn-flight" onClick={() => handleProceedToPassengerDetails(selectedFlight)}>
+                    Proceed to Passenger Details</button>
+                  <button className="close-btn-flight" onClick={closeModal}>Close</button>
                 </div>
               </div>
             </div>
           </div>
         )}
+
 
 
       </div>

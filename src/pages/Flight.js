@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Flight.css";
 import Footer from "../components/Footer";
 
+
 const FlightPage = () => {
   const booknow = "/images/booknow.svg"
   const Shield = "images/shield.svg"
@@ -17,6 +18,7 @@ const FlightPage = () => {
   const [departureDate, setDepartureDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
 
   const navigate = useNavigate();
 

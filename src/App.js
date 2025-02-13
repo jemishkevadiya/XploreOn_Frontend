@@ -11,6 +11,8 @@ import CarRentalDetails from "./pages/carrentaldetails";
 import Hotel from "./pages/Hotel";
 import { initializeApp } from "firebase/app";
 import ForgotPassword from "./pages/ForgotPassword";
+import PassengerDetails from "./pages/PassengerDetails";
+
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -37,6 +39,7 @@ class App extends React.Component {
             <Route path = "/hotels" element={<Hotel />} />
             <Route path ="/carrentals" element={<CarRental />}/>
             <Route path ="/carrentaldetails" element={<CarRentalDetails />}/>
+            <Route path="/passenger-details" element={<PassengerDetails />} />
           </Routes>
         </Router>
     );
