@@ -335,12 +335,31 @@ const FlightDetails = () => {
           fee: { currencyCode: "CAD", units: 0 },
           total: { currencyCode: "CAD", units: "N/A" },
         };
+
+        const flightDetails = {
+          tripType: searchParams.tripType || "oneway",
+          departureCity: searchParams.departure,
+          destinationCity: searchParams.destination,
+          departureDate: searchParams.departureDate,
+          passengers: Array.from({ length: searchParams.adults }, (_, index) => ({
+            type: `Adult ${index + 1}`,
+          })).concat(
+            Array.from({ length: searchParams.children }, (_, index) => ({
+              type: `Child ${index + 1}`,
+            }))
+          ),
+        };
   
     console.log("Price Breakdown before Navigation:", priceBreakdown); 
   
-    console.log ("Printing passing object: ", searchParams);
+    console.log ("Printing passing object: ", flightDetails);
+
     navigate("/passenger-details", {
       state: {
+        departure: searchParams.departure,
+        destination: searchParams.destination,
+        departureDate: searchParams.departureDate,
+        returnDate: searchParams.returnDate || null,
         adults: searchParams.adults || 1,
         children: searchParams.childrenAges.length || 0,
         priceBreakdown: priceBreakdown,

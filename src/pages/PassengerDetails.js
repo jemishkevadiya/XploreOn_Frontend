@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/PassengerDetails.css";
+import { createFlightBooking } from "../services/api";
 
 const PassengerDetails = () => {
   const location = useLocation();
@@ -61,15 +62,42 @@ const PassengerDetails = () => {
   };
 
   // Handle Next Passenger or Proceed to Payment
-  const handleNextPassenger = () => {
+  const handleNextPassenger = async () => {
     if (!validatePassenger()) return;
-
+  
     if (currentPassengerIndex < totalPassengers - 1) {
       setCurrentPassengerIndex(currentPassengerIndex + 1);
     } else {
-      navigate("/payment", { state: { passengerDetails, priceBreakdown } });
+      // Format passengers array with full details
+      const formattedPassengers = passengerDetails.map((passenger, index) => ({
+        firstName: passenger.firstName.trim(),
+        lastName: passenger.lastName.trim(),
+        birthDate: passenger.birthDate,
+        gender: passenger.gender,
+        type: index < adults ? `Adult ${index + 1}` : `Child ${index - adults + 1}`,
+      }));
+  
+      // Create the flight details object
+      const flightDetails = {
+        departureCity: location.state.departure,
+        destinationCity: location.state.destination,
+        departureDate: location.state.departureDate,
+        returnDate: location.state.returnDate || null,
+        passengers: formattedPassengers, // Now contains actual passenger details
+      };
+  
+      const user = localStorage.getItem("user")
+      const userObject = JSON.parse(user); // Convert string to object
+      const uid = userObject.uid;
+      const payload = {
+        "flightDetails": flightDetails,
+        "userId": uid,
+        "totalAmount": totalPrice
+      };
+      await createFlightBooking(payload);
     }
   };
+  
 
   const getTodayDate = () => new Date().toISOString().split("T")[0];
 
