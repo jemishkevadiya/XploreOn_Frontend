@@ -20,7 +20,7 @@ const firebaseConfig = {
   projectId: process.env.REACT_APP_PROJECTID,
   storageBucket: process.env.REACT_APP_STORAGEBUCKET,
   messagingSenderId: process.env.REACT_APP_MESSAGINSENDERID,
-  appId: process.env.REACT_APP_APPID,
+  appId: process.env.REACT_APP_APPID
 };
 
 const app = initializeApp(firebaseConfig);
@@ -31,8 +31,10 @@ class App extends React.Component {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
+          
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
+            
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path ="/flights" element={<Flight />} />
             <Route path ="/flightsDetails" element={<FlightDetails/>} />

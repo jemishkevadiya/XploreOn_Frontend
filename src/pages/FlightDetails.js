@@ -350,7 +350,6 @@ const FlightDetails = () => {
   
 
 
-
   return (
     <div className="flight-info">
       <div className="flight-details">
