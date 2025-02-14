@@ -135,6 +135,35 @@ const CarRentalDetails = () => {
     fetchCars(updatedParams);
   };
 
+  const handleCarBooking = async ()=>{
+    try{
+      const user = localStorage.getItem("user")
+      const userObject = JSON.parse(user); // Convert string to object
+      const uid = userObject.uid;
+      const payload = {
+        "userId": uid,
+        "totalAmount": selectedCar?.pricing_info?.price?.toFixed(2),
+        "rentalDetails": {
+          "carName": selectedCar?.vehicle_info?.v_name,
+          "rentalStartDate": PickupDate.toISOString,
+          "rentalEndDate": PickupDate.toISOString,
+          "pickupLocation": pickupLocation,
+          "dropOffLocation": returnLocation
+        }
+      }
+
+      const response = await axios.post("http://localhost:1111/car_rental/carbooking", payload);
+      if (response.status === 200 || response.status === 201){
+        window.location.href = response.data.paymentUrl
+      }else{
+        setError("Error Booking Car.");
+      }
+    }catch(e){
+      setError("Error Booking Car.");
+      console.log(e);
+    }
+  }
+
   const handleFilterChange = (category, value, isChecked) => {
     setFilters((prevFilters) => {
       const updatedCategory = isChecked
@@ -451,7 +480,7 @@ const CarRentalDetails = () => {
                     * All taxes and prices included
                   </p>
 
-                  <button className="reserve-button">Confirm Reservation</button>
+                  <button onClick={handleCarBooking} className="reserve-button">Confirm Reservation</button>
                 </div>
 
               </div>
