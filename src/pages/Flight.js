@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Flight.css";
 import Footer from "../components/Footer";
+
 
 const FlightPage = () => {
   const booknow = "/images/booknow.svg"
@@ -10,22 +12,63 @@ const FlightPage = () => {
 
   const [isRoundTrip, setIsRoundTrip] = useState(true);
   const [selectedClass, setSelectedClass] = useState("Economy");
-  const [travelers, setTravelers] = useState({ adults: 1, children: 0 });
+  const [travelers, setTravelers] = useState({ adults: 1, children: 0, childrenAges: [] });
+  const [departure, setDeparture] = useState("");
+  const [destination, setDestination] = useState("");
+  const [departureDate, setDepartureDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+
+  const navigate = useNavigate();
+
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
+
+  const handleSearchFlights = () => {
+    if (!departure || !destination || !departureDate) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    const searchParams = {
+      departure,
+      destination,
+      departureDate,
+      returnDate: isRoundTrip ? returnDate : "",
+      travelClass: selectedClass,
+      adults: travelers.adults,
+      children: travelers.children,
+      childrenAges: travelers.children > 0 ? travelers.childrenAges : [],
+      isRoundTrip,
+      tripType: isRoundTrip ? "roundtrip" : "oneway",
+    };
+
+    navigate("/flightsDetails", { state: searchParams });
+  };
+
 
   const handleClassChange = (className) => {
     setSelectedClass(className);
   };
 
-  const handleToggleChange = () => {
-    setIsRoundTrip(!isRoundTrip);
-  };
-
   const handleTravelersChange = (type, value) => {
-    setTravelers((prev) => ({
-      ...prev,
-      [type]: value < 0 ? 0 : value,
-    }));
+    setTravelers((prev) => {
+      if (type === "children") {
+        let childrenAges = [...prev.childrenAges];
+
+        if (value > childrenAges.length) {
+          childrenAges = [...childrenAges, ...Array(value - childrenAges.length).fill(5)];
+        } else {
+          childrenAges = childrenAges.slice(0, value);
+        }
+
+        return { ...prev, children: value, childrenAges };
+      }
+      return { ...prev, [type]: value };
+    });
   };
 
   return (
@@ -36,30 +79,36 @@ const FlightPage = () => {
       </div>
       <img src="images/airplane_2.png" alt="Airplane" className="airplane-image" />
 
-      <section className={`search-section ${isRoundTrip ? "round-trip" : "one-way"}`}>
+      <section className={`search-section ${isRoundTrip ? "roundtrip" : "oneway"}`}>
         <div className="class-toggle">
           <button
             className={`toggle-button ${selectedClass === "Economy" ? "active" : ""}`}
-            onClick={() => handleClassChange("Economy")}
+            onClick={() => setSelectedClass("Economy")}
           >
             Economy
           </button>
           <button
+            className={`toggle-button ${selectedClass === "PREMIUM_ECONOMY" ? "active" : ""}`}
+            onClick={() => setSelectedClass("PREMIUM_ECONOMY")}
+          >
+            Premium Economy
+          </button>
+          <button
             className={`toggle-button ${selectedClass === "Business Class" ? "active" : ""}`}
-            onClick={() => handleClassChange("Business Class")}
+            onClick={() => setSelectedClass("Business Class")}
           >
             Business Class
           </button>
           <button
             className={`toggle-button ${selectedClass === "First Class" ? "active" : ""}`}
-            onClick={() => handleClassChange("First Class")}
+            onClick={() => setSelectedClass("First Class")}
           >
             First Class
           </button>
           <div className="toggle-trip">
             <span>Round Trip</span>
             <label className="toggle-label">
-              <input type="checkbox" checked={isRoundTrip} onChange={handleToggleChange} />
+              <input type="checkbox" checked={isRoundTrip} onChange={() => setIsRoundTrip(!isRoundTrip)} />
               <span className="toggle-slider"></span>
             </label>
           </div>
@@ -69,23 +118,47 @@ const FlightPage = () => {
           <div className="search-field">
             <img src="images/location.svg" alt="Location" />
             <span>From</span>
-            <input type="text" placeholder="Enter departure" />
+            <input
+              type="text"
+              placeholder="Enter departure"
+              value={departure}
+              onChange={(e) => setDeparture(e.target.value)}
+              required
+            />
           </div>
           <div className="search-field">
             <img src="images/location.svg" alt="Location" />
             <span>To</span>
-            <input type="text" placeholder="Enter destination" />
+            <input
+              type="text"
+              placeholder="Enter destination"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              required
+            />
           </div>
           <div className="search-field">
             <img src="images/calendar.svg" alt="Check In" />
-            <span>Check In</span>
-            <input type="date" />
+            <span>Departure</span>
+            <input
+              type="date"
+              value={departureDate}
+              onChange={(e) => setDepartureDate(e.target.value)}
+              min={getTodayDate()}
+              required
+            />
           </div>
           {isRoundTrip && (
             <div className="search-field">
               <img src="images/calendar.svg" alt="Check Out" />
-              <span>Check Out</span>
-              <input type="date" />
+              <span>Return</span>
+              <input
+                type="date"
+                value={returnDate}
+                onChange={(e) => setReturnDate(e.target.value)}
+                min={departureDate || getTodayDate()}
+                required
+              />
             </div>
           )}
           <div className="dropdown-field">
@@ -125,11 +198,23 @@ const FlightPage = () => {
                     }
                   />
                 </div>
+
+                {travelers.children > 0 && travelers.childrenAges.map((age, index) => (
+                  <div key={index}>
+                    <label>Child {index + 1} Age:</label>
+                    <input type="number" min="0" max="17" value={age} onChange={(e) => {
+                      const newAges = [...travelers.childrenAges];
+                      newAges[index] = +e.target.value;
+                      setTravelers((prev) => ({ ...prev, childrenAges: newAges }));
+                    }} />
+                  </div>
+                ))}
+
               </div>
             )}
           </div>
 
-          <button className="search-button">
+          <button className="search-button" onClick={handleSearchFlights}>
             <img src="images/search.svg" alt="Search" />
           </button>
         </div>
@@ -167,7 +252,7 @@ const FlightPage = () => {
               <div>
                 <h3 className="feature-title">Flexible Travel Options</h3>
                 <p className="feature-description">
-                  Explore flexible flight options, including round trips and one-way tickets, tailored to your schedule and preferences.
+                  Explore flexible flight options, including round trips and oneway tickets, tailored to your schedule and preferences.
                 </p>
               </div>
             </div>
@@ -291,7 +376,6 @@ const FlightPage = () => {
       </section>
       <Footer />
     </div>
-
   );
 };
 

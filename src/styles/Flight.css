@@ -68,22 +68,22 @@ position: relative;
 z-index: 1;
 }
 
-.search-section.one-way .search-fields {
-display: grid;
-grid-template-columns: repeat(4, 1fr) auto;
-gap: 1.25rem;
+.search-section.oneway .search-fields {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto;
+  gap: 1.25rem;
 }
 
-.search-section.round-trip .search-fields {
-display: grid;
-grid-template-columns: repeat(5, 1fr) auto;
-gap: 1.25rem;
+.search-section.roundtrip .search-fields {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr) auto;
+  gap: 1.25rem;
 }
 
 .search-section .search-fields {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  gap: 1.2rem;
 }
 
 /* -------------------- CLASS TOGGLE -------------------- */
@@ -771,3 +771,4 @@ color: #fff;
   border-radius: 8.125rem; 
 }
 }
+
