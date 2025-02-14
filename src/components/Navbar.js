@@ -97,7 +97,10 @@ class Navbar extends React.Component {
               </span>
               {isDropdownOpen && (
                 <div className="dropdown-menu">
-                  <Link to="/my-bookings" className="dropdown-item">
+                  <Link to="/profile" className="dropdown-item-navbar">
+                    Profile Dashboard
+                  </Link>
+                  <Link to="/my-bookings" className="dropdown-item-navbar">
                     My Bookings
                   </Link>
                   <button className="dropdown-item logout-button" onClick={this.handleLogout}>

@@ -107,7 +107,7 @@
   z-index: 1000;
 }
 
-.dropdown-item {
+.dropdown-item-navbar {
   padding: 0.625rem 0.9375rem;
   font-size: 0.875rem;
   color: black;
@@ -117,7 +117,7 @@
   cursor: pointer;
 }
 
-.dropdown-item:hover {
+.dropdown-item-navbar:hover {
   background-color: #f5f5f5;
 }
 

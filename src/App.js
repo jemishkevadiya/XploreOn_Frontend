@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Flight from "./pages/Flight";
-import FlightDetails from "./pages/FlightDetails";
+import FlightDetails from "./pages/flightdetails";
 import CarRental from "./pages/carRental";
 import CarRentalDetails from "./pages/carrentaldetails";
 import Hotel from "./pages/Hotel";
-import { initializeApp } from "firebase/app";
+
+
 import ForgotPassword from "./pages/ForgotPassword";
+import UserProfilePage from "./pages/UserProfilePage";  // Import Profile Page
+import ProtectedRoute from "./components/ProtectedRoute"; // Import Protected Route
+
+// Firebase Configuration
 import PassengerDetails from "./pages/PassengerDetails";
+import SuccessPage from "./components/SuccessPage";
+import CancelPage from "./components/CancelPage";
 
 
 const firebaseConfig = {
@@ -42,6 +52,9 @@ class App extends React.Component {
             <Route path ="/carrentals" element={<CarRental />}/>
             <Route path ="/carrentaldetails" element={<CarRentalDetails />}/>
             <Route path="/passenger-details" element={<PassengerDetails />} />
+            <Route path="/success" element={<SuccessPage />} />
+            <Route path="/cancel" element={<CancelPage />} />
+
           </Routes>
         </Router>
     );
