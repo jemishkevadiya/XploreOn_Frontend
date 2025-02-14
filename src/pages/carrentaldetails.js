@@ -34,16 +34,7 @@ const CarRentalDetails = () => {
     }
   }, [carSearchParams]); 
  
-  const [searchParams, setSearchParams] = useState({
-    pickupLocation: "",
-    dropOffLocation: "",
-    pickUpDate: null,
-    dropOffDate: null,
-    pickUpTime: "",
-    dropOffTime: "",
-    currencyCode: "CAD",
-  });
-
+ 
 
 
   const fetchCars = async (params) => {
@@ -81,19 +72,19 @@ const CarRentalDetails = () => {
   };
 
   useEffect(() => {
-    if (searchParams.pickupLocation && searchParams.dropOffLocation
-      && searchParams.pickUpDate && searchParams.dropOffDate) {
+    if (carSearchParams.pickupLocation && carSearchParams.dropOffLocation
+      && carSearchParams.pickUpDate && carSearchParams.dropOffDate) {
       fetchCars({
-        pickupLocation: searchParams.pickupLocation,
-        dropOffLocation: searchParams.dropOffLocation,
-        pickUpDate: searchParams.pickUpDate,
-        dropOffDate: searchParams.dropOffDate,
-        pickUpTime: searchParams.pickUpTime,
-        dropOffTime: searchParams.dropOffTime,
-        currencyCode: searchParams.currencyCode,
+        pickupLocation: carSearchParams.pickupLocation,
+        dropOffLocation: carSearchParams.dropOffLocation,
+        pickUpDate: carSearchParams.pickUpDate,
+        dropOffDate: carSearchParams.dropOffDate,
+        pickUpTime: carSearchParams.pickUpTime,
+        dropOffTime: carSearchParams.dropOffTime,
+        currencyCode: carSearchParams.currencyCode,
       });
     }
-  }, [searchParams]);
+  }, [carSearchParams]);
 
   console.log();
   // Open the modal and set the selected car
@@ -110,7 +101,7 @@ const CarRentalDetails = () => {
 
   const handleSearch = () => {
 
-    if (!searchParams.pickupLocation || !searchParams.dropOffLocation || !PickupDate || !ReturnDate) {
+    if (!pickupLocation || !returnLocation || !PickupDate || !ReturnDate) {
       alert("All fields are required (Pick-up Location, Return Location, Dates).");
       return;
     }
@@ -122,13 +113,13 @@ const CarRentalDetails = () => {
     const dropOffTime = ReturnDate.toISOString().split('T')[1].slice(0, 5);
 
     const updatedParams = {
-      pickupLocation: searchParams.pickupLocation,
-      dropOffLocation: searchParams.dropOffLocation,
+      pickupLocation: pickupLocation,
+      dropOffLocation: returnLocation,
       pickUpDate: pickUpDate,
       dropOffDate: dropOffDate,
       pickUpTime: pickUpTime,
       dropOffTime: dropOffTime,
-      currencyCode: searchParams.currencyCode || "CAD",
+      currencyCode: carSearchParams.currencyCode || "CAD",
     };
 
     console.log("Updated search parameters:", updatedParams);
@@ -413,7 +404,7 @@ const CarRentalDetails = () => {
                 <span className="close-button" onClick={closeModal}>
                   &times;
                 </span>
-                <div className="modal-body">
+                <div className="modal-body-carrental">
                   {/* Left Section (Car Details) */}
                   <div className="details-section">
                     <h3>{selectedCar?.vehicle_info?.v_name}</h3>
