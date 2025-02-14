@@ -52,7 +52,6 @@
 }
 
 /* Scoped Input field styles for SignIn form */
-.auth-form .form-group {
 /* Scoped Input field styles for SignIn form */
 .auth-form .form-group {
   position: relative;
@@ -60,7 +59,6 @@
 }
 }
 
-.auth-form .form-group input {
 .auth-form .form-group input {
   width: 100%;
   padding: 12px 15px;
@@ -76,7 +74,6 @@
 }
 
 /* Add focus effect to input */
-.auth-form .form-group input:focus {
 /* Add focus effect to input */
 .auth-form .form-group input:focus {
   border-color: #007bff;
