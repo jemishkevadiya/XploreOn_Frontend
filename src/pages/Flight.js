@@ -54,10 +54,6 @@ const FlightPage = () => {
     setSelectedClass(className);
   };
 
-  const handleToggleChange = () => {
-    setIsRoundTrip(!isRoundTrip);
-  };
-
   const handleTravelersChange = (type, value) => {
     setTravelers((prev) => {
       if (type === "children") {
@@ -155,7 +151,7 @@ const FlightPage = () => {
           {isRoundTrip && (
             <div className="search-field">
               <img src="images/calendar.svg" alt="Check Out" />
-              <span>Arrival</span>
+              <span>Return</span>
               <input
                 type="date"
                 value={returnDate}
@@ -380,26 +376,6 @@ const FlightPage = () => {
       </section>
       <Footer />
     </div>
-  );
-          {/* 3) Inspired Getaways */}
-          <div className="bubble-card">
-            <div className="icon-circle">
-              <img
-                src={compass}
-                alt="comapss Icon"
-                className="feature-icon"
-              />
-            </div>
-            <h3 className="bubble-title">Inspired Getaways</h3>
-            <p className="bubble-description">
-              Open doors to unique destinations and experiences that awaken your wanderlust.
-            </p>
-          </div>
-        </div>
-      </section>
-      <Footer />
-    </div>
-
   );
 };
 

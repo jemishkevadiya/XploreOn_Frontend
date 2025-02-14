@@ -108,7 +108,7 @@ const FlightDetails = () => {
 
 
       setFlights(flights);
-      setAvailableAirlines(airlines);
+      setAvailableAirlines(airlines)
       setHasSearched(true);
       setError(null);
     } catch (err) {
