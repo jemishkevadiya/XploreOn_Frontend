@@ -12,6 +12,8 @@ import Hotel from "./pages/Hotel";
 import { initializeApp } from "firebase/app";
 import ForgotPassword from "./pages/ForgotPassword";
 import PassengerDetails from "./pages/PassengerDetails";
+import SuccessPage from "./components/SuccessPage";
+import CancelPage from "./components/CancelPage";
 
 
 const firebaseConfig = {
@@ -42,6 +44,8 @@ class App extends React.Component {
             <Route path ="/carrentals" element={<CarRental />}/>
             <Route path ="/carrentaldetails" element={<CarRentalDetails />}/>
             <Route path="/passenger-details" element={<PassengerDetails />} />
+            <Route path="/success" element={<SuccessPage />} />
+            <Route path="/cancel" element={<CancelPage />} />
           </Routes>
         </Router>
     );
