@@ -54,6 +54,7 @@ class App extends React.Component {
             <Route path="/passenger-details" element={<PassengerDetails />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/cancel" element={<CancelPage />} />
+
           </Routes>
         </Router>
     );
