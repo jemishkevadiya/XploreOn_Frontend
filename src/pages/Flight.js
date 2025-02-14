@@ -155,7 +155,7 @@ const FlightPage = () => {
           {isRoundTrip && (
             <div className="search-field">
               <img src="images/calendar.svg" alt="Check Out" />
-              <span>Arrival</span>
+              <span>Return</span>
               <input
                 type="date"
                 value={returnDate}
