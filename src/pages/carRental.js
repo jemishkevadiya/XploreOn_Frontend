@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import '../styles/Car.css';
+import '../styles/carRental.css';
 import "react-datepicker/dist/react-datepicker.css";
 import { FaMapMarkerAlt, FaCalendarAlt, FaCar, FaCreditCard } from "react-icons/fa";
 import DatePicker from "react-datepicker";
