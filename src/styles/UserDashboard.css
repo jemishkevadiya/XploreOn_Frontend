@@ -1,0 +1,286 @@
+/* User Dashboard Layout */
+/* User Dashboard Layout */
+.user-dashboard {
+  display: flex;
+  background-color: #f4f4f4;
+  padding-top: 6rem;
+  border-radius: 3rem;
+  width: 90%;
+  padding: 3rem;
+  margin-left: 1.5rem;
+  margin-top: 6rem;
+  overflow: hidden; /* Prevent entire page from scrolling */
+  height: 38rem;
+}
+  /* Sidebar */
+  /* Sidebar */
+.sidebar {
+  width: 250px;
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  border-radius: 3rem;
+  height: 94%; /* Sidebar occupies full viewport height */
+  position: sticky; /* Keeps the sidebar fixed */
+  top: 0; /* Ensures stickiness starts at the top */
+  overflow: hidden; /* Prevent scrolling in the sidebar */
+  
+}
+  
+/* Sidebar Menu */
+.sidebar-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+
+}
+
+.sidebar-menu li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.sidebar-menu li:hover, .sidebar-menu .active {
+  background: #34495e;
+}
+
+  
+  /* Right Content Area */
+  .content-area {
+    flex: 1;
+    padding: 20px;
+    background: white;
+    border-radius: 3rem;
+    overflow-y: auto; /* Enables independent scrolling for the content */
+    height: 100vh; /* Matches the height of the sidebar */
+    box-sizing: border-box; /* Includes padding in height calculation */
+    height: 100%;
+}
+  
+ /* Profile Section */
+.profile-section {
+  padding: 2rem;
+  background: white;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.profile-section h2 {
+  margin-bottom: 1rem;
+}
+
+.profile-section p {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+/* Details Table */
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.details-table td {
+  padding: 1rem;
+  border-bottom: 0.1rem solid #ddd;
+}
+
+.details-table td:nth-child(2) {
+  color: #555;
+}
+
+/* Profile Content Layout */
+.profile-content {
+  display: flex;
+  gap: 5rem; /* Space between profile picture and details */
+  align-items: flex-start;
+}
+
+/* Profile Picture */
+.profile-picture {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-img {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 0.2rem solid #ddd;
+  margin-bottom: 1rem;
+}
+
+.edit-photo-btn {
+  padding: 0.8rem 1.2rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.edit-photo-btn:hover {
+  background: #0056b3;
+}
+
+.edit-photo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.edit-photo-container input[type="file"] {
+  margin-bottom: 1rem;
+}
+
+.edit-photo-container button {
+  padding: 0.6rem 1.2rem;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.edit-photo-container button:hover {
+  background: #218838;
+}
+
+.edit-photo-container button:nth-child(2) {
+  background: #e74c3c;
+}
+
+.edit-photo-container button:nth-child(2):hover {
+  background: #c0392b;
+}
+
+/* Buttons */
+button {
+  padding: 0.5rem 1rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+/* Bookings & Payments Styling */
+.bookings-container,
+.payments-container {
+  padding: 2rem;
+}
+
+.bookings-list,
+.payments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.booking-card,
+.payment-card {
+  padding: 1.5rem;
+  border-radius: 0.8rem;
+  background: #fff;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.booking-card h3,
+.payment-card p {
+  margin: 0.5rem 0;
+}
+
+.booking-card .upcoming,
+.payment-card .pending {
+  color: orange;
+}
+
+.booking-card .completed,
+.payment-card .paid {
+  color: green;
+}
+
+.cancel-btn,
+.download-btn {
+  margin-top: 1rem;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  cursor: pointer;
+  background: #e74c3c;
+  color: white;
+  border-radius: 0.4rem;
+}
+
+.cancel-btn:hover {
+  background: #c0392b;
+}
+
+.download-btn {
+  background: #3498db;
+}
+
+.download-btn:hover {
+  background: #2980b9;
+}
+
+
+  /* Notifications Container */
+.notifications-container {
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Notification List */
+  .notifications-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  /* Notification Item */
+  .notification-item {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Unread Notifications */
+  .notification-item.unread {
+    background: #f9f9f9;
+    font-weight: bold;
+    width: 80%;
+    border-radius: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  /* Read Notifications */
+  .notification-item.read {
+    background: #f9f9f9;
+    width: 80%;
+    border-radius: 2rem;
+    margin-top: 1rem;
+  }
+
+  

@@ -203,7 +203,7 @@ const SignIn = () => {
     try {
       setError("");
       setSuccessMessage("");
-  
+
       const auth = getAuth();
   
       const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
@@ -218,7 +218,7 @@ const SignIn = () => {
       setSuccessMessage("A new verification email has been sent. Please check your inbox.");
   
       await auth.signOut();
-  
+
     } catch (e) {
       setError(e.message);
     }

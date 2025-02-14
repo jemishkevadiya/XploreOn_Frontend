@@ -152,7 +152,7 @@ const DiscoverPlaces = () => {
           <img src="../images/bangkok.jpg" alt="Bangkok hotel" className="image-frame" />
           <div className="discover-place-info">
             <h2 className="hotel-heading"> Mandarin Oriental</h2>
-            <button className="book-now-btn">Book Now</button>
+            
           </div>
         </div>
 
@@ -161,7 +161,7 @@ const DiscoverPlaces = () => {
           <img src="../images/ascott.jpg" alt="Tokyo" />
           <div className="discover-place-info">
             <h3>Ascott Marunouchi</h3>
-            <button className="book-now-btn">Book Now</button>
+            
           </div>
         </div>
 
@@ -170,7 +170,7 @@ const DiscoverPlaces = () => {
           <img src="../images/zighy_bay.jpg" alt="Oman" />
           <div className="discover-place-info">
             <h3>Six senses</h3>
-            <button className="book-now-btn">Book Now</button>
+            
           </div>
         </div>
 
@@ -179,7 +179,7 @@ const DiscoverPlaces = () => {
           <img src="../images/mexico.jpg" alt="Mexico" />
           <div className="discover-place-info">
             <h3>Chable Yucatan</h3>
-            <button className="book-now-btn">Book Now</button>
+            
           </div>
         </div>
       </div>

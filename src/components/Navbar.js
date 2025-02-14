@@ -97,6 +97,9 @@ class Navbar extends React.Component {
               </span>
               {isDropdownOpen && (
                 <div className="dropdown-menu">
+                  <Link to="/profile" className="dropdown-item">
+                    Profile Dashboard
+                  </Link>
                   <Link to="/my-bookings" className="dropdown-item">
                     My Bookings
                   </Link>
