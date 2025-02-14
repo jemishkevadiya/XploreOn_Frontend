@@ -12,8 +12,8 @@ import FlightDetails from "./pages/flightdetails";
 import CarRental from "./pages/carRental";
 import CarRentalDetails from "./pages/carrentaldetails";
 import Hotel from "./pages/Hotel";
-import Flight from "./pages/Flight";
-import Car from "./pages/carRental";
+
+
 import ForgotPassword from "./pages/ForgotPassword";
 import UserProfilePage from "./pages/UserProfilePage";  // Import Profile Page
 import ProtectedRoute from "./components/ProtectedRoute"; // Import Protected Route
