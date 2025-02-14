@@ -15,10 +15,10 @@ html, body {
 
 /* -------------------- HERO SECTION -------------------- */
 .hero-section-flight {
-  position: relative;
-  text-align: center;
-  padding: 0rem 0;
-  background-color: white;
+position: relative;
+text-align: center;
+padding: 0rem 0;
+background-color: white;
 }
 
 .background-image {
@@ -88,122 +88,122 @@ html, body {
 
 /* -------------------- CLASS TOGGLE -------------------- */
 .class-toggle {
-  display: flex;
-  justify-content: center;
-  gap: 0.9375rem; 
-  position: relative;
-  z-index: 20;
+display: flex;
+justify-content: center;
+gap: 0.9375rem; 
+position: relative;
+z-index: 20;
 }
 
 .toggle-button {
-  padding: 0.625rem 1.25rem; 
-  border: 0.0625rem solid #ddd; 
-  border-radius: 1.5625rem;     
-  background-color: #f7f7f7;
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: bold;
-  color: #333;
-  box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, color 0.3s ease;
-  position: relative;
-  z-index: 20;
-  margin-top: 1.25rem; 
+padding: 0.625rem 1.25rem; 
+border: 0.0625rem solid #ddd; 
+border-radius: 1.5625rem;     
+background-color: #f7f7f7;
+cursor: pointer;
+font-size: 0.875rem;
+font-weight: bold;
+color: #333;
+box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.2);
+transition: background-color 0.3s ease, color 0.3s ease;
+position: relative;
+z-index: 20;
+margin-top: 1.25rem; 
 }
 
 .toggle-button.active {
-  background-color: #000000;
-  color: #ffffff;
-  border: none;
-  z-index: 20;
+background-color: #000000;
+color: #ffffff;
+border: none;
+z-index: 20;
 }
 
 .toggle-button:hover {
-  background-color: #000000; 
-  color: #ffffff;
+background-color: #000000; 
+color: #ffffff;
 }
 
 .toggle-trip {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem; 
-  justify-content: center;
-  position: relative;
-  z-index: 10;
-  margin-left: 1.875rem; 
-  margin-top: 1.25rem;   
+display: flex;
+align-items: center;
+gap: 0.625rem; 
+justify-content: center;
+position: relative;
+z-index: 10;
+margin-left: 1.875rem; 
+margin-top: 1.25rem;   
 }
 
 /* -------------------- TOGGLE LABEL -------------------- */
 .toggle-label {
-  position: relative;
-  display: inline-block;
-  width: 3.125rem;  
-  height: 1.5rem;  
-  z-index: 10;
+position: relative;
+display: inline-block;
+width: 3.125rem;  
+height: 1.5rem;  
+z-index: 10;
 }
 
 .toggle-label input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+opacity: 0;
+width: 0;
+height: 0;
 }
 
 .toggle-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ddd;
-  box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.2);
-  border-radius: 1.5rem; 
-  transition: 0.4s;
-  z-index: 10;
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #ddd;
+box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.2);
+border-radius: 1.5rem; 
+transition: 0.4s;
+z-index: 10;
 }
 
 .toggle-slider:before {
-  position: absolute;
-  content: "";
-  height: 1.125rem;  
-  width: 1.125rem;   
-  left: 0.25rem;    
-  bottom: 0.1875rem; 
-  background-color: white;
-  border-radius: 50%;
-  transition: 0.4s;
+position: absolute;
+content: "";
+height: 1.125rem;  
+width: 1.125rem;   
+left: 0.25rem;    
+bottom: 0.1875rem; 
+background-color: white;
+border-radius: 50%;
+transition: 0.4s;
 }
 
 .toggle-label input:checked + .toggle-slider {
-  background-color: #000000;
+background-color: #000000;
 }
 
 .toggle-label input:checked + .toggle-slider:before {
-  transform: translateX(1.625rem); 
+transform: translateX(1.625rem); 
 }
 
 /* -------------------- TRAVELERS INPUT -------------------- */
 .travelers-input {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3125rem;
-  width: 100%;
+display: flex;
+flex-direction: column;
+gap: 0.3125rem;
+width: 100%;
 }
 
 .travelers-input div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.625rem; 
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 0.625rem; 
 }
 
 .travelers-input input {
-  width: 3.125rem;        
-  text-align: center;
-  border: 0.0625rem solid #ddd; 
-  border-radius: 0.3125rem;    
-  padding: 0.3125rem;           
+width: 3.125rem;        
+text-align: center;
+border: 0.0625rem solid #ddd; 
+border-radius: 0.3125rem;    
+padding: 0.3125rem;           
 }
 
 /* -------------------- SEARCH FIELDS -------------------- */
@@ -401,17 +401,17 @@ html, body {
 }
 
 .travel-support-title {
-  font-size: 3.75rem;
-  font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-  font-weight: normal;
-  margin-bottom: 0.9375rem; 
-  color: #333;
+font-size: 3.75rem;
+font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+font-weight: normal;
+margin-bottom: 0.9375rem; 
+color: #333;
 }
 
 .travel-support-subtitle {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 3rem; 
+font-size: 1rem;
+color: #555;
+margin-bottom: 3rem; 
 }
 
 .travel-support-layout {
@@ -423,14 +423,14 @@ html, body {
 }
 
 .travel-support-left {
-  flex: 1;
-  max-width: 55%;
+flex: 1;
+max-width: 55%;
 }
 
 .travel-feature {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5rem; 
+display: flex;
+align-items: center;
+margin-bottom: 5rem; 
 }
 
 .feature-number {
@@ -466,20 +466,20 @@ html, body {
 }
 
 .travel-support-right {
-  flex: 1;
-  max-width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+flex: 1;
+max-width: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+position: relative;
 }
 
 .travel-image {
-  border-radius: 50%;
-  box-shadow: 0 0.375rem 0.625rem rgba(0, 0, 0, 0.5);
-  position: absolute;
-  object-fit: cover;
-  margin-bottom: 3.75rem; 
+border-radius: 50%;
+box-shadow: 0 0.375rem 0.625rem rgba(0, 0, 0, 0.5);
+position: absolute;
+object-fit: cover;
+margin-bottom: 3.75rem; 
 }
 
 .travel-image1 {
@@ -629,30 +629,30 @@ html, body {
 
 /* -------------------- MEMORIES SECTION -------------------- */
 .memories-section {
-  background-color: #f8fafc;
-  padding: 3rem 1.25rem;
+background-color: #f8fafc;
+padding: 3rem 1.25rem;
 }
 
 .memories-header {
-  max-width: 50rem;  
-  
-  margin: 0 auto 3rem; 
-  text-align: center;
+max-width: 50rem;  
+
+margin: 0 auto 3rem; 
+text-align: center;
 }
 
 .memories-header h2 {
-  font-size: 2.2rem;
-  margin-bottom: 0.625rem;
+font-size: 2.2rem;
+margin-bottom: 0.625rem;
 }
 
 /* -------------------- FEATURE CARDS CONTAINER -------------------- */
 .feature-cards-container {
-  max-width: 75rem;
-  margin: 0 auto;
-  display: flex;
-  gap: 8.125rem; 
-  justify-content: center;
-  flex-wrap: wrap;
+max-width: 75rem;
+margin: 0 auto;
+display: flex;
+gap: 8.125rem; 
+justify-content: center;
+flex-wrap: wrap;
 }
 
 /* -------------------- BUBBLE-CARD (WHITE OVAL) -------------------- */
@@ -675,100 +675,100 @@ html, body {
 }
 
 @keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+to {
+  opacity: 1;
+  transform: translateY(0);
+}
 }
 
 .bubble-card:hover {
-  transform: translateY(-0.3125rem); 
-  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.08); 
+transform: translateY(-0.3125rem); 
+box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.08); 
 }
 
 .bubble-card::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  background-color: #000;
-  transition: height 0.4s ease;
-  z-index: 1;
+content: "";
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 0;
+background-color: #000;
+transition: height 0.4s ease;
+z-index: 1;
 }
 
 .bubble-card:hover::after {
-  height: 100%;
+height: 100%;
 }
 
 .icon-circle {
-  width: 3.75rem;  
-  height: 3.75rem; 
-  border-radius: 50%;
-  margin: 2.4375rem auto 3.25rem; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #000;
-  position: relative;
-  z-index: 2;
-  transition: background-color 0.4s;
+width: 3.75rem;  
+height: 3.75rem; 
+border-radius: 50%;
+margin: 2.4375rem auto 3.25rem; 
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: #000;
+position: relative;
+z-index: 2;
+transition: background-color 0.4s;
 }
 
 .feature-icon {
-  width: 1.75rem;  
-  height: 1.75rem; 
-  object-fit: cover;
-  z-index: 2;
-  filter: brightness(0) invert(1);
-  transition: filter 0.4s;
+width: 1.75rem;  
+height: 1.75rem; 
+object-fit: cover;
+z-index: 2;
+filter: brightness(0) invert(1);
+transition: filter 0.4s;
 }
 
 .bubble-card:hover .icon-circle {
-  background-color: #fff;
+background-color: #fff;
 }
 
 .bubble-card:hover .feature-icon {
-  filter: none;
+filter: none;
 }
 
 /* -------------------- TITLE & DESCRIPTION -------------------- */
 .bubble-title {
-  font-size: 1rem;
-  margin: 0.625rem 0 0.3125rem;
-  color: #333;
-  font-weight: 600;
-  position: relative;
-  z-index: 2;
-  transition: color 0.4s;
+font-size: 1rem;
+margin: 0.625rem 0 0.3125rem;
+color: #333;
+font-weight: 600;
+position: relative;
+z-index: 2;
+transition: color 0.4s;
 }
 
 .bubble-description {
-  font-size: 0.9rem;
-  color: #777;
-  max-width: 11.25rem; 
-  margin: 0 auto;
-  line-height: 1.4;
-  position: relative;
-  z-index: 2;
-  transition: color 0.4s;
+font-size: 0.9rem;
+color: #777;
+max-width: 11.25rem; 
+margin: 0 auto;
+line-height: 1.4;
+position: relative;
+z-index: 2;
+transition: color 0.4s;
 }
 
 .bubble-card:hover .bubble-title,
 .bubble-card:hover .bubble-description {
-  color: #fff;
+color: #fff;
 }
 
 
 @media (max-width: 48rem) {
-  .feature-cards-container {
-    gap: 1.25rem; 
-  }
-  .bubble-card {
-    width: 12.5rem;  
-    height: 16.25rem; 
-    border-radius: 8.125rem; 
-  }
+.feature-cards-container {
+  gap: 1.25rem; 
+}
+.bubble-card {
+  width: 12.5rem;  
+  height: 16.25rem; 
+  border-radius: 8.125rem; 
+}
 }
 
