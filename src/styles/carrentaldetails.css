@@ -299,7 +299,7 @@
 }
 
 /* Modal Body */
-.modal-body {
+.modal-body-carrental {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

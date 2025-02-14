@@ -17,11 +17,9 @@ const CarRental = () => {
 
   const handleSearch = () => {
     if (!PickupDate || !ReturnDate || !pickupLocation || !returnLocation) {
-      alert("All the fiels are rwquired");
+      alert("All the fiels are required");
       return;
     }
-
-
 
 
   const pickUpDate = PickupDate.toISOString().split('T')[0]; // YYYY-MM-DD
