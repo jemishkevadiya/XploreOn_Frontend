@@ -1,5 +1,5 @@
-/* SignIn.css */
-
+/* General styles for SignIn page */
+/* General styles for SignIn page */
 .auth-container {
   display: flex;
   height: 100vh;
@@ -51,25 +51,99 @@
   gap: 20px;
 }
 
-.form-group {
+/* Scoped Input field styles for SignIn form */
+/* Scoped Input field styles for SignIn form */
+.auth-form .form-group {
   position: relative;
   width: 100%;
 }
 
-.form-group input {
+.auth-form .form-group input {
   width: 100%;
   padding: 12px 15px;
   font-size: 1rem;
   border: 2px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
+  background: transparent; /* Make the background transparent so label is visible */
+  transition: border-color 0.3s ease;
+  background: transparent; /* Make the background transparent so label is visible */
+  transition: border-color 0.3s ease;
 }
 
-.form-group input:focus {
+/* Add focus effect to input */
+/* Add focus effect to input */
+.auth-form .form-group input:focus {
   border-color: #007bff;
   outline: none;
 }
 
+/* Styling for the label */
+.auth-form .form-group label {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  padding: 0px 5px;
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #aaa;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+/* When the input is focused or has text, move the label */
+.auth-form input:focus + label,
+.auth-form input:not(:placeholder-shown) + label {
+  transform: translateY(-25px); /* Move label up when input is focused */
+  color: #007bff; /* Change label color when input is focused */
+  font-size: 0.9rem; /* Shrink font size */
+}
+
+/* Add the input icon */
+.auth-form .input-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+/* Auth button styles */
+/* Styling for the label */
+.auth-form .form-group label {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  padding: 0px 5px;
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #aaa;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+/* When the input is focused or has text, move the label */
+.auth-form input:focus + label,
+.auth-form input:not(:placeholder-shown) + label {
+  transform: translateY(-25px); /* Move label up when input is focused */
+  color: #007bff; /* Change label color when input is focused */
+  font-size: 0.9rem; /* Shrink font size */
+}
+
+/* Add the input icon */
+.auth-form .input-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+/* Auth button styles */
 .auth-button {
   padding: 12px;
   background-color: black;
@@ -85,6 +159,8 @@
   background-color: #333;
 }
 
+/* Footer */
+/* Footer */
 .auth-footer {
   margin-top: 15px;
   font-size: 0.9rem;
@@ -100,7 +176,8 @@
   text-decoration: underline;
 }
 
-
+/* Resend button styles */
+/* Resend button styles */
 .resend-button {
   background-color: #eeeeee;
   color: black;
@@ -112,7 +189,23 @@
 }
 
 .resend-button:hover {
-  /* background-color:; */
   color: white;
 }
 
+/* Add mobile responsiveness */
+@media (max-width: 768px) {
+  .auth-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .auth-left, .auth-right {
+    padding: 20px;
+    width: 100%;
+  }
+
+  .auth-form {
+    width: 100%;
+    max-width: 100%;
+  }
+}

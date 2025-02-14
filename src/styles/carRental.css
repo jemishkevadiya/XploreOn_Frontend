@@ -1,7 +1,7 @@
 .main-title-car{
   color: #ffffff;
-  margin-top: 39rem;
-  font-size: 2.9rem;
+  margin-top: 37rem;
+  font-size: 3rem;
   font-family: palatino;
   position: absolute;
   right: 1rem;
@@ -118,6 +118,9 @@
     width: 6rem;
     margin-top: 15px;
 }
+
+
+
 
 
 /*-------------Second page---------------*/
@@ -418,4 +421,64 @@
     flex-direction: column;
     align-items: center;
   }
+}
+
+
+/* Pop up section */
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  position: relative;
+  text-align: center;
+}
+
+.popup img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.book-now-btn {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.book-now-btn:hover {
+  background-color: #ff5a00;
 }
