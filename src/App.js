@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Flight from "./pages/Flight";
-import FlightDetails from "./pages/flightdetails";
+import FlightDetails from "./pages/FlightDetails";
 import CarRentalDetails from "./pages/carrentaldetails";
 import { initializeApp } from "firebase/app";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -38,7 +38,7 @@ class App extends React.Component {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path ="/flights" element={<Flight />} />
             <Route path = "/hotels" element={<Hotel />} />
-            <Route path="/flightdetails" element={<FlightDetails />} />
+            <Route path="/flightsDetails" element={<FlightDetails />} />
             <Route path ="/carrentals" element={<CarRental />}/>
             <Route path ="/carrentaldetails" element={<CarRentalDetails />}/>
 

@@ -68,7 +68,7 @@ position: relative;
 z-index: 1;
 }
 
-.search-section.one-way .search-fields {
+.search-section.oneway .search-fields {
 display: grid;
 grid-template-columns: repeat(4, 1fr) auto;
 gap: 1.25rem;

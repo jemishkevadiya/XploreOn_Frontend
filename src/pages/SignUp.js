@@ -65,7 +65,7 @@ const SignUp = () => {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           formData.email,
-          formData.password
+          formData.password,
         );
         const user = userCredential.user;
   
@@ -75,7 +75,7 @@ const SignUp = () => {
   
         await sendEmailVerification(user);
   
-        await axios.post("http://localhost:1111/api/user/create", {
+        await axios.post("http://localhost:1111/user/create", {
           uid: user.uid, 
           firstname: formData.firstname,
           lastname: formData.lastname,
@@ -104,7 +104,7 @@ const SignUp = () => {
       console.log("Google Sign-In Successful:", user);
   
       // Send user data to backend
-      await axios.post("http://localhost:1111/api/user/create", {
+      await axios.post("http://localhost:1111/user/create", {
         uid: user.uid,
         firstname: user.displayName.split(" ")[0] || "",
         lastname: user.displayName.split(" ")[1] || "",
@@ -193,8 +193,8 @@ const SignUp = () => {
 <div className="form-group">
   <input
     type="password"
-    name="confirm password"
-    id="comfirm password"   
+    name="confirmpassword"
+    id="comfirmpassword"   
     placeholder=" "  
     value={formData.confirmpassword}
     onChange={handleChange}

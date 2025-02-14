@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../styles/SignIn.css";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendEmailVerification,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
+const googleicon = "/images/googleicon.svg";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -36,7 +40,7 @@ const SignIn = () => {
         return;
       }
   
-      const response = await axios.get(`http://localhost:1111/api/user/profile/${user.uid}`);
+      const response = await axios.get(`http://localhost:1111/user/profile/${user.uid}`);
   
       if (response.data) {
         console.log("User Data from MongoDB:", response.data);
@@ -76,7 +80,32 @@ const SignIn = () => {
     }
   }
   
+  const signInWithGoogle = async () => {
+    try {
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+  
+      console.log("Google Sign-In Successful:", user);
+  
+      // Send user data to backend
+      await axios.post("http://localhost:1111/user/create", {
+        uid: user.uid,
+        firstname: user.displayName.split(" ")[0] || "",
+        lastname: user.displayName.split(" ")[1] || "",
+        email: user.email,
+        photoURL: user.photoURL || "",
+      });
+  
+      console.log("User stored in MongoDB");
 
+      navigate("/");  // Navigate to homepage after successful sign-up
+  
+    } catch (error) {
+      console.error("Error during Google Sign-In:", error.message);
+    }
+  };
   return (
     <div className="auth-container">
       <div className="auth-left">
@@ -132,6 +161,15 @@ const SignIn = () => {
           <p>
             <Link to="/forgot-password">Forgot Password?</Link>
           </p>
+        </div>
+        <div className="social-signin">
+          <button className="google-signin" onClick={signInWithGoogle}>
+            <img
+              src={googleicon}
+              alt="Google Logo"
+            />
+            Sign In with Google
+          </button>
         </div>
       </div>
     </div>

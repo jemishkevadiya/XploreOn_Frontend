@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Flight.css";
 import Footer from "../components/Footer";
 
@@ -11,7 +12,37 @@ const FlightPage = () => {
   const [isRoundTrip, setIsRoundTrip] = useState(true);
   const [selectedClass, setSelectedClass] = useState("Economy");
   const [travelers, setTravelers] = useState({ adults: 1, children: 0 });
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [departure, setDeparture] = useState("");
+  const [destination, setDestination] = useState("");
+  const [departureDate, setDepartureDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+  const navigate = useNavigate();
+
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const handleSearchFlights = () => {
+    if (!departure || !destination || !departureDate) {
+      alert("Please fill in all required fields");
+      return;
+    }
+    const searchParams = {
+      departure,
+      destination,
+      departureDate,
+      returnDate: isRoundTrip ? returnDate : "",
+      class: selectedClass,
+      travelers,
+      tripType: isRoundTrip ? "Round Trip" : "One Way",
+    };
+    navigate("/flightsDetails", { state: searchParams });
+  };
 
   const handleClassChange = (className) => {
     setSelectedClass(className);
@@ -69,23 +100,47 @@ const FlightPage = () => {
           <div className="search-field">
             <img src="images/location.svg" alt="Location" />
             <span>From</span>
-            <input type="text" placeholder="Enter departure" />
+            <input
+              type="text"
+              placeholder="Enter departure"
+              value={departure}
+              onChange={(e) => setDeparture(e.target.value)}
+              required
+            />
           </div>
           <div className="search-field">
             <img src="images/location.svg" alt="Location" />
             <span>To</span>
-            <input type="text" placeholder="Enter destination" />
+            <input
+              type="text"
+              placeholder="Enter destination"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              required
+            />
           </div>
           <div className="search-field">
             <img src="images/calendar.svg" alt="Check In" />
-            <span>Check In</span>
-            <input type="date" />
+            <span>Departure</span>
+            <input
+              type="date"
+              value={departureDate}
+              onChange={(e) => setDepartureDate(e.target.value)}
+              min={getTodayDate()}
+              required
+            />
           </div>
           {isRoundTrip && (
             <div className="search-field">
               <img src="images/calendar.svg" alt="Check Out" />
-              <span>Check Out</span>
-              <input type="date" />
+              <span>Arrival</span>
+              <input
+                type="date"
+                value={returnDate}
+                onChange={(e) => setReturnDate(e.target.value)}
+                min={departureDate || getTodayDate()}
+                required
+              />
             </div>
           )}
           <div className="dropdown-field">
@@ -129,7 +184,7 @@ const FlightPage = () => {
             )}
           </div>
 
-          <button className="search-button">
+          <button className="search-button" onClick={handleSearchFlights}>
             <img src="images/search.svg" alt="Search" />
           </button>
         </div>
@@ -291,7 +346,6 @@ const FlightPage = () => {
       </section>
       <Footer />
     </div>
-
   );
 };
 

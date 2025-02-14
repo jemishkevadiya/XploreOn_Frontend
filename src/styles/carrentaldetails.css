@@ -1,7 +1,7 @@
 .car-details-page {
   display: flex;
-  padding: 1.25rem; /* 20px */
-  gap: 1.25rem; /* 20px */
+  padding: 1.25rem;
+  gap: 2rem;
   background-color: #f8f9fa;
   margin-top: -1%;
 }
@@ -9,25 +9,25 @@
 .filter-section {
   width: 25%;
   background: #ffffff;
-  padding: 1.25rem; /* 20px */
-  border-radius: 0.5rem; /* 8px */
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1); /* 2px, 4px */
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
 }
 
 .filter-section h2 {
-  font-size: 1.5rem; /* 18px */
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 0.9375rem; /* 15px */
+  margin-bottom: 0.9375rem;
 }
 
 .filter-section .filter-category {
-  margin-bottom: 1.25rem; /* 20px */
+  margin-bottom: 1.25rem;
 }
 
 .filter-section .filter-category h3 {
-  font-size: 1.3rem; /* 16px */
+  font-size: 1.3rem;
   font-weight: bold;
-  margin-bottom: 0.625rem; /* 10px */
+  margin-bottom: 0.625rem;
 }
 
 .filter-section ul {
@@ -39,17 +39,17 @@
 .filter-section li {
   display: flex;
   align-items: center;
-  margin-bottom: 0.625rem; /* 10px */
-  font-size: 1.2rem; /* 14px */
+  margin-bottom: 0.625rem;
+  font-size: 1.2rem;
   color: #333;
 }
 
 .filter-section input[type="checkbox"] {
-  margin-right: 0.625rem; /* 10px */
+  margin-right: 0.625rem;
 }
 
 .filter-section .price-range {
-  margin-top: 0.9375rem; /* 15px */
+  margin-top: 0.9375rem;
 }
 
 .listings-section {
@@ -60,11 +60,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.25rem; /* 20px */
+  margin-bottom: 1.25rem;
 }
 
 .listings-header .results-count {
-  font-size: 1rem; /* 16px */
+  font-size: 1rem;
   font-weight: bold;
   color: #333;
 }
@@ -72,14 +72,15 @@
 .listings-header .sort-by {
   display: flex;
   align-items: center;
-  gap: 0.625rem; /* 10px */
+  gap: 0.625rem;
+  margin-right:-16rem;
 }
 
 .listings-header .sort-by select {
-  padding: 0.3125rem 0.625rem; /* 5px, 10px */
-  font-size: 0.875rem; /* 14px */
-  border-radius: 0.25rem; /* 4px */
-  border: 0.0625rem solid #ccc; /* 1px */
+  padding: 0.3125rem 0.625rem;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+  border: 0.0625rem solid #ccc;
   background-color: #ffffff;
   cursor: pointer;
 }
@@ -87,67 +88,70 @@
 .car-listings {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem; /* 20px */
+  gap: 1.25rem;
 }
 
 .car-card {
   background: #ffffff;
-  border-radius: .5rem; /* 8px */
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1); /* 2px, 4px */
-  padding: 0.9375rem; /* 15px */
+  border-radius: .5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  padding: 0.9375rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  width: 300px;
+  height: 400px;
 }
 
 .car-card:hover {
-  transform: translateY(-0.3125rem); /* -5px */
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15); /* 4px, 8px */
+  transform: translateY(-0.3125rem);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
 }
 
 .car-card img {
   width: 100%;
-  height: 8.75rem; /* 140px */
+  height: 8.75rem;
   object-fit: cover;
-  border-radius: 0.375rem; /* 6px */
-  margin-bottom: 0.625rem; /* 10px */
+  border-radius: 0.375rem;
+  margin-bottom: 0.625rem;
 }
 
 .car-card h3 {
-  font-size: 1rem; /* 16px */
+  font-size: 1rem;
   font-weight: bold;
   color: #333;
-  margin: 0.625rem 0; /* 10px */
+  margin: 0.625rem 0;
 }
 
 .car-card .features {
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.875rem;
   color: #555;
-  margin-bottom: 0.9375rem; /* 15px */
+  margin-bottom: 0.9375rem;
 }
 
 .car-card .features li {
-  margin-bottom: 0.3125rem; /* 5px */
+  margin-bottom: 0.3125rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* 8px */
+  gap: 0.5rem;
 }
 
 .car-card .price {
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem;
   font-weight: bold;
   color: #000000;
-  margin-bottom: 0.9375rem; /* 15px */
+  margin-bottom: 0.9375rem;
 }
 
 .car-card .reserve-button {
-  padding: 0.625rem; /* 10px */
+  padding: 0.625rem;
   background-color: #000000;
   color: #ffffff;
   border: none;
-  border-radius: 0.375rem; /* 6px */
-  font-size: 0.875rem; /* 14px */
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
   font-weight: bold;
   cursor: pointer;
   text-align: center;
@@ -157,14 +161,13 @@
   background-color: #e44a00;
 }
 
-/* Container for the entire search bar */
 .search-bar-container-carrentaldetail {
   width: 87%;
   background-color: #ffffff;
-  padding: 2rem; /* Increased padding for better spacing */
-  border-radius: 2rem; /* Smooth rounded corners */
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-  margin-bottom: 2rem; /* Space below the search section */
+  padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -172,45 +175,40 @@
   margin-left: 4%
 }
 
-/* Flex container for the input fields and button */
 .search-bar-carrentaldetail {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* Distributes space evenly */
-  gap: 1.5rem; /* Spacing between elements */
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
   width: 100%;
-  max-width: 1200px; /* Maximum width for better responsiveness */
+  max-width: 1200px;
   align-items: center;
 }
 
-/* Individual input field wrapper */
 .input-field-carrentaldetail {
   display: flex;
   align-items: center;
-  gap: 0.625rem; /* Space between the icon and input */
-  border: 1px solid #ddd; /* Subtle border */
-  border-radius: 2.5rem; /* Rounded corners */
-  padding: 0.75rem 1rem; /* Comfortable padding */
-  background-color: #f9f9f9; /* Light background */
+  gap: 0.625rem;
+  border: 1px solid #ddd;
+  border-radius: 2.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #f9f9f9;
 }
 
-/* Input fields */
 .input-field-carrentaldetail input {
   border: none;
   background: none;
   outline: none;
-  font-size: 0.875rem; /* Consistent font size */
+  font-size: 0.875rem;
   width: 100%;
   max-width: 15.625;
   color: #333;
 }
 
-/* Icon inside input fields */
 .input-field-carrentaldetail .iconcar {
-  font-size: 1.25rem; /* Slightly larger for better visibility */
+  font-size: 1.25rem;
   color: #666;
 }
 
-/* Date picker input */
 .date-picker-input {
   border: none;
   background: none;
@@ -221,10 +219,9 @@
   cursor: pointer;
 }
 
-/* Search button */
 .search-btn-carrentaldetail {
-  grid-column: span 1; /* Ensure it takes up one column */
-  padding: 0.75rem 1rem; /* Comfortable button size */
+  grid-column: span 1;
+  padding: 0.75rem 1rem;
   background-color: #080808;
   color: #ffffff;
   border: none;
@@ -240,14 +237,199 @@
   background-color: #e44a00;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .search-bar-carrentaldetail {
-    grid-template-columns: 1fr; /* Stack inputs vertically on smaller screens */
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
 
   .search-btn-carrentaldetail {
-    width: 100%; /* Full width for the button */
+    width: 100%;
   }
 }
+
+
+.car-card {
+  position: relative;
+  width: 18.75rem; /* 300px */
+  height: 25rem; /* 400px */
+}
+
+/* Modal Overlay */
+._carrental.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fff;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  width: 90%;
+  max-width: 62.5rem;
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 90%;
+  overflow-y: auto;
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.close-button:hover {
+  color: #000;
+}
+
+/* Modal Body */
+.modal-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding-bottom: 1.25rem;
+  padding-top: 0.625rem;
+}
+
+/* Left Section (Car Details) */
+.details-section {
+  flex: 1; /* Equal width with right section */
+  padding-right: 1.25rem;
+  padding-left: 0.5rem;
+  font-size: large;
+}
+
+.details-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.625rem;
+}
+
+.details-section p {
+  margin-bottom: 0.3125rem;
+  line-height: 1.5;
+}
+
+/* Right Section (Car Information: Location, Mileage, Supplier) */
+.right-section {
+  flex: 1.5; /* Equal width with left section */
+  padding: 0.625rem;
+  border-radius: 0.5rem;
+}
+
+.right-section h4 {
+  margin-bottom: 0.625rem;
+}
+
+.right-section p {
+  margin-bottom: 0.3125rem;
+  line-height: 1.5;
+}
+
+/* Pricing Section */
+.pricing-section {
+  margin-top: 1.25rem;
+  background-color: #f9f9f9;
+  padding: 1.25rem; /* Increased padding for more spacing */
+  border-radius: 0.5rem;
+  font-size: 1.25rem; /* General font size */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+/* Total Price Styling */
+.pricing-section .total-price {
+  font-size: 1.5 rem; /* Large font size for total price */
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.625rem;
+}
+
+.pricing-section h4 {
+  margin-bottom: 0.625rem;
+}
+.info-text {
+    font-size: small;
+    margin-top: -1rem;
+    align-items: center;
+}
+
+/* Car Ratings Section */
+.rating-section {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.progress-bar-container {
+  width: 100%;
+  margin-top: 0.625rem;
+  margin-bottom: 1.25rem;
+}
+
+h5 {
+  font-size: 1.125rem;
+  color: #333;
+  margin-bottom: 0.3125rem;
+}
+
+.progress-bar-background {
+  width: 100%;
+  height: 1.25rem;
+  background-color: #d3d3d3;
+  border-radius: 0.625rem;
+}
+
+.progress-bar-foreground {
+  height: 100%;
+  background-color: #000000;
+  border-radius: 0.625rem;
+  transition: width 2s ease-out;
+}
+
+.rating-text {
+  font-size: 1.25rem;
+  margin-top: 0.625rem;
+}
+
+.rating-text strong {
+  font-size: 1.75rem;
+  color: #000000;
+}
+
+.rating-text span {
+  font-size: 0.875rem;
+  color: #000000;
+}
+
+/* Reserve Button */
+.reserve-button {
+  background-color: #007bff;
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.3125rem;
+  cursor: pointer;
+}
+
+.reserve-button:hover {
+  background-color: #0056b3;
+}
+
+
