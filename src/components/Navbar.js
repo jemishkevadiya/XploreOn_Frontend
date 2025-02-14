@@ -87,7 +87,7 @@ class Navbar extends React.Component {
           {isLoggedIn ? (
             <div className="profile-container">
               <img
-                src={user?.photoURL || DefaultProfile} // Default profile photo
+                src={user?.photoURL || DefaultProfile} 
                 alt="Profile"
                 className="profile-icon"
                 onClick={this.toggleDropdown}
@@ -97,6 +97,9 @@ class Navbar extends React.Component {
               </span>
               {isDropdownOpen && (
                 <div className="dropdown-menu">
+                  <Link to="/profile" className="dropdown-item">
+                    Profile Dashboard
+                  </Link>
                   <Link to="/my-bookings" className="dropdown-item">
                     My Bookings
                   </Link>
@@ -123,4 +126,3 @@ class Navbar extends React.Component {
 }
 
 export default Navbar;
-

@@ -198,6 +198,7 @@
 .discover-place-card img {
   width: 100%;
   height: 100%;
+  
   object-fit: cover;
   transition: transform 0.3s ease;
 }
@@ -215,39 +216,18 @@
   border-radius: 2rem;
   transition: background 0.3s ease;
   width: 98%;
-  height: 35%;
+  height: 20%;
   display: flex;
   background: rgba(255, 255, 255, 0.6);
 }
 
 .hotel-heading {
-  max-width: 50%;
+  align-self: center;
+  justify-items: center;
 }
 
-.book-now-btn {
-  font-family: poppins;
-  font-size: 1.8rem;
-  font-weight: 600;
-  padding: 0.0625rem 1.5rem;
-  background-color: #ffffff;
-  border: none;
-  height: 5rem;
-  width: 8rem;
-  left: 12rem;
-  border-radius: 5rem;
-  cursor: pointer;
-  text-shadow: 0.0625rem 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out;
-  display: flex;
-  margin-top: 1rem;
-  position: absolute;
-}
 
-.book-now-btn:hover {
-  background: linear-gradient(to right, #c5a880, #8b5e3b);
-  transform: translateY(-0.1875rem);
-  box-shadow: 0 0.25rem 0.625rem rgba(139, 94, 59, 0.4);
-}
+
 
 .discover-places-container {
   display: flex;
@@ -303,6 +283,7 @@
   text-align: center;
   padding: 2.5rem 1.25rem;
   background: #f8f9fa;
+  
 }
 
 .review-heading {
@@ -324,6 +305,7 @@
   display: flex;
   gap: 1.25rem;
   transition: transform 0.5s ease-in-out;
+  padding-bottom: 3rem;
 }
 
 .review-card {

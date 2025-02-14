@@ -1,7 +1,7 @@
 .main-title-car{
   color: #ffffff;
-  margin-top: 37rem;
-  font-size: 3rem;
+  margin-top: 39rem;
+  font-size: 2.9rem;
   font-family: palatino;
   position: absolute;
   right: 1rem;
@@ -117,4 +117,305 @@
     display: block;
     width: 6rem;
     margin-top: 15px;
+}
+
+
+/*-------------Second page---------------*/
+
+.SecondPagr-car{
+  display: flex;
+  align-items: center;
+  width:fit-content;
+  
+}
+
+.image-frame-car{
+  margin: 1.3%;
+  color: #ffffff;
+  width: 8%;
+  align-items: center;
+  padding-left: 0.4%;
+}
+
+.secondpagecar-title{
+  font-size: 3rem;
+  color:black;
+  justify-self:center;
+  font-family:'Times New Roman', Times, serif;
+  margin-top: 6%;
+  margin-bottom: 6%;
+  
+}
+
+
+/*------------Third page---------------*/
+.ThirdContainer-car{
+  display: flex;
+  background-color: rgba(243, 242, 234, 0.603);
+  border-radius: 3rem;
+  margin-top: 30px;
+  margin: 1.8rem;
+
+}
+.thirdpagecar-title{
+  font-size: 3rem;
+  margin-bottom: 3rem;
+
+}
+
+.location-container {
+  margin-left: 3rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.location-grid {
+  display: flex;
+  gap: 5rem;
+  overflow-x: auto;
+  justify-content: center;
+}
+
+.location-card {
+  background: white;
+  border: none;
+  height: 20rem;
+  cursor: pointer;
+  padding: 2rem 0.9rem;
+  border-radius: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  justify-self: center;
+}
+
+.location-card img {
+  width: 14rem; /* Adjust based on design */
+  height: 16.5rem;
+  border-radius: 1.8rem;
+  margin-top: -1.4rem;
+}
+
+.location-card p {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.location-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+/*-------------car booking steps-------------*/
+
+/* Booking Steps Section */
+.car-booking-steps {
+  text-align: center;
+  background-color: #f8f9fa;
+  margin-left: 2rem;
+  width: 95%;
+  border-radius: 2rem;
+  height: 45rem;
+  margin-top: 4rem;
+
+}
+
+.car-steps-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #333;
+  padding-top: 2rem;
+}
+
+/* Steps Container */
+.car-steps-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  flex-wrap: wrap;
+  margin-top: 5rem;
+}
+
+/* Individual Step Card */
+.car-step-card {
+  position: relative;
+  width: 15rem;
+  height: 24rem;
+  border-radius: 10rem;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.car-step-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to right, #eec4d5, #ff758c);
+  color: white;
+}
+
+.car-step-card:hover .car-step-number {
+  background-color: white;
+  color: black;
+}
+
+.car-step-card:hover .car-step-title,
+.car-step-card:hover .car-step-description {
+  color: white;
+}
+
+/* Step Number Styling */
+.car-step-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #000000;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Step Title */
+.car-step-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Step Description */
+.car-step-description {
+  font-size: 1rem;
+  color: #000000;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .car-steps-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .car-step-up,
+  .car-step-down {
+    transform: translateY(0);
+  }
+
+  .car-step-card {
+    width: 100%;
+  }
+
+  .car-steps-container::after {
+    width: 90%;
+    height: 7rem;
+    left: 5%;
+    top: 5%;
+  }
+}
+
+.step-icon {
+  font-size: 1rem;
+  color: #615153;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.car-step-card:hover .step-icon {
+  transform: scale(1.2);
+  color: #ffffff;
+}
+
+/* Customer Reviews Section */ 
+.customer-reviews {
+  text-align: center;
+  background-color: #f8f9fa;
+  padding: 3rem 0.5rem;
+  width: 95%;
+  margin: 4rem auto;
+  border-radius: 2rem;
+}
+
+.review-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 4rem;
+}
+
+/* Reviews Container */
+.review-container {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  flex-wrap: wrap;
+  padding-bottom: 4rem;
+}
+
+/* Individual Review Card */
+.review-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  width: 18rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Review Name */
+.review-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Review Text */
+.review-text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+/* Star Rating */
+.star-rating {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.star {
+  font-size: 1.5rem;
+  color: #ccc;
+  transition: color 0.3s ease;
+}
+
+.star.filled {
+  color: #FFD700; /* Gold color for filled stars */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .review-container {
+    flex-direction: column;
+    align-items: center;
+  }
 }
