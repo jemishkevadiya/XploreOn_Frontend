@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Flight.css";
 import Footer from "../components/Footer";
 
+
 const FlightPage = () => {
   const booknow = "/images/booknow.svg"
   const Shield = "images/shield.svg"
@@ -11,20 +12,19 @@ const FlightPage = () => {
 
   const [isRoundTrip, setIsRoundTrip] = useState(true);
   const [selectedClass, setSelectedClass] = useState("Economy");
-  const [travelers, setTravelers] = useState({ adults: 1, children: 0 });
+  const [travelers, setTravelers] = useState({ adults: 1, children: 0, childrenAges: [] });
   const [departure, setDeparture] = useState("");
   const [destination, setDestination] = useState("");
   const [departureDate, setDepartureDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+
   const navigate = useNavigate();
 
   const getTodayDate = () => {
     const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
+    return today.toISOString().split("T")[0];
   };
 
   const handleSearchFlights = () => {
@@ -32,17 +32,23 @@ const FlightPage = () => {
       alert("Please fill in all required fields");
       return;
     }
+
     const searchParams = {
       departure,
       destination,
       departureDate,
       returnDate: isRoundTrip ? returnDate : "",
-      class: selectedClass,
-      travelers,
-      tripType: isRoundTrip ? "Round Trip" : "One Way",
+      travelClass: selectedClass,
+      adults: travelers.adults,
+      children: travelers.children,
+      childrenAges: travelers.children > 0 ? travelers.childrenAges : [],
+      isRoundTrip,
+      tripType: isRoundTrip ? "roundtrip" : "oneway",
     };
+
     navigate("/flightsDetails", { state: searchParams });
   };
+
 
   const handleClassChange = (className) => {
     setSelectedClass(className);
@@ -53,10 +59,20 @@ const FlightPage = () => {
   };
 
   const handleTravelersChange = (type, value) => {
-    setTravelers((prev) => ({
-      ...prev,
-      [type]: value < 0 ? 0 : value,
-    }));
+    setTravelers((prev) => {
+      if (type === "children") {
+        let childrenAges = [...prev.childrenAges];
+
+        if (value > childrenAges.length) {
+          childrenAges = [...childrenAges, ...Array(value - childrenAges.length).fill(5)];
+        } else {
+          childrenAges = childrenAges.slice(0, value);
+        }
+
+        return { ...prev, children: value, childrenAges };
+      }
+      return { ...prev, [type]: value };
+    });
   };
 
   return (
@@ -67,30 +83,36 @@ const FlightPage = () => {
       </div>
       <img src="images/airplane_2.png" alt="Airplane" className="airplane-image" />
 
-      <section className={`search-section ${isRoundTrip ? "round-trip" : "one-way"}`}>
+      <section className={`search-section ${isRoundTrip ? "roundtrip" : "oneway"}`}>
         <div className="class-toggle">
           <button
             className={`toggle-button ${selectedClass === "Economy" ? "active" : ""}`}
-            onClick={() => handleClassChange("Economy")}
+            onClick={() => setSelectedClass("Economy")}
           >
             Economy
           </button>
           <button
+            className={`toggle-button ${selectedClass === "PREMIUM_ECONOMY" ? "active" : ""}`}
+            onClick={() => setSelectedClass("PREMIUM_ECONOMY")}
+          >
+            Premium Economy
+          </button>
+          <button
             className={`toggle-button ${selectedClass === "Business Class" ? "active" : ""}`}
-            onClick={() => handleClassChange("Business Class")}
+            onClick={() => setSelectedClass("Business Class")}
           >
             Business Class
           </button>
           <button
             className={`toggle-button ${selectedClass === "First Class" ? "active" : ""}`}
-            onClick={() => handleClassChange("First Class")}
+            onClick={() => setSelectedClass("First Class")}
           >
             First Class
           </button>
           <div className="toggle-trip">
             <span>Round Trip</span>
             <label className="toggle-label">
-              <input type="checkbox" checked={isRoundTrip} onChange={handleToggleChange} />
+              <input type="checkbox" checked={isRoundTrip} onChange={() => setIsRoundTrip(!isRoundTrip)} />
               <span className="toggle-slider"></span>
             </label>
           </div>
@@ -180,6 +202,18 @@ const FlightPage = () => {
                     }
                   />
                 </div>
+
+                {travelers.children > 0 && travelers.childrenAges.map((age, index) => (
+                  <div key={index}>
+                    <label>Child {index + 1} Age:</label>
+                    <input type="number" min="0" max="17" value={age} onChange={(e) => {
+                      const newAges = [...travelers.childrenAges];
+                      newAges[index] = +e.target.value;
+                      setTravelers((prev) => ({ ...prev, childrenAges: newAges }));
+                    }} />
+                  </div>
+                ))}
+
               </div>
             )}
           </div>
@@ -222,7 +256,7 @@ const FlightPage = () => {
               <div>
                 <h3 className="feature-title">Flexible Travel Options</h3>
                 <p className="feature-description">
-                  Explore flexible flight options, including round trips and one-way tickets, tailored to your schedule and preferences.
+                  Explore flexible flight options, including round trips and oneway tickets, tailored to your schedule and preferences.
                 </p>
               </div>
             </div>
@@ -346,6 +380,26 @@ const FlightPage = () => {
       </section>
       <Footer />
     </div>
+  );
+          {/* 3) Inspired Getaways */}
+          <div className="bubble-card">
+            <div className="icon-circle">
+              <img
+                src={compass}
+                alt="comapss Icon"
+                className="feature-icon"
+              />
+            </div>
+            <h3 className="bubble-title">Inspired Getaways</h3>
+            <p className="bubble-description">
+              Open doors to unique destinations and experiences that awaken your wanderlust.
+            </p>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </div>
+
   );
 };
 
