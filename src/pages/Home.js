@@ -24,7 +24,7 @@ const Home = () => {
             </h1>
             <button className="booking-button">
               <span className="button-icon">
-                <img src="/images/icons8-calender-50.png" alt="Car Icon" />
+                <img src="/images/booknow.svg" alt="Car Icon" />
               </span>
               Booking Now
             </button>

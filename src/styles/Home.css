@@ -304,7 +304,6 @@ html, body {
   border-radius: 1rem;
 }
 
-/* Right Section (Content) */
 .itinerary-right {
   flex: 1.7;
   display: flex;
@@ -314,7 +313,6 @@ html, body {
   height: auto;
 }
 
-/* Header Section */
 .itinerary-header {
   text-align: left;
 }
@@ -335,7 +333,6 @@ html, body {
   line-height: 1.7;
 }
 
-/* Content Section */
 .itinerary-content {
   display: flex;
   flex-direction: row;

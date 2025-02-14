@@ -4,7 +4,6 @@ html {
   
 .footer-container {
     background-color: #000000;
-    /* Dark teal background */
     color: #ffffff;
     padding: 2rem;
     display: flex;
@@ -58,7 +57,7 @@ html {
 }
 
 #about-us {
-    padding-top: 140px; /* Adjust to header height */
-    margin-top: -140px; /* Same as the padding-top value */
+    padding-top: 140px; 
+    margin-top: -140px; 
   }
   

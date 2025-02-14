@@ -92,7 +92,7 @@
   font-weight: 500;
   color: black;
   white-space: nowrap;
-  margin-left: -0.3125rem;
+  margin-left: -5px; 
 }
 
 .dropdown-menu {
