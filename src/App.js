@@ -12,17 +12,15 @@ import FlightDetails from "./pages/flightdetails";
 import CarRental from "./pages/carRental";
 import CarRentalDetails from "./pages/carrentaldetails";
 import Hotel from "./pages/Hotel";
-
-
+import Itinerary from "./pages/Itinerary"; 
+import ItineraryResults from "./pages/ItineraryResults";
 import ForgotPassword from "./pages/ForgotPassword";
-import UserProfilePage from "./pages/UserProfilePage";  // Import Profile Page
-import ProtectedRoute from "./components/ProtectedRoute"; // Import Protected Route
+import UserProfilePage from "./pages/UserProfilePage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-// Firebase Configuration
 import PassengerDetails from "./pages/PassengerDetails";
 import SuccessPage from "./components/SuccessPage";
 import CancelPage from "./components/CancelPage";
-
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -34,29 +32,29 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
 class App extends React.Component {
   render() {
     return (
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-          
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
-            
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path ="/flights" element={<Flight />} />
-            <Route path ="/flightsDetails" element={<FlightDetails/>} />
-            <Route path = "/hotels" element={<Hotel />} />
-            <Route path ="/carrentals" element={<CarRental />}/>
-            <Route path ="/carrentaldetails" element={<CarRentalDetails />}/>
-            <Route path="/passenger-details" element={<PassengerDetails />} />
-            <Route path="/success" element={<SuccessPage />} />
-            <Route path="/cancel" element={<CancelPage />} />
-
-          </Routes>
-        </Router>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/flights" element={<Flight />} />
+          <Route path="/flightsDetails" element={<FlightDetails />} />
+          <Route path="/hotels" element={<Hotel />} />
+          <Route path="/carrentals" element={<CarRental />} />
+          <Route path="/carrentaldetails" element={<CarRentalDetails />} />
+          <Route path="/passenger-details" element={<PassengerDetails />} />
+          <Route path="/success" element={<SuccessPage />} />
+          <Route path="/cancel" element={<CancelPage />} />
+          <Route path="/itinerary" element={<Itinerary />} /> 
+          <Route path="/itinerary/results" element={<ItineraryResults />} />
+        </Routes>
+      </Router>
     );
   }
 }
