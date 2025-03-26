@@ -95,6 +95,7 @@ const PassengerDetails = () => {
         "userId": uid,
         "totalAmount": priceBreakdown.total.units
       };
+      console.log("User:", user)
       try{
         const response = await createFlightBooking(payload);
         if (response.status === 201){

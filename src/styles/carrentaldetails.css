@@ -158,7 +158,7 @@
 }
 
 .car-card .reserve-button:hover {
-  background-color: #e44a00;
+  background-color: #050505;
 }
 
 .search-bar-container-carrentaldetail {
@@ -234,7 +234,7 @@
 }
 
 .search-btn-carrentaldetail:hover {
-  background-color: #e44a00;
+  background-color: #000000;
 }
 
 @media (max-width: 768px) {
@@ -420,7 +420,7 @@ h5 {
 
 /* Reserve Button */
 .reserve-button {
-  background-color: #007bff;
+  background-color: #000000;
   color: white;
   padding: 1rem;
   border: none;
@@ -429,7 +429,7 @@ h5 {
 }
 
 .reserve-button:hover {
-  background-color: #0056b3;
+  background-color: #333333;
 }
 
 

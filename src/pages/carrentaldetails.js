@@ -111,7 +111,10 @@ const CarRentalDetails = () => {
 
     const dropOffDate = ReturnDate.toISOString().split('T')[0];
     const dropOffTime = ReturnDate.toISOString().split('T')[1].slice(0, 5);
-
+ if (!pickupLocation || !returnLocation || !pickUpDate || !ReturnDate){
+  alert("All fields ae required")
+  return;
+ }
     const updatedParams = {
       pickupLocation: pickupLocation,
       dropOffLocation: returnLocation,
