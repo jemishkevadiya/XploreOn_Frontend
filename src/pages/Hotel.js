@@ -8,7 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Footer from "../components/Footer";
 
-// ReviewCarousel Component (unchanged)
+
 const ReviewCarousel = () => {
   const carouselRef = React.useRef(null);
 
@@ -125,7 +125,7 @@ const ReviewCarousel = () => {
   );
 };
 
-// DiscoverPlaces Component (unchanged)
+
 const DiscoverPlaces = () => {
   return (
     <section className="secondpage-hotel">
@@ -166,7 +166,7 @@ const DiscoverPlaces = () => {
   );
 };
 
-// Main Hotel Component
+
 const Hotel = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -204,7 +204,9 @@ const Hotel = () => {
           location,
           checkIn: formattedCheckIn,
           checkOut: formattedCheckOut,
-          guests: { adults, children, rooms },
+          adults,
+          children, 
+          rooms ,
         },
       });
     } catch (error) {
