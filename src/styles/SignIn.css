@@ -57,7 +57,6 @@
   position: relative;
   width: 100%;
 }
-}
 
 .auth-form .form-group input {
   width: 100%;
@@ -71,14 +70,12 @@
   background: transparent; /* Make the background transparent so label is visible */
   transition: border-color 0.3s ease;
 }
-}
 
 /* Add focus effect to input */
 /* Add focus effect to input */
 .auth-form .form-group input:focus {
   border-color: #007bff;
   outline: none;
-}
 }
 
 /* Styling for the label */

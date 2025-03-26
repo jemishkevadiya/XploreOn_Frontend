@@ -706,7 +706,6 @@ const FlightDetails = () => {
             <div className="modal-overlay">
               <div className="modal-content">
                 {/* Close Button */}
-                <button className="close-btn-flight" onClick={closeModal}>✖</button>
 
                 {/* Header */}
                 <div className="modal-header">

@@ -1,47 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "../styles/Hotel.css";
 import { FaSearchLocation, FaUserFriends } from "react-icons/fa";
 import { BsFillCalendarDateFill } from "react-icons/bs";
-import { useState, useRef, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Footer from "../components/Footer";
 
+// ReviewCarousel Component (unchanged)
 const ReviewCarousel = () => {
-  const carouselRef = useRef(null);
+  const carouselRef = React.useRef(null);
 
-  // Scroll to the left by one card
   const scrollLeft = () => {
     if (carouselRef.current) {
-      const cardWidth = carouselRef.current.children[0].offsetWidth; // Get the width of one card
-      carouselRef.current.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+      const cardWidth = carouselRef.current.children[0].offsetWidth;
+      carouselRef.current.scrollBy({ left: -cardWidth, behavior: "smooth" });
     }
   };
 
-  // Scroll to the right by one card
   const scrollRight = () => {
     if (carouselRef.current) {
-      const cardWidth = carouselRef.current.children[0].offsetWidth; // Get the width of one card
-      carouselRef.current.scrollBy({ left: cardWidth, behavior: 'smooth' });
+      const cardWidth = carouselRef.current.children[0].offsetWidth;
+      carouselRef.current.scrollBy({ left: cardWidth, behavior: "smooth" });
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     const interval = setInterval(() => {
       if (carouselRef.current) {
-        // Check if we've reached the end of the carousel and reset to the start
         const maxScroll = carouselRef.current.scrollWidth - carouselRef.current.offsetWidth;
         if (carouselRef.current.scrollLeft === maxScroll) {
-          // Reset to the beginning of the carousel
           carouselRef.current.scrollLeft = 0;
         } else {
-          // Scroll to the right
           scrollRight();
         }
       }
-    }, 3000); // Adjust the interval time as needed (in milliseconds)
-
-    return () => clearInterval(interval); // Cleanup on component unmount
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -49,7 +45,6 @@ const ReviewCarousel = () => {
       <h2 className="review-heading">Let’s Hear How Their Experiences Use Our Platform</h2>
       <div className="carousel-container" ref={carouselRef}>
         <div className="carousel-track">
-
           <div className="review-card">
             <p>“Amazing! I stayed here for a business trip, and it was the perfect choice. The conference facilities were great, and the Wi-Fi was fast and reliable.”</p>
             <div className="reviewer-info">
@@ -61,21 +56,18 @@ const ReviewCarousel = () => {
             </div>
             <img src="../images/review2.jpg" alt="Hotel" className="review-hotel-image" />
           </div>
-
           <div className="review-card">
             <p>“Amazing! I stayed here for a business trip, and it was the perfect choice. The conference facilities were great, and the Wi-Fi was fast and reliable.”</p>
-            
             <div className="reviewer-info">
               <img src="../images/profileIcon.svg" alt="Reviewer" />
               <div>
                 <h4>Sheikh</h4>
                 <span>Saudi Arabia</span>
-                <br/>⭐️⭐️⭐️⭐️⭐️
+                <br />⭐️⭐️⭐️⭐️⭐️
               </div>
             </div>
             <img src="../images/review2.jpg" alt="Hotel" className="review-hotel-image" />
           </div>
-
           <div className="review-card">
             <p>“A hidden gem! The hotel had a charming, boutique feel, and the attention to detail was exceptional. The room was cozy, and the bed was so comfortable.”</p>
             <div className="reviewer-info">
@@ -83,12 +75,11 @@ const ReviewCarousel = () => {
               <div>
                 <h4>Daniel</h4>
                 <span>Canada</span>
-                <br/>⭐️⭐️⭐️⭐️⭐️
+                <br />⭐️⭐️⭐️⭐️⭐️
               </div>
             </div>
             <img src="../images/review3.jpg" alt="Hotel" className="review-hotel-image" />
           </div>
-
           <div className="review-card">
             <p>“As a business traveler, time is of the essence, and the hotel booking platform has been a time-saver. I can quickly search for nearby hotels.”</p>
             <div className="reviewer-info">
@@ -96,26 +87,24 @@ const ReviewCarousel = () => {
               <div>
                 <h4>Martin</h4>
                 <span>Chili</span>
-                <br/>⭐️⭐️⭐️⭐️⭐️
+                <br />⭐️⭐️⭐️⭐️⭐️
               </div>
             </div>
             <img src="../images/mexico.jpg" alt="Hotel" className="review-hotel-image" />
           </div>
-
           <div className="review-card">
-            <p>“I couldn't have asked for a better stay! The hotel was modern and stylish, and the staff made us feel like VIPs. The room was quiet, spacious, and well-equipped.” </p>
+            <p>“I couldn't have asked for a better stay! The hotel was modern and stylish, and the staff made us feel like VIPs. The room was quiet, spacious, and well-equipped.”</p>
             <div className="reviewer-info">
               <img src="../images/profileIcon.svg" alt="Reviewer" />
               <div>
-                <br/>
+                <br />
                 <h4>BagaKara</h4>
                 <span>Indonesia</span>
-                <br/>⭐️⭐️⭐️⭐️⭐️
+                <br />⭐️⭐️⭐️⭐️⭐️
               </div>
             </div>
             <img src="../images/review4.jpg" alt="Hotel" className="review-hotel-image" />
           </div>
-
           <div className="review-card">
             <p>"Wonderful experience! The hotel is ideally located near all the tourist spots. The room was clean, well-appointed, and offered a stunning view of the city skyline"</p>
             <div className="reviewer-info">
@@ -123,7 +112,7 @@ const ReviewCarousel = () => {
               <div>
                 <h4>Steven Wart</h4>
                 <span>New Mexico</span>
-                <br/>⭐️⭐️⭐️⭐️⭐️
+                <br />⭐️⭐️⭐️⭐️⭐️
               </div>
             </div>
             <img src="../images/review1.jpg" alt="Hotel" className="review-hotel-image" />
@@ -136,50 +125,40 @@ const ReviewCarousel = () => {
   );
 };
 
+// DiscoverPlaces Component (unchanged)
 const DiscoverPlaces = () => {
   return (
     <section className="secondpage-hotel">
       <h2 className="staggered-heading">Explore best hotels</h2>
-        <h2 className="staggered-subheading">
-          Book your stay or personalized experience,
-          <p>luxurious amenities, or a relaxing getaway, and</p>
-          <p>take a step towards unforgettable memories.</p>
-        </h2>
+      <h2 className="staggered-subheading">
+        Book your stay or personalized experience,
+        <p>luxurious amenities, or a relaxing getaway, and</p>
+        <p>take a step towards unforgettable memories.</p>
+      </h2>
 
       <div className="discover-places-container">
-        {/* Bangkok */}
         <div className="discover-place-card lower-card">
           <img src="../images/bangkok.jpg" alt="Bangkok hotel" className="image-frame" />
           <div className="discover-place-info">
-            <h2 className="hotel-heading"> Mandarin Oriental</h2>
-            
+            <h2 className="hotel-heading">Mandarin Oriental</h2>
           </div>
         </div>
-
-        {/* Tokyo */}
         <div className="discover-place-card higher-card">
           <img src="../images/ascott.jpg" alt="Tokyo" />
           <div className="discover-place-info">
             <h3>Ascott Marunouchi</h3>
-            
           </div>
         </div>
-
-        {/* Oman */}
         <div className="discover-place-card higher-card">
           <img src="../images/zighy_bay.jpg" alt="Oman" />
           <div className="discover-place-info">
             <h3>Six senses</h3>
-            
           </div>
         </div>
-
-        {/* Mexico */}
         <div className="discover-place-card lower-card">
           <img src="../images/mexico.jpg" alt="Mexico" />
           <div className="discover-place-info">
             <h3>Chable Yucatan</h3>
-            
           </div>
         </div>
       </div>
@@ -187,34 +166,69 @@ const DiscoverPlaces = () => {
   );
 };
 
+// Main Hotel Component
 const Hotel = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
+  const [location, setLocation] = useState("");
+  const navigate = useNavigate();
 
   const handleGuestChange = (type, operation) => {
-    if (type === 'adults') {
-      if (operation === "increment") setAdults(prev => prev + 1);
-      if (operation === "decrement" && adults > 1) setAdults(prev => prev - 1);
+    if (type === "adults") {
+      if (operation === "increment") setAdults((prev) => prev + 1);
+      if (operation === "decrement" && adults > 1) setAdults((prev) => prev - 1);
     } else {
-      if (operation === "increment") setChildren(prev => prev + 1);
-      if (operation === "decrement" && children > 0) setChildren(prev => prev - 1);
+      if (operation === "increment") setChildren((prev) => prev + 1);
+      if (operation === "decrement" && children > 0) setChildren((prev) => prev - 1);
+    }
+  };
+
+  const handleSearch = async () => {
+    if (!location || !startDate || !endDate) {
+      alert("Please fill in all fields: location, check-in date, and check-out date.");
+      return;
+    }
+
+    try {
+      const formattedCheckIn = startDate.toISOString().split("T")[0]; // Format date as YYYY-MM-DD
+      const formattedCheckOut = endDate.toISOString().split("T")[0];
+
+      // Navigate to /hoteldetails with search parameters, no API call here
+      navigate("/hoteldetails", {
+        state: {
+          location,
+          checkIn: formattedCheckIn,
+          checkOut: formattedCheckOut,
+          guests: { adults, children, rooms: 1 },
+        },
+      });
+    } catch (error) {
+      console.error("Error during navigation setup:", error.message);
+      alert(`An error occurred. Please try again. Error: ${error.message}`);
     }
   };
 
   const backgroundImage = "/images/hotelmain.jpg";
-  
+
   return (
     <div className="hotel-container">
       <div className="heroo-section" style={{ backgroundImage: `url(${backgroundImage})` }}>
-        <h1 className="main-title">A place where comfort meets luxury<br />just like home, only better!</h1>
-        
+        <h1 className="main-title">
+          A place where comfort meets luxury<br />just like home, only better!
+        </h1>
+
         <div className="search-bar-container">
           <div className="search-bar">
             <div className="input-field">
               <FaSearchLocation className="icon" />
-              <input type="text" placeholder="Where you want to go?..." />
+              <input
+                type="text"
+                placeholder="Where you want to go?..."
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
             </div>
 
             <div className="input-field">
@@ -239,30 +253,57 @@ const Hotel = () => {
               />
             </div>
 
-            {/* Inline Guest Selector */}
             <div className="input-field guest-selector">
               <FaUserFriends className="icon" />
               <div className="guest-controls">
                 <div className="guest-type">
-                  <button className="guest-button" onClick={() => handleGuestChange('adults', 'decrement')} disabled={adults <= 1}>-</button>
-                  <span className="guest-count">{adults} Adult{adults !== 1 && 's'}</span>
-                  <button className="guest-button" onClick={() => handleGuestChange('adults', 'increment')}>+</button>
+                  <button
+                    className="guest-button"
+                    onClick={() => handleGuestChange("adults", "decrement")}
+                    disabled={adults <= 1}
+                  >
+                    -
+                  </button>
+                  <span className="guest-count">
+                    {adults} Adult{adults !== 1 && "s"}
+                  </span>
+                  <button
+                    className="guest-button"
+                    onClick={() => handleGuestChange("adults", "increment")}
+                  >
+                    +
+                  </button>
                 </div>
                 <div className="guest-type">
-                  <button className="guest-button" onClick={() => handleGuestChange('children', 'decrement')} disabled={children <= 0}>-</button>
-                  <span className="guest-count">{children} Child{children !== 1 && 'ren'}</span>
-                  <button className="guest-button" onClick={() => handleGuestChange('children', 'increment')}>+</button>
+                  <button
+                    className="guest-button"
+                    onClick={() => handleGuestChange("children", "decrement")}
+                    disabled={children <= 0}
+                  >
+                    -
+                  </button>
+                  <span className="guest-count">
+                    {children} Child{children !== 1 && "ren"}
+                  </span>
+                  <button
+                    className="guest-button"
+                    onClick={() => handleGuestChange("children", "increment")}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
             </div>
 
-            <button className="search-btn">Search →</button>
+            <button className="search-btn" onClick={handleSearch}>
+              Search →
+            </button>
           </div>
         </div>
       </div>
       <DiscoverPlaces />
-      <ReviewCarousel/>
-      <Footer/>
+      <ReviewCarousel />
+      <Footer />
     </div>
   );
 };
