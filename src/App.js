@@ -12,12 +12,13 @@ import FlightDetails from "./pages/flightdetails";
 import CarRental from "./pages/carRental";
 import CarRentalDetails from "./pages/carrentaldetails";
 import Hotel from "./pages/Hotel";
-
-
+import Profile from "./pages/Profile";
+import Bookings from "./pages/Bookings";
+import Notifications from "./pages/Notifications";
 import ForgotPassword from "./pages/ForgotPassword";
 import UserProfilePage from "./pages/UserProfilePage";  // Import Profile Page
 import ProtectedRoute from "./components/ProtectedRoute"; // Import Protected Route
-
+import PaymentHistory from "./pages/PaymentHistory";
 // Firebase Configuration
 import PassengerDetails from "./pages/PassengerDetails";
 import SuccessPage from "./components/SuccessPage";
@@ -44,7 +45,11 @@ class App extends React.Component {
           
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-            
+            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/my-bookings" element={<Bookings/>}/>
+            <Route path="/notifications" element={<Notifications/>}/>
+            <Route path="payments" element={<PaymentHistory/>}/>
+            <Route path="/userProfile" element={<UserProfilePage />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path ="/flights" element={<Flight />} />
             <Route path ="/flightsDetails" element={<FlightDetails/>} />

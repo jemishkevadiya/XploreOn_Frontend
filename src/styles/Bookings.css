@@ -1,0 +1,114 @@
+.bookings-bro-container {
+    max-width: 90%;
+    margin: 0 auto;
+    margin-top: 6rem;
+    padding: 1.25rem;
+    min-height: 100%; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9; /* Matches Profile.css background */
+    border: 0.0625rem solid #e0e0e0;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  }
+  
+  .bookings-bro-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  .bookings-bro-list {
+    flex-grow: 1; /* Expands to fill available space */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .bookings-bro-card {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    border: 0.0625rem solid #ddd;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .bookings-bro-card:hover {
+    box-shadow: 0 0
+  }
+  
+  .bookings-bro-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .bookings-bro-card p {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #666;
+  }
+  
+  .bookings-bro-card .upcoming {
+    color: #007bff; /* Blue for Upcoming status */
+  }
+  
+  .bookings-bro-card .completed {
+    color: #28a745; /* Green for Completed status */
+  }
+  
+  .bookings-bro-cancel-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    background-color: #999; /* Matches Profile.css button color */
+    color: #fff;
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    max-width: 6rem;
+  }
+  
+  .bookings-bro-cancel-btn:hover {
+    background-color: #0056b3; /* Matches Profile.css hover color */
+  }
+  
+  /* Status-specific card styles */
+  .bookings-bro-card.upcoming {
+    border-left: 0.25rem solid #007bff;
+  }
+  
+  .bookings-bro-card.completed {
+    border-left: 0.25rem solid #28a745;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 48rem) {
+    .bookings-bro-container {
+      padding: 1rem;
+    }
+  
+    .bookings-bro-card h3 {
+      font-size: 1.125rem;
+    }
+  
+    .bookings-bro-card p {
+      font-size: 0.875rem;
+    }
+  
+    .bookings-bro-cancel-btn {
+      max-width: 100%;
+    }
+  }
+  
+  @media (max-width: 30rem) {
+    .bookings-bro-container h2 {
+      font-size: 1.5rem;
+    }
+  
+    .bookings-bro-card {
+      padding: 0.75rem;
+    }
+  }

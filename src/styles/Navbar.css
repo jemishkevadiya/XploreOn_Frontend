@@ -109,10 +109,10 @@
 
 .dropdown-item-navbar {
   padding: 0.625rem 0.9375rem;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: black;
   text-decoration: none;
-  display: block;
+  display:flex;
   transition: background-color 0.3s ease;
   cursor: pointer;
 }
@@ -128,7 +128,7 @@
   width: 100%;
   cursor: pointer;
   padding: 0.625rem 0.9375rem;
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 .logout-button:hover {

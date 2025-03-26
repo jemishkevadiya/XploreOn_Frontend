@@ -1,33 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
+import "../styles/Profile.css";
 
 const Profile = () => {
   const auth = getAuth();
   const user = auth.currentUser;
 
-  // State to manage user details
   const [details, setDetails] = useState({
     name: user?.displayName || "",
     email: user?.email || "",
     photoURL: user?.photoURL || "/images/profileicon.svg",
-    phone: "123456789", // Default or fetched value
-    dob: "2000-01-01", // Default or fetched value
-    address: "123 Street, XYZ City", // Default or fetched value
+    phone: "",
+    dob: "",
+    address: "",
   });
 
   const [editField, setEditField] = useState(null);
+  const [isEditingPhoto, setIsEditingPhoto] = useState(false);
+  const [newPhoto, setNewPhoto] = useState(null);
 
-  // Handle editing a field
   const handleEdit = (field) => {
     setEditField(field);
   };
 
-  // Handle changes to input fields
   const handleChange = (field, value) => {
     setDetails((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Save changes (Firebase only supports updating displayName & photoURL)
   const handleSave = async () => {
     try {
       if (editField === "name" || editField === "photoURL") {
@@ -38,27 +37,24 @@ const Profile = () => {
       }
       setEditField(null);
       alert("Profile updated successfully!");
-      console.log("Updated details:", details); // Log for backend integration
+      console.log("Updated details:", details);
     } catch (error) {
       console.error("Error updating profile:", error);
     }
   };
 
-  const [isEditingPhoto, setIsEditingPhoto] = useState(false); // Manage photo edit state
-  const [newPhoto, setNewPhoto] = useState(null); // Hold new photo file
-
   const handlePhotoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setNewPhoto(imageUrl); // Display new photo as a preview
+      setNewPhoto(imageUrl);
     }
   };
 
   const handleSavePhoto = async () => {
     try {
       if (newPhoto) {
-        await updateProfile(auth.currentUser, { photoURL: newPhoto }); // Save the new photo URL
+        await updateProfile(auth.currentUser, { photoURL: newPhoto });
         setDetails((prev) => ({ ...prev, photoURL: newPhoto }));
         alert("Profile picture updated successfully!");
       }
@@ -69,21 +65,20 @@ const Profile = () => {
     }
   };
 
-
   return (
-    <div className="profile-section">
+    <div className="profile-bro-section">
       <h2>Personal Details</h2>
       <p>Update your information</p>
-      <div className="profile-content">
-        {/* Profile Picture Section */}
-        <div className="profile-picture">
+      <div className="profile-bro-content">
+        <div className="profile-bro-picture">
           <img
             src={details.photoURL || "/images/profileicon.svg"}
             alt="Profile"
-            className="profile-img"
+            className="profile-bro-img"
           />
+          <div className="profile-bro-photo-controls">
           {isEditingPhoto ? (
-            <div className="edit-photo-container">
+            <div className="profile-bro-edit-photo-container">
               <input
                 type="file"
                 accept="image/*"
@@ -94,17 +89,16 @@ const Profile = () => {
             </div>
           ) : (
             <button
-              className="edit-photo-btn"
+              className="profile-bro-edit-photo-btn"
               onClick={() => setIsEditingPhoto(true)}
             >
               Edit Photo
             </button>
           )}
         </div>
-  
-        {/* User Details Table */}
-        <div className="profile-details">
-          <table className="details-table">
+            </div>
+        <div className="profile-bro-details">
+          <table className="profile-bro-details-table">
             <tbody>
               <tr>
                 <td>Name:</td>
@@ -131,7 +125,7 @@ const Profile = () => {
                 <td>Email:</td>
                 <td>{details.email}</td>
                 <td>
-                  <button disabled>Edit</button> {/* Email is not editable */}
+                  <button disabled>Edit</button>
                 </td>
               </tr>
               <tr>
@@ -203,7 +197,6 @@ const Profile = () => {
       </div>
     </div>
   );
-  
 };
 
 export default Profile;

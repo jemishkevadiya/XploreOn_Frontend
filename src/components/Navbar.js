@@ -103,7 +103,7 @@ class Navbar extends React.Component {
                   <Link to="/my-bookings" className="dropdown-item-navbar">
                     My Bookings
                   </Link>
-                  <button className="dropdown-item logout-button" onClick={this.handleLogout}>
+                  <button className="dropdown-item-navbar logout-button" onClick={this.handleLogout}>
                     Logout
                   </button>
                 </div>
