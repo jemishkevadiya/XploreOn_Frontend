@@ -172,6 +172,7 @@ const Hotel = () => {
   const [endDate, setEndDate] = useState(null);
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
+  const [rooms, setRooms] = useState(1);
   const [location, setLocation] = useState("");
   const navigate = useNavigate();
 
@@ -179,9 +180,12 @@ const Hotel = () => {
     if (type === "adults") {
       if (operation === "increment") setAdults((prev) => prev + 1);
       if (operation === "decrement" && adults > 1) setAdults((prev) => prev - 1);
-    } else {
+    } else if (type === "children") {
       if (operation === "increment") setChildren((prev) => prev + 1);
       if (operation === "decrement" && children > 0) setChildren((prev) => prev - 1);
+    } else if (type === "rooms") {
+      if (operation === "increment") setRooms((prev) => prev + 1);
+      if (operation === "decrement" && rooms > 1) setRooms((prev) => prev - 1);
     }
   };
 
@@ -192,16 +196,15 @@ const Hotel = () => {
     }
 
     try {
-      const formattedCheckIn = startDate.toISOString().split("T")[0]; // Format date as YYYY-MM-DD
+      const formattedCheckIn = startDate.toISOString().split("T")[0];
       const formattedCheckOut = endDate.toISOString().split("T")[0];
 
-      // Navigate to /hoteldetails with search parameters, no API call here
       navigate("/hoteldetails", {
         state: {
           location,
           checkIn: formattedCheckIn,
           checkOut: formattedCheckOut,
-          guests: { adults, children, rooms: 1 },
+          guests: { adults, children, rooms },
         },
       });
     } catch (error) {
@@ -288,6 +291,24 @@ const Hotel = () => {
                   <button
                     className="guest-button"
                     onClick={() => handleGuestChange("children", "increment")}
+                  >
+                    +
+                  </button>
+                </div>
+                <div className="guest-type">
+                  <button
+                    className="guest-button"
+                    onClick={() => handleGuestChange("rooms", "decrement")}
+                    disabled={rooms <= 1}
+                  >
+                    -
+                  </button>
+                  <span className="guest-count">
+                    {rooms} Room{rooms !== 1 && "s"}
+                  </span>
+                  <button
+                    className="guest-button"
+                    onClick={() => handleGuestChange("rooms", "increment")}
                   >
                     +
                   </button>
