@@ -18,26 +18,28 @@ const HotelDetails = () => {
   const [endDate, setEndDate] = useState(
     locationState.state?.checkOut ? new Date(locationState.state.checkOut) : null
   );
-  const [adults, setAdults] = useState(locationState.state?.guests?.adults || 1);
-  const [children, setChildren] = useState(locationState.state?.guests?.children || 0);
-  const [rooms, setRooms] = useState(locationState.state?.guests?.rooms || 1);
+  const [adults, setAdults] = useState(locationState.state?.adults || 1);
+  const [children, setChildren] = useState(locationState.state?.children || 0);
+  const [rooms, setRooms] = useState(locationState.state?.rooms || 1);
   const [hotelOptions, setHotelOptions] = useState([]);
   const [filters, setFilters] = useState({
     refundable: false,
     prepayment: false,
     specialOffers: false,
     amenities: [],
+    priceRange: [0, 10000], 
   });
   const [sortOption, setSortOption] = useState("best-value");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [pageNo, setPageNo] = useState(1);
 
-  const fetchHotelData = async () => {
+  const fetchHotelData = async (page = pageNo) => {
     try {
       if (!location || !startDate || !endDate) {
         console.log("Missing required search params:", { location, startDate, endDate });
         return;
       }
-      setLoading(true); 
+      setLoading(true);
       const formattedCheckIn = startDate.toISOString().split("T")[0];
       const formattedCheckOut = endDate.toISOString().split("T")[0];
 
@@ -47,6 +49,7 @@ const HotelDetails = () => {
         checkOut: formattedCheckOut,
         person: adults + children,
         roomQty: rooms,
+        page_number: page,
       });
       const response = await axios.get("http://localhost:1111/hotels/hotels", {
         params: {
@@ -55,6 +58,7 @@ const HotelDetails = () => {
           checkOut: formattedCheckOut,
           person: adults + children,
           roomQty: rooms,
+          page_number: page,
         },
       });
       console.log("Hotel API Response:", response.data);
@@ -63,13 +67,13 @@ const HotelDetails = () => {
       console.error("Error fetching hotels:", error.response?.data || error.message);
       setHotelOptions([]);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchHotelData();
-  }, [location, startDate, endDate, adults, children, rooms]);
+  }, [location, startDate, endDate, adults, children, rooms, pageNo]);
 
   const handleGuestChange = (type, operation) => {
     if (type === "adults") {
@@ -89,12 +93,13 @@ const HotelDetails = () => {
       ...prev,
       [filterType]: value,
     }));
+    setPageNo(1); 
   };
 
   const handleSortChange = (e) => {
     const newSortOption = e.target.value;
     setSortOption(newSortOption);
-    const sortedHotels = [...hotelOptions].sort((a, b) => {
+    const sortedHotels = [...filteredHotels].sort((a, b) => {
       const getPrice = (hotel) => {
         const price = hotel.property?.priceBreakdown?.grossPrice?.value || 0;
         return isNaN(price) || price > 1000000 ? 0 : price;
@@ -110,15 +115,31 @@ const HotelDetails = () => {
     setHotelOptions(sortedHotels);
   };
 
+
   const filteredHotels = hotelOptions.filter((hotel) => {
     const grossPrice = hotel.property?.priceBreakdown?.grossPrice?.value || 0;
-    const matchesRefundable = !filters.refundable || hotel.property?.refundable;
-    const matchesPrepayment = !filters.prepayment || !hotel.property?.prepaymentNeeded;
-    const matchesSpecialOffers = !filters.specialOffers || hotel.property?.specialOffer;
-    const matchesAmenities =
-      filters.amenities.length === 0 ||
-      filters.amenities.every((amenity) => hotel.property?.amenities?.includes(amenity));
-    return matchesRefundable && matchesPrepayment && matchesSpecialOffers && matchesAmenities;
+
+
+    if (filters.refundable && !hotel.property?.refundable) return false;
+
+
+    if (filters.prepayment && hotel.property?.prepaymentNeeded) return false;
+
+
+    if (filters.specialOffers && !hotel.property?.specialOffer) return false;
+
+
+    if (
+      filters.amenities.length > 0 &&
+      !filters.amenities.every((amenity) => hotel.property?.amenities?.includes(amenity))
+    ) {
+      return false;
+    }
+
+
+    if (grossPrice < filters.priceRange[0] || grossPrice > filters.priceRange[1]) return false;
+
+    return true;
   });
 
   const handleSearch = async () => {
@@ -130,22 +151,24 @@ const HotelDetails = () => {
     const formattedCheckIn = startDate.toISOString().split("T")[0];
     const formattedCheckOut = endDate.toISOString().split("T")[0];
 
+    setPageNo(1);
     navigate("/hoteldetails", {
       state: {
         location,
         checkIn: formattedCheckIn,
         checkOut: formattedCheckOut,
-        guests: { adults, children, rooms },
+        adults,
+        children,
+        rooms,
       },
     });
-    await fetchHotelData();
+    await fetchHotelData(1);
   };
 
   const handleViewDetails = (hotel) => {
     const formattedCheckIn = startDate.toISOString().split("T")[0];
     const formattedCheckOut = endDate.toISOString().split("T")[0];
 
-    // Extract price details and accessibility label
     const priceBreakdown = hotel.property?.priceBreakdown || {};
     const priceData = {
       grossPrice: priceBreakdown.grossPrice?.value || 0,
@@ -156,13 +179,34 @@ const HotelDetails = () => {
 
     navigate(`/hotel/${hotel.hotel_id}`, {
       state: {
-        arrivalDate: formattedCheckIn,
-        departureDate: formattedCheckOut,
+        checkIn: formattedCheckIn,
+        checkOut: formattedCheckOut,
+        adults,
+        children,
+        rooms,
         priceData,
         accessibilityLabel,
       },
     });
   };
+
+  const handlePageChange = (newPage) => {
+    setPageNo(newPage);
+    fetchHotelData(newPage);
+  };
+
+  const SkeletonHotelCard = () => (
+    <div className="hotel-card_hoteldetails skeleton">
+      <div className="hotel-image_hoteldetails skeleton-image"></div>
+      <div className="hotel-info_hoteldetails">
+        <div className="skeleton-text skeleton-title"></div>
+        <div className="skeleton-text skeleton-price"></div>
+        <div className="skeleton-text skeleton-score"></div>
+        <div className="skeleton-text skeleton-capacity"></div>
+        <div className="skeleton-button"></div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="hotel-details-page_hoteldetails">
@@ -325,6 +369,23 @@ const HotelDetails = () => {
               WiFi
             </label>
           </div>
+
+          <h3>Price Range (CAD)</h3>
+          <div className="filter-section_hoteldetails">
+            <input
+              type="range"
+              min="0"
+              max="10000"
+              step="50"
+              value={filters.priceRange[1]}
+              onChange={(e) =>
+                handleFilterChange("priceRange", [filters.priceRange[0], parseInt(e.target.value, 10)])
+              }
+            />
+            <p>
+              ${filters.priceRange[0]} - ${filters.priceRange[1]}
+            </p>
+          </div>
         </div>
 
         <div className="main-content_hoteldetails">
@@ -339,38 +400,60 @@ const HotelDetails = () => {
 
           <div className="hotel-options_hoteldetails">
             {loading ? (
-              <p>Loading hotels, please wait...</p> 
+              <>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <SkeletonHotelCard key={index} />
+                ))}
+              </>
             ) : filteredHotels.length > 0 ? (
-              filteredHotels.map((hotel, index) => (
-                <div key={index} className="hotel-card_hoteldetails">
-                  <img
-                    src={hotel.property?.photoUrls?.[0] || "https://via.placeholder.com/150"}
-                    alt={hotel.property?.name}
-                    className="hotel-image_hoteldetails"
-                  />
-                  <div className="hotel-info_hoteldetails">
-                    <h3>{hotel.property?.name || "Unknown Hotel"}</h3>
-                    <p>
-                      Price: C$
-                      {hotel.property?.priceBreakdown?.grossPrice?.value ||
-                        (hotel.property?.priceBreakdown?.grossPrice?.value +
-                          (hotel.property?.priceBreakdown?.excludedPrice?.value || 0)) ||
-                        "N/A"}
-                    </p>
-                    <p>Review Score: {hotel.property?.reviewScore || "N/A"} ({hotel.property?.reviewScoreWord || ""})</p>
-                    <p>Capacity: {hotel.accessibilityLabel?.match(/\d+\s*beds/)?.[0] || "N/A"}</p>
-                    {hotel.property?.specialOffer && <span className="special-offer_hoteldetails">Special offer</span>}
-                    <button
-                      className="view-deal_hoteldetails"
-                      onClick={() => handleViewDetails(hotel)}
-                    >
-                      Book Now
-                    </button>
+              <>
+                {filteredHotels.map((hotel, index) => (
+                  <div key={index} className="hotel-card_hoteldetails">
+                    <img
+                      src={hotel.property?.photoUrls?.[0] || "https://via.placeholder.com/150"}
+                      alt={hotel.property?.name}
+                      className="hotel-image_hoteldetails"
+                    />
+                    <div className="hotel-info_hoteldetails">
+                      <h3>{hotel.property?.name || "Unknown Hotel"}</h3>
+                      <p>
+                        Price: C$
+                        {hotel.property?.priceBreakdown?.grossPrice?.value ||
+                          (hotel.property?.priceBreakdown?.grossPrice?.value +
+                            (hotel.property?.priceBreakdown?.excludedPrice?.value || 0)) ||
+                          "N/A"}
+                      </p>
+                      <p>Review Score: {hotel.property?.reviewScore || "N/A"} ({hotel.property?.reviewScoreWord || ""})</p>
+                      <p>Capacity: {hotel.accessibilityLabel?.match(/\d+\s*beds/)?.[0] || "N/A"}</p>
+                      {hotel.property?.specialOffer && <span className="special-offer_hoteldetails">Special offer</span>}
+                      <button
+                        className="view-deal_hoteldetails"
+                        onClick={() => handleViewDetails(hotel)}
+                      >
+                        Book Now
+                      </button>
+                    </div>
                   </div>
+                ))}
+                <div className="pagination_hoteldetails">
+                  <button
+                    className="pagination-btn_hoteldetails pagination-prev_hoteldetails"
+                    disabled={pageNo === 1}
+                    onClick={() => handlePageChange(pageNo - 1)}
+                  >
+                    Previous
+                  </button>
+                  <span className="pagination-page_hoteldetails">Page {pageNo}</span>
+                  <button
+                    className="pagination-btn_hoteldetails pagination-next_hoteldetails"
+                    onClick={() => handlePageChange(pageNo + 1)}
+                  >
+                    Next
+                  </button>
                 </div>
-              ))
+              </>
             ) : (
-              <p>Sorry, we couldn't find any search results matching your criteria.</p> 
+              <p>Sorry, we couldn't find any search results matching your criteria.</p>
             )}
           </div>
         </div>

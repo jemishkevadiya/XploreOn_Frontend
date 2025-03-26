@@ -329,3 +329,103 @@ body {
     justify-content: flex-start;
   }
 }
+
+
+
+
+
+
+
+
+
+/* Skeleton Loader Styles */
+.skeleton {
+  background: #e0e0e0;
+  border-radius: 4px;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.skeleton-image {
+  width: 150px;
+  height: 150px;
+  background: #d3d3d3;
+}
+
+.skeleton-text {
+  height: 16px;
+  margin: 8px 0;
+  background: #d3d3d3;
+}
+
+.skeleton-title {
+  width: 70%;
+  height: 20px;
+}
+
+.skeleton-price,
+.skeleton-score,
+.skeleton-capacity {
+  width: 50%;
+}
+
+.skeleton-button {
+  width: 100px;
+  height: 36px;
+  margin-top: 10px;
+  background: #d3d3d3;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #d3d3d3;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+}
+
+/* Ensure pagination is not fixed and appears at the bottom */
+.pagination_hoteldetails {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination-btn_hoteldetails {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination-prev_hoteldetails {
+  background-color: #d3d3d3;
+  color: #000;
+}
+
+.pagination-prev_hoteldetails:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.pagination-next_hoteldetails {
+  background-color: #000;
+  color: #fff;
+}
+
+.pagination-next_hoteldetails:disabled {
+  background-color: #333;
+  cursor: not-allowed;
+}
+
+.pagination-page_hoteldetails {
+  font-size: 16px;
+  font-weight: bold;
+}

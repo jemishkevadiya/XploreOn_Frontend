@@ -7,22 +7,15 @@ const SkeletonHotelDetail = () => {
   return (
     <div className="hotel-detail-view_hotelview">
       <div className="hotel-detail-content_hotelview">
-        {/* Hotel Name Skeleton */}
         <div className="skeleton skeleton-title"></div>
-        {/* Location Skeleton */}
         <div className="skeleton skeleton-location"></div>
-
-        {/* Top Section: Photos, Price, and Facilities */}
         <div className="top-section_hotelview">
-          {/* Left Column: Photos */}
           <div className="left-column_hotelview">
             <div className="hotel-images_hotelview">
               <div className="hotel-images-layout_hotelview">
-                {/* Main Photo Skeleton */}
                 <div className="main-photo_hotelview">
                   <div className="skeleton skeleton-main-photo"></div>
                 </div>
-                {/* Smaller Photos Skeleton */}
                 <div className="side-photos_hotelview">
                   {Array.from({ length: 8 }).map((_, index) => (
                     <div key={index} className="skeleton skeleton-side-photo"></div>
@@ -31,16 +24,12 @@ const SkeletonHotelDetail = () => {
               </div>
             </div>
           </div>
-
-          {/* Right Column: Price and Facilities */}
           <div className="right-column_hotelview">
-            {/* Price Section Skeleton */}
             <div className="price-section_hotelview">
               <div className="skeleton skeleton-price"></div>
               <div className="skeleton skeleton-taxes"></div>
               <div className="skeleton skeleton-button"></div>
             </div>
-            {/* Facilities Section Skeleton */}
             <div className="facilities-section_hotelview">
               <div className="skeleton skeleton-section-title"></div>
               <ul>
@@ -54,14 +43,10 @@ const SkeletonHotelDetail = () => {
             </div>
           </div>
         </div>
-
-        {/* Room Overview Skeleton */}
         <div className="accessibility-section_hotelview">
           <div className="skeleton skeleton-section-title"></div>
           <div className="skeleton skeleton-text"></div>
         </div>
-
-        {/* Highlights Skeleton */}
         <div className="highlights-section_hotelview">
           <div className="skeleton skeleton-section-title"></div>
           <ul>
@@ -73,8 +58,6 @@ const SkeletonHotelDetail = () => {
             ))}
           </ul>
         </div>
-
-        {/* Important Information Skeleton */}
         <div className="important-info-section_hotelview">
           <div className="skeleton skeleton-section-title"></div>
           <ul>
@@ -95,7 +78,7 @@ const HotelDetailView = () => {
   const { hotelId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const { arrivalDate, departureDate, guests, priceData, accessibilityLabel } = location.state || {};
+  const { checkIn, checkOut, adults, children, rooms, priceData, accessibilityLabel } = location.state || {};
 
   const [hotelDetails, setHotelDetails] = useState(null);
   const [photos, setPhotos] = useState([]);
@@ -103,27 +86,26 @@ const HotelDetailView = () => {
   const [error, setError] = useState(null);
   const [showPhotosModal, setShowPhotosModal] = useState(false);
 
-  console.log("HotelDetailView params:", { hotelId, arrivalDate, departureDate, guests, priceData, accessibilityLabel });
+  console.log("HotelDetailView params:", { hotelId, checkIn, checkOut, adults, children, rooms, priceData, accessibilityLabel });
 
-  // Fetch hotel details
   useEffect(() => {
     const fetchHotelDetails = async () => {
       try {
-        if (!hotelId || !arrivalDate || !departureDate) {
-          throw new Error("Missing required parameters (hotelId, arrivalDate, or departureDate)");
+        if (!hotelId || !checkIn || !checkOut) {
+          throw new Error("Missing required parameters (hotelId, checkIn, or checkOut)");
         }
 
         console.log("Fetching hotel details with params:", {
           hotelId,
-          arrivalDate,
-          departureDate,
+          checkIn,
+          checkOut,
         });
 
         const response = await axios.get("http://localhost:1111/hotels/hotel-details", {
           params: {
             hotelId,
-            arrivalDate,
-            departureDate,
+            arrivalDate: checkIn,
+            departureDate: checkOut,
           },
         });
 
@@ -142,9 +124,8 @@ const HotelDetailView = () => {
     };
 
     fetchHotelDetails();
-  }, [hotelId, arrivalDate, departureDate]);
+  }, [hotelId, checkIn, checkOut]);
 
-  // Fetch hotel photos
   useEffect(() => {
     const fetchHotelPhotos = async () => {
       try {
@@ -174,25 +155,36 @@ const HotelDetailView = () => {
     fetchHotelPhotos();
   }, [hotelId]);
 
-  // Handle Book Now button click
   const handleBookNow = () => {
+    const updatedPriceData = {
+      ...priceData,
+      grossPrice: adjustedGrossPrice,
+      excludedPrice: adjustedExcludedPrice,
+    };
+
     navigate("/booking", {
       state: {
         hotelId,
         hotelName: hotelDetails?.hotel_name || "Unknown Hotel",
-        arrivalDate,
-        departureDate,
-        guests,
-        priceData,
+        arrivalDate: checkIn,
+        departureDate: checkOut,
+        adults,
+        children,
+        rooms,
+        priceData: updatedPriceData,
         accessibilityLabel,
       },
     });
   };
 
-  // Validate required state
   if (!priceData || !priceData.grossPrice || !priceData.currency) {
     console.log("Price information missing.");
     return <div>Error: Price information is missing.</div>;
+  }
+
+  if (rooms === undefined) {
+    console.log("Rooms information missing.");
+    return <div>Error: Rooms information is missing.</div>;
   }
 
   if (loading) {
@@ -219,32 +211,28 @@ const HotelDetailView = () => {
     hotel_important_information_with_codes,
   } = hotelDetails;
 
-  // Use accessibilityLabel from location.state, or fallback to a default message
   const displayAccessibilityLabel = accessibilityLabel || "Accessibility information not available.";
 
-  // Ensure we have at least 9 photos for the layout (1 main + 8 smaller photos)
-  const displayedPhotos = photos.slice(0, 9); // Main photo + 8 smaller photos
+  const displayedPhotos = photos.slice(0, 9);
   const remainingPhotosCount = photos.length - 9;
+
+  const numberOfRooms = rooms || 1;
+  const adjustedGrossPrice = priceData.grossPrice * numberOfRooms;
+  const adjustedExcludedPrice = priceData.excludedPrice * numberOfRooms;
 
   return (
     <div className="hotel-detail-view_hotelview">
-      {/* Main Content */}
       <div className="hotel-detail-content_hotelview">
         <h1>{hotel_name}</h1>
         <p className="location_hotelview">
           {address}, {city}, {country_trans}, {zip}
         </p>
-
-        {/* Top Section: Photos, Price, and Facilities */}
         <div className="top-section_hotelview">
-          {/* Left Column: Main Photo */}
           <div className="left-column_hotelview">
-            {/* Hotel Images */}
             <div className="hotel-images_hotelview">
               {photos.length > 0 ? (
                 <>
                   <div className="hotel-images-layout_hotelview">
-                    {/* Main Photo (Left) */}
                     {displayedPhotos[0] && (
                       <div className="main-photo_hotelview">
                         <img
@@ -254,7 +242,6 @@ const HotelDetailView = () => {
                         />
                       </div>
                     )}
-                    {/* Smaller Photos (Right) */}
                     <div className="side-photos_hotelview">
                       {displayedPhotos.slice(1, 9).map((photo, index) => (
                         <div
@@ -282,8 +269,6 @@ const HotelDetailView = () => {
                       ))}
                     </div>
                   </div>
-
-                  {/* Photos Modal */}
                   {showPhotosModal && (
                     <div className="photos-modal_hotelview">
                       <div className="photos-modal-content_hotelview">
@@ -312,24 +297,20 @@ const HotelDetailView = () => {
               )}
             </div>
           </div>
-
-          {/* Right Column: Price Section and Facilities */}
           <div className="right-column_hotelview">
             <div className="price-section_hotelview">
               <h2>
-                {priceData.currency}${priceData.grossPrice.toFixed(2)}
+                {priceData.currency}${adjustedGrossPrice.toFixed(2)}
               </h2>
-              {priceData.excludedPrice > 0 && (
+              {adjustedExcludedPrice > 0 && (
                 <p className="taxes-charges">
-                  + {priceData.currency}${priceData.excludedPrice.toFixed(2)} taxes and charges
+                  + {priceData.currency}${adjustedExcludedPrice.toFixed(2)} taxes and charges
                 </p>
               )}
               <button className="book-now-btn_hotelview" onClick={handleBookNow}>
                 Book Now
               </button>
             </div>
-
-            {/* Facilities - Moved to right column below price */}
             <div className="facilities-section_hotelview">
               <h2>Facilities</h2>
               {facilities_block?.facilities?.length > 0 ? (
@@ -347,14 +328,10 @@ const HotelDetailView = () => {
             </div>
           </div>
         </div>
-
-        {/* Accessibility Label */}
         <div className="accessibility-section_hotelview">
           <h2>Room Overview</h2>
           <p>{displayAccessibilityLabel}</p>
         </div>
-
-        {/* Highlights */}
         <div className="highlights-section_hotelview">
           <h2>Property Highlights</h2>
           {property_highlight_strip?.length > 0 ? (
@@ -370,8 +347,6 @@ const HotelDetailView = () => {
             <p>No property highlights available at this time.</p>
           )}
         </div>
-
-        {/* Important Information */}
         <div className="important-info-section_hotelview">
           <h2>Important Information</h2>
           {hotel_important_information_with_codes?.length > 0 ? (
