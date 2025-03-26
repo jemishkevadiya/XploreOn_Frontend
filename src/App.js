@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Flight from "./pages/Flight";
-import FlightDetails from "./pages/FlightDetails";
+import FlightDetails from "./pages/flightdetails";
 import CarRental from "./pages/carRental";
 import CarRentalDetails from "./pages/carrentaldetails";
 import Hotel from "./pages/Hotel";

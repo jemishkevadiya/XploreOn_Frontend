@@ -11,7 +11,6 @@ const HotelDetails = () => {
   const locationState = useLocation();
   const navigate = useNavigate();
 
-
   const [location, setLocation] = useState(locationState.state?.location || "");
   const [startDate, setStartDate] = useState(
     locationState.state?.checkIn ? new Date(locationState.state.checkIn) : null
@@ -21,7 +20,7 @@ const HotelDetails = () => {
   );
   const [adults, setAdults] = useState(locationState.state?.guests?.adults || 1);
   const [children, setChildren] = useState(locationState.state?.guests?.children || 0);
-
+  const [rooms, setRooms] = useState(locationState.state?.guests?.rooms || 1);
   const [hotelOptions, setHotelOptions] = useState([]);
   const [filters, setFilters] = useState({
     refundable: false,
@@ -30,6 +29,7 @@ const HotelDetails = () => {
     amenities: [],
   });
   const [sortOption, setSortOption] = useState("best-value");
+  const [loading, setLoading] = useState(false); 
 
   const fetchHotelData = async () => {
     try {
@@ -37,6 +37,7 @@ const HotelDetails = () => {
         console.log("Missing required search params:", { location, startDate, endDate });
         return;
       }
+      setLoading(true); 
       const formattedCheckIn = startDate.toISOString().split("T")[0];
       const formattedCheckOut = endDate.toISOString().split("T")[0];
 
@@ -45,7 +46,7 @@ const HotelDetails = () => {
         checkIn: formattedCheckIn,
         checkOut: formattedCheckOut,
         person: adults + children,
-        roomQty: 1,
+        roomQty: rooms,
       });
       const response = await axios.get("http://localhost:1111/hotels/hotels", {
         params: {
@@ -53,28 +54,33 @@ const HotelDetails = () => {
           checkIn: formattedCheckIn,
           checkOut: formattedCheckOut,
           person: adults + children,
-          roomQty: 1,
+          roomQty: rooms,
         },
       });
       console.log("Hotel API Response:", response.data);
       setHotelOptions(response.data || []);
     } catch (error) {
       console.error("Error fetching hotels:", error.response?.data || error.message);
-      setHotelOptions([]); 
+      setHotelOptions([]);
+    } finally {
+      setLoading(false); 
     }
   };
 
   useEffect(() => {
     fetchHotelData();
-  }, [location, startDate, endDate, adults, children]);
+  }, [location, startDate, endDate, adults, children, rooms]);
 
   const handleGuestChange = (type, operation) => {
     if (type === "adults") {
       if (operation === "increment") setAdults((prev) => prev + 1);
       if (operation === "decrement" && adults > 1) setAdults((prev) => prev - 1);
-    } else {
+    } else if (type === "children") {
       if (operation === "increment") setChildren((prev) => prev + 1);
       if (operation === "decrement" && children > 0) setChildren((prev) => prev - 1);
+    } else if (type === "rooms") {
+      if (operation === "increment") setRooms((prev) => prev + 1);
+      if (operation === "decrement" && rooms > 1) setRooms((prev) => prev - 1);
     }
   };
 
@@ -91,7 +97,7 @@ const HotelDetails = () => {
     const sortedHotels = [...hotelOptions].sort((a, b) => {
       const getPrice = (hotel) => {
         const price = hotel.property?.priceBreakdown?.grossPrice?.value || 0;
-        return isNaN(price) || price > 1000000 ? 0 : price; 
+        return isNaN(price) || price > 1000000 ? 0 : price;
       };
 
       if (newSortOption === "price-low-to-high") {
@@ -99,7 +105,7 @@ const HotelDetails = () => {
       } else if (newSortOption === "price-high-to-low") {
         return getPrice(b) - getPrice(a);
       }
-      return 0; 
+      return 0;
     });
     setHotelOptions(sortedHotels);
   };
@@ -129,7 +135,7 @@ const HotelDetails = () => {
         location,
         checkIn: formattedCheckIn,
         checkOut: formattedCheckOut,
-        guests: { adults, children, rooms: 1 },
+        guests: { adults, children, rooms },
       },
     });
     await fetchHotelData();
@@ -148,10 +154,6 @@ const HotelDetails = () => {
 
   return (
     <div className="hotel-details-page_hoteldetails">
-
-     
-
-
       <div className="search-bar-container_hoteldetails">
         <div className="search-bar_hoteldetails">
           <div className="input-field_hoteldetails">
@@ -225,6 +227,24 @@ const HotelDetails = () => {
                   +
                 </button>
               </div>
+              <div className="guest-type_hoteldetails">
+                <button
+                  className="guest-button_hoteldetails"
+                  onClick={() => handleGuestChange("rooms", "decrement")}
+                  disabled={rooms <= 1}
+                >
+                  -
+                </button>
+                <span className="guest-count_hoteldetails">
+                  {rooms} Room{rooms !== 1 && "s"}
+                </span>
+                <button
+                  className="guest-button_hoteldetails"
+                  onClick={() => handleGuestChange("rooms", "increment")}
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
 
@@ -234,9 +254,7 @@ const HotelDetails = () => {
         </div>
       </div>
 
-
       <div className="content_hoteldetails">
-
         <div className="filter-sidebar_hoteldetails">
           <h3>Deals</h3>
           <div className="filter-section_hoteldetails">
@@ -297,7 +315,6 @@ const HotelDetails = () => {
           </div>
         </div>
 
-
         <div className="main-content_hoteldetails">
           <div className="sort-section_hoteldetails">
             <label>Sort by: </label>
@@ -309,7 +326,9 @@ const HotelDetails = () => {
           </div>
 
           <div className="hotel-options_hoteldetails">
-            {filteredHotels.length > 0 ? (
+            {loading ? (
+              <p>Loading hotels, please wait...</p> 
+            ) : filteredHotels.length > 0 ? (
               filteredHotels.map((hotel, index) => (
                 <div key={index} className="hotel-card_hoteldetails">
                   <img
@@ -339,7 +358,7 @@ const HotelDetails = () => {
                 </div>
               ))
             ) : (
-              <p>Sorry, we couldn't find any search results matching your criteria.</p>
+              <p>Sorry, we couldn't find any search results matching your criteria.</p> 
             )}
           </div>
         </div>
