@@ -11,7 +11,7 @@ const HotelDetails = () => {
   const locationState = useLocation();
   const navigate = useNavigate();
 
-
+  // Initialize search bar state with passed values
   const [location, setLocation] = useState(locationState.state?.location || "");
   const [startDate, setStartDate] = useState(
     locationState.state?.checkIn ? new Date(locationState.state.checkIn) : null
@@ -60,7 +60,7 @@ const HotelDetails = () => {
       setHotelOptions(response.data || []);
     } catch (error) {
       console.error("Error fetching hotels:", error.response?.data || error.message);
-      setHotelOptions([]); 
+      setHotelOptions([]); // Set to empty array on error
     }
   };
 
@@ -91,7 +91,7 @@ const HotelDetails = () => {
     const sortedHotels = [...hotelOptions].sort((a, b) => {
       const getPrice = (hotel) => {
         const price = hotel.property?.priceBreakdown?.grossPrice?.value || 0;
-        return isNaN(price) || price > 1000000 ? 0 : price; 
+        return isNaN(price) || price > 1000000 ? 0 : price; // Fallback to 0 for invalid/large values
       };
 
       if (newSortOption === "price-low-to-high") {
@@ -99,7 +99,7 @@ const HotelDetails = () => {
       } else if (newSortOption === "price-high-to-low") {
         return getPrice(b) - getPrice(a);
       }
-      return 0; 
+      return 0; // Default to no sorting for "best-value"
     });
     setHotelOptions(sortedHotels);
   };
@@ -135,23 +135,32 @@ const HotelDetails = () => {
     await fetchHotelData();
   };
 
-  const handleViewDetails = (hotelId) => {
+  const handleViewDetails = (hotel) => {
     const formattedCheckIn = startDate.toISOString().split("T")[0];
     const formattedCheckOut = endDate.toISOString().split("T")[0];
-    navigate(`/hotel/${hotelId}`, {
+
+    // Extract price details and accessibility label
+    const priceBreakdown = hotel.property?.priceBreakdown || {};
+    const priceData = {
+      grossPrice: priceBreakdown.grossPrice?.value || 0,
+      excludedPrice: priceBreakdown.excludedPrice?.value || 0,
+      currency: priceBreakdown.grossPrice?.currency || "C$",
+    };
+    const accessibilityLabel = hotel.accessibilityLabel || "N/A";
+
+    navigate(`/hotel/${hotel.hotel_id}`, {
       state: {
         arrivalDate: formattedCheckIn,
         departureDate: formattedCheckOut,
+        priceData,
+        accessibilityLabel,
       },
     });
   };
 
   return (
     <div className="hotel-details-page_hoteldetails">
-
-     
-
-
+      {/* Search Bar */}
       <div className="search-bar-container_hoteldetails">
         <div className="search-bar_hoteldetails">
           <div className="input-field_hoteldetails">
@@ -234,9 +243,9 @@ const HotelDetails = () => {
         </div>
       </div>
 
-
+      {/* Content Area */}
       <div className="content_hoteldetails">
-
+        {/* Filter Sidebar */}
         <div className="filter-sidebar_hoteldetails">
           <h3>Deals</h3>
           <div className="filter-section_hoteldetails">
@@ -297,7 +306,7 @@ const HotelDetails = () => {
           </div>
         </div>
 
-
+        {/* Main Content */}
         <div className="main-content_hoteldetails">
           <div className="sort-section_hoteldetails">
             <label>Sort by: </label>
@@ -331,7 +340,7 @@ const HotelDetails = () => {
                     {hotel.property?.specialOffer && <span className="special-offer_hoteldetails">Special offer</span>}
                     <button
                       className="view-deal_hoteldetails"
-                      onClick={() => handleViewDetails(hotel.hotel_id)}
+                      onClick={() => handleViewDetails(hotel)}
                     >
                       Book Now
                     </button>
