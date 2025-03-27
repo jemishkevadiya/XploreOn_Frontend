@@ -23,7 +23,7 @@ const Bookings = () => {
       try {
         const token = await user.getIdToken();
         console.log("Fetch Token:", token);
-        const response = await axios.get( `${process.env.REACT_APP_API_URL}/user/user/${user.uid}`||`http://localhost:1111/user/user/${user.uid}`, {
+        const response = await axios.get(`http://localhost:1111/user/user/${user.uid}`, {
           headers: { authtoken: token },
         });
         console.log("Raw bookings response:", response.data);
@@ -106,7 +106,7 @@ const Bookings = () => {
       const token = await user.getIdToken();
       console.log("Cancel User ID:", user.uid, "Booking ID:", id);
       console.log("Cancel Token:", token);
-      const url =  `${process.env.REACT_APP_API_URL}/user/cancel/${id}`||`http://localhost:1111/user/cancel/${id}`;
+      const url = `http://localhost:1111/user/cancel/${id}`;
       console.log("Hitting:", url);
       const response = await axios.delete(url, {
         headers: { authtoken: token },

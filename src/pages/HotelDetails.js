@@ -65,7 +65,7 @@ const HotelDetails = () => {
       const formattedCheckIn = startDate.toISOString().split("T")[0];
       const formattedCheckOut = endDate.toISOString().split("T")[0];
 
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/hotels/filters`||"http://localhost:1111/hotels/filters", {
+      const response = await axios.get("http://localhost:1111/hotels/filters", {
         params: {
           location,
           checkIn: formattedCheckIn,
@@ -122,7 +122,7 @@ const HotelDetails = () => {
         params.categories_filter = categoriesFilter;
       }
 
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/hotels/hotels`||"http://localhost:1111/hotels/hotels", {
+      const response = await axios.get("http://localhost:1111/hotels/hotels", {
         params,
       });
       setHotelOptions(response.data || []);

@@ -43,7 +43,7 @@ const CarRentalDetails = () => {
       setError(null);
       console.log("🔹 Final API Params:", params);
 
-      const response = await axios.get( `${process.env.REACT_APP_API_URL}/car_rental/search`||"http://localhost:1111/car_rental/search", { params });
+      const response = await axios.get("http://localhost:1111/car_rental/search", { params });
 
       console.log("API Full Response:", response.data);
 
@@ -146,7 +146,7 @@ const CarRentalDetails = () => {
         }
       }
       console.log(payload.rentalDetails);
-      const response = await axios.post( `${process.env.REACT_APP_API_URL}/car_rental/carbooking`||"http://localhost:1111/car_rental/carbooking", payload);
+      const response = await axios.post("http://localhost:1111/car_rental/carbooking", payload);
       if (response.status === 200 || response.status === 201){
         window.location.href = response.data.paymentUrl
       }else{

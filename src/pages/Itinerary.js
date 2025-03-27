@@ -77,7 +77,7 @@ const Itinerary = () => {
         setError(null);
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/itinerary/generate` || "/itinerary/generate", {
+            const response = await fetch("/itinerary/generate", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

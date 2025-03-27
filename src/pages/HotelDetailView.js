@@ -94,7 +94,7 @@ const HotelDetailView = () => {
           throw new Error("Missing required parameters (hotelId, checkIn, or checkOut)");
         }
 
-        const response = await axios.get( `${process.env.REACT_APP_API_URL}/hotels/hotel-details` ||"http://localhost:1111/hotels/hotel-details", {
+        const response = await axios.get("http://localhost:1111/hotels/hotel-details", {
           params: {
             hotelId,
             arrivalDate: checkIn,
@@ -124,7 +124,7 @@ const HotelDetailView = () => {
         if (!hotelId) {
           throw new Error("Missing hotelId for fetching photos");
         }
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/hotels/hotel-photos`||"http://localhost:1111/hotels/hotel-photos", {
+        const response = await axios.get("http://localhost:1111/hotels/hotel-photos", {
           params: { hotelId },
         });
 
@@ -210,7 +210,7 @@ const HotelDetailView = () => {
     };
   
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/hotels/create-hotel-booking`||"http://localhost:1111/hotels/create-hotel-booking", payload);
+      const response = await axios.post("http://localhost:1111/hotels/create-hotel-booking", payload);
   
       if (response.status === 201 && response.data.paymentUrl) {
         if (!response.data.paymentUrl.startsWith("https://checkout.stripe.com/")) {
