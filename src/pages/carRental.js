@@ -75,9 +75,9 @@ const CarStepBooking = () => {
         <h2 className="car-steps-title">How to Book Your Ride</h2>
         <div className="car-steps-container">
           <div className="car-step-card car-step-up">
-          <span className="car-step-number">1</span>
+            <span className="car-step-number">1</span>
             <FaMapMarkerAlt className="step-icon" />
-            
+
             <h3 className="car-step-title">Select Pickup & Drop</h3>
             <p className="car-step-description">
               Choose your preferred locations for pick-up and drop-off. Make sure the location is convenient for you.
@@ -85,9 +85,9 @@ const CarStepBooking = () => {
           </div>
 
           <div className="car-step-card car-step-up">
-          <span className="car-step-number">2</span>
+            <span className="car-step-number">2</span>
             <FaCalendarAlt className="step-icon" />
-            
+
             <h3 className="car-step-title">Select Date & Time</h3>
             <p className="car-step-description">
               Select the date and time for your ride. Ensure the availability of your preferred vehicle.
@@ -95,9 +95,9 @@ const CarStepBooking = () => {
           </div>
 
           <div className="car-step-card car-step-down">
-          <span className="car-step-number">3</span>
+            <span className="car-step-number">3</span>
             <FaCar className="step-icon" />
-            
+
             <h3 className="car-step-title">Choose Your Car</h3>
             <p className="car-step-description">
               Pick a car that fits your style and budget. Choose from economy, luxury, or SUVs.
@@ -105,9 +105,9 @@ const CarStepBooking = () => {
           </div>
 
           <div className="car-step-card car-step-down">
-          <span className="car-step-number">4</span>
+            <span className="car-step-number">4</span>
             <FaCreditCard className="step-icon" />
-            
+
             <h3 className="car-step-title">Confirm & Pay</h3>
             <p className="car-step-description">
               Secure your booking with an online payment and get ready for your ride.
@@ -118,32 +118,6 @@ const CarStepBooking = () => {
     </div>
   );
 };
-
-
-const ThirdCarPage = () => {
-  const navigate = useNavigate();
-
-  return (
-    <section className="ThirdContainer-car">
-      <div className="location-container">
-        <h2 className="thirdpagecar-title">Browse popular locations</h2>
-        <div className="location-grid">
-          {locations.map((location, index) => (
-            <button
-              key={index}
-              className="location-card"
-              onClick={() => navigate(location.path)}
-            >
-              <img src={location.image} alt={location.name} />
-              <p>Car rental {location.name}</p>
-            </button>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 
 const SecondCarPage = () => {
 
@@ -173,7 +147,7 @@ const SecondCarPage = () => {
 const CarRental = () => {
   const [pickupLocation, setPickupLocation] = useState("");
   const [returnLocation, setReturnLocation] = useState("");
-  const [PickupDate, setPickupDate] = useState(new Date()); 
+  const [PickupDate, setPickupDate] = useState(new Date());
   const [ReturnDate, setReturnDate] = useState(new Date());
 
   const navigate = useNavigate();
@@ -186,33 +160,33 @@ const CarRental = () => {
     }
 
 
-  const pickUpDate = PickupDate.toISOString().split('T')[0]; 
-  const pickUpTime = PickupDate.toISOString().split('T')[1].slice(0, 5); 
-  const dropOffDate = ReturnDate.toISOString().split('T')[0]; 
-  const dropOffTime = ReturnDate.toISOString().split('T')[1].slice(0, 5); 
+    const pickUpDate = PickupDate.toISOString().split('T')[0];
+    const pickUpTime = PickupDate.toISOString().split('T')[1].slice(0, 5);
+    const dropOffDate = ReturnDate.toISOString().split('T')[0];
+    const dropOffTime = ReturnDate.toISOString().split('T')[1].slice(0, 5);
 
     const carsearchParams = {
       pickupLocation,
       dropOffLocation: returnLocation,
-      pickUpDate,   
-      dropOffDate,   
-      pickUpTime,    
-      dropOffTime,   
-      currencyCode: "CAD", 
+      pickUpDate,
+      dropOffDate,
+      pickUpTime,
+      dropOffTime,
+      currencyCode: "CAD",
     };
 
     navigate("/carrentaldetails", { state: carsearchParams });
-   
+
   };
 
-    const backgroundImage = "/images/carmain.jpg";
+  const backgroundImage = "/images/carmain.jpg";
 
-    return (
-      <div className="hotel-container">
-        <div className="heroo-section" style={{ backgroundImage: `url(${backgroundImage})` }}>
-          <h1 className="main-title-car">From Short Trips to Long Drives<br></br> We've Got You Covered</h1>
-          
-          <div className="search-bar-container-car">
+  return (
+    <div className="hotel-container">
+      <div className="heroo-section" style={{ backgroundImage: `url(${backgroundImage})` }}>
+        <h1 className="main-title-car">From Short Trips to Long Drives<br></br> We've Got You Covered</h1>
+
+        <div className="search-bar-container-car">
           <div className="search-bar-car">
             <div className="input-field-car">
               <FaSearchLocation className="icon" />
@@ -223,7 +197,7 @@ const CarRental = () => {
                 onChange={(e) => setPickupLocation(e.target.value)}
               />
             </div>
-       <div className="input-field-car">
+            <div className="input-field-car">
               <FaSearchLocation className="icon" />
               <input
                 type="text"
@@ -232,40 +206,39 @@ const CarRental = () => {
                 onChange={(e) => setReturnLocation(e.target.value)}
               />
             </div>
-            
-              <div className="input-field-car">
-                <BsFillCalendarDateFill className="icon" />
-                <DatePicker
-                  selected={PickupDate}
-                  onChange={setPickupDate}
-                  placeholderText="Pick-up Date & Time"
-                  className="date-picker-input"
-                  minDate={new Date()}
-                  showTimeSelect
-                  dateFormat="MMMM d, yyyy h:mm aa"
-                />
-              </div>
 
-              <div className="input-field-car">
-                <BsFillCalendarDateFill className="icon" />
-                <DatePicker
-                  selected={ReturnDate}
-                  onChange={setReturnDate}
-                  placeholderText="Return Date & Time"
-                  className="date-picker-input"
-                  minDate={PickupDate || new Date()}
-                  showTimeSelect
-                  dateFormat="MMMM d, yyyy h:mm aa"
-                />
-              </div>
-
-              <button className="search-btn-car" onClick={handleSearch}>Search →</button>
+            <div className="input-field-car">
+              <BsFillCalendarDateFill className="icon" />
+              <DatePicker
+                selected={PickupDate}
+                onChange={setPickupDate}
+                placeholderText="Pick-up Date & Time"
+                className="date-picker-input"
+                minDate={new Date()}
+                showTimeSelect
+                dateFormat="MMMM d, yyyy h:mm aa"
+              />
             </div>
+
+            <div className="input-field-car">
+              <BsFillCalendarDateFill className="icon" />
+              <DatePicker
+                selected={ReturnDate}
+                onChange={setReturnDate}
+                placeholderText="Return Date & Time"
+                className="date-picker-input"
+                minDate={PickupDate || new Date()}
+                showTimeSelect
+                dateFormat="MMMM d, yyyy h:mm aa"
+              />
+            </div>
+
+            <button className="search-btn-car" onClick={handleSearch}>Search →</button>
           </div>
         </div>
-        <SecondCarPage />
+      </div>
+      <SecondCarPage />
       <CarStepBooking />
-      <ThirdCarPage />
       <section className="customer-reviews">
         <h2 className="review-title">What Our Customers Say</h2>
         <div className="review-container">
@@ -275,8 +248,8 @@ const CarRental = () => {
         </div>
       </section>
       <Footer />
-      </div>
-    );
+    </div>
+  );
 };
 
 export default CarRental;
