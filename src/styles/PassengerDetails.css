@@ -1,4 +1,3 @@
-/* Main Container */
 .passenger-container {
     display: flex;
     justify-content: space-between;
@@ -13,7 +12,6 @@
     margin: 4.3rem auto;
   }
   
-  /* Passenger Form Section */
   .passenger-form {
     flex: 1.2;
     padding: 2.5rem;
@@ -47,7 +45,6 @@
     color: #000;
   }
   
-  /* Input Fields */
   .passenger-form input,
   .passenger-form select {
     width: 100%;
@@ -61,7 +58,6 @@
     transition: all 0.3s ease-in-out;
   }
   
-  /* Placeholder Effect (Border Appears on Focus) */
   .passenger-form input::placeholder,
   .passenger-form select::placeholder {
     color: #aaa;
@@ -74,8 +70,7 @@
     background: #f1f1f1;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   }
-  
-  /* Error Messages */
+
   .error-text {
     color: red;
     font-size: 0.9rem;
@@ -83,7 +78,6 @@
     margin-bottom: 1.2rem;
   }
   
-  /* Price Summary Section */
   .price-summary {
     flex: 0.8;
     padding: 2.5rem;
@@ -103,8 +97,7 @@
     margin-bottom: 1.5rem;
     color: #000;
   }
-  
-  /* Price Item */
+
   .price-item {
     display: flex;
     justify-content: space-between;
@@ -113,7 +106,6 @@
     color: #444;
   }
   
-  /* Total Price */
   .total-price {
     display: flex;
     justify-content: space-between;
@@ -124,7 +116,6 @@
     color: #000;
   }
   
-  /* Next Button */
   .next-button {
     width: 100%;
     padding: 1rem;
@@ -146,7 +137,6 @@
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
   }
   
-  /* Responsive Design */
   @media (max-width: 900px) {
     .passenger-container {
       flex-direction: column;

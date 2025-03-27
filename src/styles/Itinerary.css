@@ -1,0 +1,201 @@
+.itinerary-page {
+    width: 100vw;
+    min-height: 100vh;
+    padding: 60px 40px;
+    background: #ffffff;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 3rem;
+    color: #000000;
+    margin-bottom: 50px;
+    letter-spacing: 3px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+}
+
+.itinerary-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 0 20px;
+}
+
+.form-group_itinerary {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    background: #f5f5f5;
+    transition: box-shadow 0.3s ease;
+}
+
+.form-group_itinerary:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-group_itinerary label {
+    font-size: 1.2rem;
+    color: #000000;
+    font-weight: 600;
+    font-family: 'Lora', serif;
+}
+
+.form-group_itinerary input,
+.form-group_itinerary select {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    background: #ffffff;
+    color: #000000;
+    transition: border-color 0.3s ease;
+    font-family: 'Lora', serif;
+}
+
+.form-group_itinerary input:focus,
+.form-group_itinerary select:focus {
+    border-color: #666666;
+    outline: none;
+}
+
+.form-group input::placeholder {
+    color: #666666;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    color: #000000;
+    padding: 8px 12px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    font-family: 'Lora', serif;
+    transition: background 0.3s ease;
+}
+
+.checkbox-label:hover {
+    background: #e5e5e5;
+}
+
+.checkbox-label input {
+    accent-color: #000000;
+}
+
+.travelers-group .travelers-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.travelers-group .input-subgroup {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.travelers-group .sub-label {
+    font-size: 1rem;
+    color: #000000;
+    font-weight: 500;
+    font-family: 'Lora', serif;
+}
+
+.submit-button {
+    grid-column: 1 / -1;
+    padding: 15px;
+    background: #000000;
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-family: 'Playfair Display', serif;
+    margin-top: 2rem;
+    margin-bottom: 5rem;
+}
+
+.submit-button:hover {
+    background: #333333;
+}
+
+.submit-button:disabled {
+    background: #666666;
+    cursor: not-allowed;
+}
+
+.error-message {
+    margin-top: 30px;
+    padding: 15px;
+    background: #ff3333;
+    color: #ffffff;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1rem;
+    font-family: 'Lora', serif;
+}
+
+.toggle-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    background: #f5f5f5;
+    transition: box-shadow 0.3s ease;
+}
+
+.toggle-group:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-group label {
+    font-size: 1.2rem;
+    color: #000000;
+    font-weight: 600;
+    font-family: 'Lora', serif;
+}
+
+.toggle-container {
+    display: flex;
+    gap: 10px;
+}
+
+.toggle-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-family: 'Lora', serif;
+    color: #000000;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.toggle-button.active {
+    background: #000000;
+    color: #ffffff;
+}
+
+.toggle-button:hover:not(.active) {
+    background: #e5e5e5;
+}

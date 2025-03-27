@@ -68,7 +68,6 @@
   height: 10rem;
 }
 
-/* Plane icon styling */
 .plane-icon {
   font-size: 5rem;
   color: rgb(0, 0, 0);
@@ -345,9 +344,6 @@
   margin-top: -2rem
 }
 
-
-
-
 .flight-details-modal {
   position: fixed;
   top: 0;
@@ -600,7 +596,6 @@ body.modal-open {
   }
 }
 
-/* 🔹 Circular Rotating Loader */
 .loading-ring {
   width: 3rem;
   height: 3rem;
@@ -619,7 +614,6 @@ body.modal-open {
   }
 }
 
-/* 🔹 Animated Text */
 .loading-text {
   font-size: 1.5rem;
   font-weight: bold;

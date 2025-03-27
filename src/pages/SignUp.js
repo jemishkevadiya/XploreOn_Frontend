@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
 import "../styles/SignUp.css";
 import {
   getAuth,
@@ -25,7 +24,7 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [countdown, setCountdown] = useState(10); 
+  const [countdown, setCountdown] = useState(10);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,38 +50,37 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     async function createAccount() {
       if (formData.password !== formData.confirmpassword) {
         setError("Password and Confirm Password do not match!");
         return;
       }
-  
-      setIsLoading(true); 
-  
+
+      setIsLoading(true);
       try {
         const auth = getAuth();
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          formData.email,
-          formData.password,
-        );
+        const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
         const user = userCredential.user;
-  
-        await updateProfile(user, {
-          displayName: `${formData.firstname} ${formData.lastname}`,
-        });
-  
+
+        await updateProfile(user, { displayName: `${formData.firstname} ${formData.lastname}` });
         await sendEmailVerification(user);
-  
+
         await axios.post("http://localhost:1111/user/create", {
-          uid: user.uid, 
+          uid: user.uid,
           firstname: formData.firstname,
           lastname: formData.lastname,
           email: formData.email,
-          photoURL: user.photoURL || "", 
+          photoURL: user.photoURL || "",
         });
-  
+
+        localStorage.setItem("user", JSON.stringify({
+          uid: user.uid,
+          firstname: formData.firstname,
+          lastname: formData.lastname,
+          email: formData.email,
+        }));
+
         setSuccessMessage("Account created! Verification email sent.");
         setIsLoading(false);
       } catch (error) {
@@ -90,20 +88,19 @@ const SignUp = () => {
         setError(error.message);
       }
     }
-  
+
     createAccount();
   };
-   
+
   const signInWithGoogle = async () => {
     try {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-  
+
       console.log("Google Sign-In Successful:", user);
-  
-      // Send user data to backend
+
       await axios.post("http://localhost:1111/user/create", {
         uid: user.uid,
         firstname: user.displayName.split(" ")[0] || "",
@@ -111,16 +108,14 @@ const SignUp = () => {
         email: user.email,
         photoURL: user.photoURL || "",
       });
-  
-      console.log("User stored in MongoDB");
 
-      navigate("/");  // Navigate to homepage after successful sign-up
-  
+      navigate("/");
+
     } catch (error) {
       console.error("Error during Google Sign-In:", error.message);
     }
   };
-  
+
 
   return (
     <div className="signup-page">
@@ -135,74 +130,74 @@ const SignUp = () => {
       <div className="signup-right">
         <h2>Sign Up</h2>
         <form className="signup-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-  <input
-    type="text"
-    name="firstname"
-    id="firstname"   
-    placeholder=" "  
-    value={formData.firstname}
-    onChange={handleChange}
-    required
-  />
-  <label htmlFor="firstname">First Name</label>
-  <span className="input-icon">👤</span>
-</div>
+          <div className="form-group">
+            <input
+              type="text"
+              name="firstname"
+              id="firstname"
+              placeholder=" "
+              value={formData.firstname}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="firstname">First Name</label>
+            <span className="input-icon">👤</span>
+          </div>
 
-<div className="form-group">
-  <input
-    type="text"
-    name="lastname"
-    id="lastname"   
-    placeholder=" "  
-    value={formData.lastname}
-    onChange={handleChange}
-    required
-  />
-  <label htmlFor="lastname">Last Name</label>
-  <span className="input-icon">👤</span>
-</div>
-<div className="form-group">
-  <input
-    type="text"
-    name="email"
-    id="emaail"   
-    placeholder=" "  
-    value={formData.email}
-    onChange={handleChange}
-    required
-  />
-  <label htmlFor="email">Email</label>
-  <span className="input-icon">📧</span>
-</div>
+          <div className="form-group">
+            <input
+              type="text"
+              name="lastname"
+              id="lastname"
+              placeholder=" "
+              value={formData.lastname}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="lastname">Last Name</label>
+            <span className="input-icon">👤</span>
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              name="email"
+              id="emaail"
+              placeholder=" "
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="email">Email</label>
+            <span className="input-icon">📧</span>
+          </div>
 
-<div className="form-group">
-  <input
-    type="password"
-    name="password"
-    id="password"   
-    placeholder=" "  
-    value={formData.password}
-    onChange={handleChange}
-    required
-  />
-  <label htmlFor="password">Password</label>
-  <span className="input-icon">🔑</span>
-</div>
-         
-<div className="form-group">
-  <input
-    type="password"
-    name="confirmpassword"
-    id="comfirmpassword"   
-    placeholder=" "  
-    value={formData.confirmpassword}
-    onChange={handleChange}
-    required
-  />
-  <label htmlFor="confirm password">Confirm password</label>
-  <span className="input-icon">🔑</span>
-</div>
+          <div className="form-group">
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder=" "
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="password">Password</label>
+            <span className="input-icon">🔑</span>
+          </div>
+
+          <div className="form-group">
+            <input
+              type="password"
+              name="confirmpassword"
+              id="comfirmpassword"
+              placeholder=" "
+              value={formData.confirmpassword}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="confirm password">Confirm password</label>
+            <span className="input-icon">🔑</span>
+          </div>
           {error && <p className="error-message">{error}</p>}
           {successMessage && (
             <p className="success-message">

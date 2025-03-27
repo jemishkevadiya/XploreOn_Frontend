@@ -1,4 +1,4 @@
-.main-title-car{
+.main-title-car {
   color: #ffffff;
   margin-top: 37rem;
   font-size: 3rem;
@@ -6,133 +6,128 @@
   position: absolute;
   right: 1rem;
   align-items: end;
-  
+
 }
+
 .search-bar-container-car {
-    display: flex;
-    border-radius: 3rem;
-    justify-content: center;
-    width: 20rem;
-    margin-top: 30px;
-  }
-  
-  .search-bar-car {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background: rgba(255, 255, 255);
-    height: 12px;
-    padding: 20px;
-    border-radius: 70px;
-    gap: 20px;
-    margin-top: 8rem;
-  }
-  
-  .input-field-car {
-    display: flex;
-    align-items: center;
-    margin: 5px 0;
-  }
-  
-  .input-field-car input {
-    border: none;
-    padding: 0.3rem;
-   
-    width: 10rem;
-  }
-  
-  .search-btn-car {
-    background: black;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    height: 45px;
-    width: 110px;
-    border-radius: 40px;
-  
-  }
-
-.titlecar{
-    position: absolute;
-    text-align:start;
-    vertical-align:text-bottom;
-    bottom: 8rem;
-    left: 2rem;
-    font-size: 3.5rem;
+  display: flex;
+  border-radius: 3rem;
+  justify-content: center;
+  width: 20rem;
+  margin-top: 30px;
 }
 
-.main-container{
-    
-    background-size:cover;
-    background-position: bottom;
-    text-align: center;
-    height: 47rem;
-    margin: 1rem;
-    position:absolute;
-    border-radius: 2rem;
-    width: 90rem;
-    top: 4rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-   
+.search-bar-car {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: rgba(255, 255, 255);
+  height: 12px;
+  padding: 20px;
+  border-radius: 70px;
+  gap: 20px;
+  margin-top: 8rem;
+}
+
+.input-field-car {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.input-field-car input {
+  border: none;
+  padding: 0.3rem;
+
+  width: 10rem;
+}
+
+.search-btn-car {
+  background: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  height: 45px;
+  width: 110px;
+  border-radius: 40px;
+
+}
+
+.titlecar {
+  position: absolute;
+  text-align: start;
+  vertical-align: text-bottom;
+  bottom: 8rem;
+  left: 2rem;
+  font-size: 3.5rem;
+}
+
+.main-container {
+
+  background-size: cover;
+  background-position: bottom;
+  text-align: center;
+  height: 47rem;
+  margin: 1rem;
+  position: absolute;
+  border-radius: 2rem;
+  width: 90rem;
+  top: 4rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
 }
 
 .form-row {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 1rem;
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
 }
 
 .input-group {
-    flex: 4;
+  flex: 4;
 }
 
 .input-group label {
-    display: block;
-    margin-bottom: 1rem;
+  display: block;
+  margin-bottom: 1rem;
 }
 
 .input-group {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    color: #000;
-    gap: 2rem;
-    display: flex;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #000;
+  gap: 2rem;
+  display: flex;
 
 }
 
-.searchbar-head{
-    display: flex;
+.searchbar-head {
+  display: flex;
 }
 
 .searchcar-btn {
-    background: #000000;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 2rem;
-    cursor: pointer;
-    display: block;
-    width: 6rem;
-    margin-top: 15px;
+  background: #000000;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  display: block;
+  width: 6rem;
+  margin-top: 15px;
 }
 
-
-
-
-
-/*-------------Second page---------------*/
-
-.SecondPagr-car{
+.SecondPagr-car {
   display: flex;
   align-items: center;
-  width:fit-content;
-  
+  width: fit-content;
+
 }
 
-.image-frame-car{
+.image-frame-car {
   margin: 1.3%;
   color: #ffffff;
   width: 8%;
@@ -140,19 +135,17 @@
   padding-left: 0.4%;
 }
 
-.secondpagecar-title{
+.secondpagecar-title {
   font-size: 3rem;
-  color:black;
-  justify-self:center;
-  font-family:'Times New Roman', Times, serif;
+  color: black;
+  justify-self: center;
+  font-family: 'Times New Roman', Times, serif;
   margin-top: 6%;
   margin-bottom: 6%;
-  
+
 }
 
-
-/*------------Third page---------------*/
-.ThirdContainer-car{
+.ThirdContainer-car {
   display: flex;
   background-color: rgba(243, 242, 234, 0.603);
   border-radius: 3rem;
@@ -160,7 +153,8 @@
   margin: 1.8rem;
 
 }
-.thirdpagecar-title{
+
+.thirdpagecar-title {
   font-size: 3rem;
   margin-bottom: 3rem;
 
@@ -192,7 +186,7 @@
 }
 
 .location-card img {
-  width: 14rem; /* Adjust based on design */
+  width: 14rem;
   height: 16.5rem;
   border-radius: 1.8rem;
   margin-top: -1.4rem;
@@ -209,9 +203,6 @@
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 
-/*-------------car booking steps-------------*/
-
-/* Booking Steps Section */
 .car-booking-steps {
   text-align: center;
   background-color: #f8f9fa;
@@ -231,7 +222,6 @@
   padding-top: 2rem;
 }
 
-/* Steps Container */
 .car-steps-container {
   display: flex;
   justify-content: center;
@@ -241,7 +231,6 @@
   margin-top: 5rem;
 }
 
-/* Individual Step Card */
 .car-step-card {
   position: relative;
   width: 15rem;
@@ -249,7 +238,7 @@
   border-radius: 10rem;
   overflow: hidden;
   background-color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
   padding: 2rem 1rem;
@@ -258,7 +247,7 @@
 .car-step-card:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(to right, #eec4d5, #ff758c);
+  background: linear-gradient(to right, #000000, #9c9494);
   color: white;
 }
 
@@ -272,7 +261,6 @@
   color: white;
 }
 
-/* Step Number Styling */
 .car-step-number {
   font-size: 2.5rem;
   font-weight: bold;
@@ -288,7 +276,6 @@
   margin-bottom: 2rem;
 }
 
-/* Step Title */
 .car-step-title {
   font-size: 1.5rem;
   font-weight: bold;
@@ -297,14 +284,12 @@
   margin-bottom: 2rem;
 }
 
-/* Step Description */
 .car-step-description {
   font-size: 1rem;
   color: #000000;
   line-height: 1.5;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .car-steps-container {
     flex-direction: column;
@@ -340,7 +325,6 @@
   color: #ffffff;
 }
 
-/* Customer Reviews Section */ 
 .customer-reviews {
   text-align: center;
   background-color: #f8f9fa;
@@ -359,7 +343,6 @@
   padding-bottom: 4rem;
 }
 
-/* Reviews Container */
 .review-container {
   display: flex;
   justify-content: center;
@@ -368,7 +351,6 @@
   padding-bottom: 4rem;
 }
 
-/* Individual Review Card */
 .review-card {
   background: #ffffff;
   border-radius: 1rem;
@@ -384,21 +366,18 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Review Name */
 .review-name {
   font-size: 1.4rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
-/* Review Text */
 .review-text {
   font-size: 1rem;
   color: #666;
   margin-bottom: 1rem;
 }
 
-/* Star Rating */
 .star-rating {
   display: flex;
   justify-content: center;
@@ -412,20 +391,15 @@
 }
 
 .star.filled {
-  color: #FFD700; /* Gold color for filled stars */
+  color: #FFD700;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .review-container {
     flex-direction: column;
     align-items: center;
   }
 }
-
-
-/* Pop up section */
-
 
 .popup-overlay {
   position: fixed;

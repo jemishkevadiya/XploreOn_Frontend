@@ -20,10 +20,18 @@ import UserProfilePage from "./pages/UserProfilePage";  // Import Profile Page
 import ProtectedRoute from "./components/ProtectedRoute"; // Import Protected Route
 import PaymentHistory from "./pages/PaymentHistory";
 // Firebase Configuration
+import HotelDetail from "./pages/HotelDetails";
+import HotelDetailView from "./pages/HotelDetailView";
+
+import Itinerary from "./pages/Itinerary"; 
+import ItineraryResults from "./pages/ItineraryResults";
+import ForgotPassword from "./pages/ForgotPassword";
+import UserProfilePage from "./pages/UserProfilePage";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 import PassengerDetails from "./pages/PassengerDetails";
 import SuccessPage from "./components/SuccessPage";
 import CancelPage from "./components/CancelPage";
-
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -35,6 +43,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
 class App extends React.Component {
   render() {
     return (
@@ -59,7 +68,10 @@ class App extends React.Component {
             <Route path="/passenger-details" element={<PassengerDetails />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/cancel" element={<CancelPage />} />
-
+            <Route path ="/hoteldetails" element={<HotelDetail />}/>
+            <Route path="/hotel/:hotelId" element={<HotelDetailView />} />
+            <Route path="/itinerary" element={<Itinerary />} /> 
+            <Route path="/itinerary/results" element={<ItineraryResults />} />
           </Routes>
         </Router>
     );

@@ -87,7 +87,7 @@ class Navbar extends React.Component {
           {isLoggedIn ? (
             <div className="profile-container">
               <img
-                src={user?.photoURL || DefaultProfile}  
+                src={user?.photoURL || DefaultProfile}
                 alt="Profile"
                 className="profile-icon"
                 onClick={this.toggleDropdown}

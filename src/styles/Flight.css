@@ -13,7 +13,6 @@ font-family: "Arial", sans-serif;
 background-color: #ffffff;
 }
 
-/* -------------------- HERO SECTION -------------------- */
 .hero-section-flight {
 position: relative;
 text-align: center;
@@ -52,7 +51,6 @@ z-index: 0;
 opacity: 0.9; 
 }
 
-/* -------------------- SEARCH SECTION -------------------- */
 .search-section {
 background-color: rgba(255, 255, 255, 0.8);
 padding: 1.5rem 2rem; 
@@ -86,7 +84,6 @@ z-index: 1;
   gap: 1.2rem;
 }
 
-/* -------------------- CLASS TOGGLE -------------------- */
 .class-toggle {
 display: flex;
 justify-content: center;
@@ -134,7 +131,6 @@ margin-left: 1.875rem;
 margin-top: 1.25rem;   
 }
 
-/* -------------------- TOGGLE LABEL -------------------- */
 .toggle-label {
 position: relative;
 display: inline-block;
@@ -183,7 +179,6 @@ background-color: #000000;
 transform: translateX(1.625rem); 
 }
 
-/* -------------------- TRAVELERS INPUT -------------------- */
 .travelers-input {
 display: flex;
 flex-direction: column;
@@ -206,7 +201,6 @@ border-radius: 0.3125rem;
 padding: 0.3125rem;           
 }
 
-/* -------------------- SEARCH FIELDS -------------------- */
 .search-fields {
 display: grid;
 grid-template-columns: repeat(5, 1fr) auto;
@@ -322,7 +316,6 @@ text-align: center;
 margin-bottom: 0;
 }
 
-/* -------------------- SEARCH BUTTON -------------------- */
 .search-button {
 width: 3rem;  
 height: 3rem; 
@@ -390,7 +383,6 @@ transform: scale(1.1)
 }
 }
 
-/* -------------------- TRAVEL SUPPORT SECTION -------------------- */
 .travel-support {
 text-align: center;
 background-color: #ffffff;
@@ -508,8 +500,6 @@ bottom: -8.125rem;
 left: 8.25rem;    
 }
 
-
-/* -------------------- TRENDING DESTINATIONS SECTION -------------------- */
 .trending-destinations {
 padding: 5rem; 
 background-color: #ffffff;
@@ -530,7 +520,6 @@ font-size: 1.6rem;
 margin-bottom: 8%;
 }
 
-/* Cards Container */
 .destination-grid {
 display: flex;
 justify-content: center;
@@ -540,7 +529,6 @@ flex-wrap: wrap;
 width: 100%;
 }
 
-/* Destination Card */
 .destination-card {
 position: relative;
 width: 15rem;  
@@ -558,7 +546,6 @@ transform: scale(1.05);
 box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Image Wrapper */
 .destination-image-wrapper {
 position: relative;
 width: 100%;
@@ -576,13 +563,11 @@ transition: transform 0.3s ease;
 transform: scale(1.1);
 }
 
-/* Hover Content (Text & Button) */
 .destination-card:hover .hover-content {
 bottom: 0;
 opacity: 1;
 }
 
-/* Hover Content Container */
 .hover-content {
 position: absolute;
 bottom: -5rem; 
@@ -596,20 +581,17 @@ transition: all 0.4s ease;
 opacity: 0;
 }
 
-/* Destination Name */
 .hover-content .destination-name {
 font-size: 1.25rem; 
 font-weight: bold;
 margin-bottom: 0.5rem;
 }
 
-/* Destination Description */
 .hover-content .destination-description {
 font-size: 1rem;
 margin-bottom: 1rem;
 }
 
-/* Book Now Button */
 .book-now-button {
 padding: 0.5rem 1.5rem;
 font-size: 1rem;
@@ -627,7 +609,6 @@ background-color: #000;
 color: #fff;
 }
 
-/* -------------------- MEMORIES SECTION -------------------- */
 .memories-section {
 background-color: #f8fafc;
 padding: 3rem 1.25rem;
@@ -645,7 +626,6 @@ font-size: 2.2rem;
 margin-bottom: 0.625rem;
 }
 
-/* -------------------- FEATURE CARDS CONTAINER -------------------- */
 .feature-cards-container {
 max-width: 75rem;
 margin: 0 auto;
@@ -655,7 +635,6 @@ justify-content: center;
 flex-wrap: wrap;
 }
 
-/* -------------------- BUBBLE-CARD (WHITE OVAL) -------------------- */
 .bubble-card {
 position: relative;
 width: 13.75rem;   
@@ -733,7 +712,6 @@ background-color: #fff;
 filter: none;
 }
 
-/* -------------------- TITLE & DESCRIPTION -------------------- */
 .bubble-title {
 font-size: 1rem;
 margin: 0.625rem 0 0.3125rem;
