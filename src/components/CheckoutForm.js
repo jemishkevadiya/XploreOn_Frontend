@@ -14,7 +14,7 @@ const CheckoutForm = ({ items, service, email, userId, bookingId }) => {
     setLoading(true);
     try {
       const checkoutUrl = await createCheckoutSession(items, service, email, userId, bookingId);
-      window.location.href = checkoutUrl; // Redirect to Stripe Checkout
+      window.location.href = checkoutUrl; 
     } catch (error) {
       console.error(" Checkout failed:", error);
       alert("Error creating checkout session!");

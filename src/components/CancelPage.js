@@ -6,7 +6,7 @@ const CancelPage = () => {
   const navigate = useNavigate();
 
   const handleRetry = () => {
-    navigate("/checkout"); // Redirect user to the checkout page for retry
+    navigate("/"); 
   };
 
   return (

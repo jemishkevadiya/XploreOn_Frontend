@@ -5,29 +5,25 @@ const Profile = () => {
   const auth = getAuth();
   const user = auth.currentUser;
 
-  // State to manage user details
   const [details, setDetails] = useState({
     name: user?.displayName || "",
     email: user?.email || "",
     photoURL: user?.photoURL || "/images/profileicon.svg",
-    phone: "123456789", // Default or fetched value
-    dob: "2000-01-01", // Default or fetched value
-    address: "123 Street, XYZ City", // Default or fetched value
+    phone: "123456789", 
+    dob: "2000-01-01", 
+    address: "123 Street, XYZ City",
   });
 
   const [editField, setEditField] = useState(null);
 
-  // Handle editing a field
   const handleEdit = (field) => {
     setEditField(field);
   };
 
-  // Handle changes to input fields
   const handleChange = (field, value) => {
     setDetails((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Save changes (Firebase only supports updating displayName & photoURL)
   const handleSave = async () => {
     try {
       if (editField === "name" || editField === "photoURL") {
@@ -38,27 +34,27 @@ const Profile = () => {
       }
       setEditField(null);
       alert("Profile updated successfully!");
-      console.log("Updated details:", details); // Log for backend integration
+      console.log("Updated details:", details); 
     } catch (error) {
       console.error("Error updating profile:", error);
     }
   };
 
-  const [isEditingPhoto, setIsEditingPhoto] = useState(false); // Manage photo edit state
-  const [newPhoto, setNewPhoto] = useState(null); // Hold new photo file
+  const [isEditingPhoto, setIsEditingPhoto] = useState(false);
+  const [newPhoto, setNewPhoto] = useState(null);
 
   const handlePhotoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setNewPhoto(imageUrl); // Display new photo as a preview
+      setNewPhoto(imageUrl); 
     }
   };
 
   const handleSavePhoto = async () => {
     try {
       if (newPhoto) {
-        await updateProfile(auth.currentUser, { photoURL: newPhoto }); // Save the new photo URL
+        await updateProfile(auth.currentUser, { photoURL: newPhoto }); 
         setDetails((prev) => ({ ...prev, photoURL: newPhoto }));
         alert("Profile picture updated successfully!");
       }
@@ -75,7 +71,6 @@ const Profile = () => {
       <h2>Personal Details</h2>
       <p>Update your information</p>
       <div className="profile-content">
-        {/* Profile Picture Section */}
         <div className="profile-picture">
           <img
             src={details.photoURL || "/images/profileicon.svg"}
@@ -102,7 +97,6 @@ const Profile = () => {
           )}
         </div>
   
-        {/* User Details Table */}
         <div className="profile-details">
           <table className="details-table">
             <tbody>
@@ -131,7 +125,7 @@ const Profile = () => {
                 <td>Email:</td>
                 <td>{details.email}</td>
                 <td>
-                  <button disabled>Edit</button> {/* Email is not editable */}
+                  <button disabled>Edit</button> 
                 </td>
               </tr>
               <tr>
