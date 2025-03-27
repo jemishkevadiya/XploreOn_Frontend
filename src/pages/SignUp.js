@@ -66,7 +66,7 @@ const SignUp = () => {
         await updateProfile(user, { displayName: `${formData.firstname} ${formData.lastname}` });
         await sendEmailVerification(user);
 
-        await axios.post( `${process.env.REACT_APP_API_URL}/user/create` ||"http://localhost:1111/user/create", {
+        await axios.post("http://localhost:1111/user/create", {
           uid: user.uid,
           firstname: formData.firstname,
           lastname: formData.lastname,
@@ -101,7 +101,7 @@ const SignUp = () => {
 
       console.log("Google Sign-In Successful:", user);
 
-      await axios.post( `${process.env.REACT_APP_API_URL}/user/create`||"http://localhost:1111/user/create", {
+      await axios.post("http://localhost:1111/user/create", {
         uid: user.uid,
         firstname: user.displayName.split(" ")[0] || "",
         lastname: user.displayName.split(" ")[1] || "",

@@ -41,7 +41,7 @@ const SignIn = () => {
         return;
       }
 
-      const response = await axios.get( `${process.env.REACT_APP_API_URL}/user/profile/${user.uid}`||`http://localhost:1111/user/profile/${user.uid}`);
+      const response = await axios.get(`http://localhost:1111/user/profile/${user.uid}`);
 
       if (response.data) {
         localStorage.setItem("user", JSON.stringify(response.data));
@@ -86,7 +86,7 @@ const SignIn = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const response = await axios.post( `${process.env.REACT_APP_API_URL}/user/create` || "http://localhost:1111/user/create", {
+      const response = await axios.post("http://localhost:1111/user/create", {
         uid: user.uid,
         firstname: user.displayName.split(" ")[0] || "",
         lastname: user.displayName.split(" ")[1] || "",
