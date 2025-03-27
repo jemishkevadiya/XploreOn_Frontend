@@ -103,7 +103,7 @@ const SignUp = () => {
   
       console.log("Google Sign-In Successful:", user);
   
-      // Send user data to backend
+
       await axios.post("http://localhost:1111/user/create", {
         uid: user.uid,
         firstname: user.displayName.split(" ")[0] || "",
@@ -114,7 +114,7 @@ const SignUp = () => {
   
       console.log("User stored in MongoDB");
 
-      navigate("/");  // Navigate to homepage after successful sign-up
+      navigate("/");  
   
     } catch (error) {
       console.error("Error during Google Sign-In:", error.message);
