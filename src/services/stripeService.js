@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_BACKEND_URL;
+const API_URL =  process.env.REACT_APP_API_URL || process.env.REACT_APP_BACKEND_URL ;
 
 if (!API_URL) {
   throw new Error("REACT_APP_BACKEND_URL is not defined in environment variables.");

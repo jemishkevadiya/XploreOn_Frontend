@@ -83,7 +83,7 @@ const FlightDetails = () => {
         pageNo: page,
       };
 
-      const response = await axios.get("http://localhost:1111/flights/searchFlights", { params });
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/flights/searchFlights`||"http://localhost:1111/flights/searchFlights", { params });
 
       const flights = response.data?.data?.flightOffers || [];
 
