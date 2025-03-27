@@ -126,47 +126,6 @@ const ReviewCarousel = () => {
 };
 
 
-const DiscoverPlaces = () => {
-  return (
-    <section className="secondpage-hotel">
-      <h2 className="staggered-heading">Explore best hotels</h2>
-      <h2 className="staggered-subheading">
-        Book your stay or personalized experience,
-        <p>luxurious amenities, or a relaxing getaway, and</p>
-        <p>take a step towards unforgettable memories.</p>
-      </h2>
-
-      <div className="discover-places-container">
-        <div className="discover-place-card lower-card">
-          <img src="../images/bangkok.jpg" alt="Bangkok hotel" className="image-frame" />
-          <div className="discover-place-info">
-            <h2 className="hotel-heading">Mandarin Oriental</h2>
-          </div>
-        </div>
-        <div className="discover-place-card higher-card">
-          <img src="../images/ascott.jpg" alt="Tokyo" />
-          <div className="discover-place-info">
-            <h3>Ascott Marunouchi</h3>
-          </div>
-        </div>
-        <div className="discover-place-card higher-card">
-          <img src="../images/zighy_bay.jpg" alt="Oman" />
-          <div className="discover-place-info">
-            <h3>Six senses</h3>
-          </div>
-        </div>
-        <div className="discover-place-card lower-card">
-          <img src="../images/mexico.jpg" alt="Mexico" />
-          <div className="discover-place-info">
-            <h3>Chable Yucatan</h3>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-
 const Hotel = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -324,7 +283,6 @@ const Hotel = () => {
           </div>
         </div>
       </div>
-      <DiscoverPlaces />
       <ReviewCarousel />
       <Footer />
     </div>

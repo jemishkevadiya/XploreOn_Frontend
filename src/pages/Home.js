@@ -1,9 +1,31 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../styles/Home.css";
 const Home = () => {
   const backgroundImage = "/images/home_screen.jpg";
+  const navigate = useNavigate();
+
+  const handleBookingNow = () => {
+    navigate("/itinerary");
+  };
+
+  const handleFlightsClick = () => {
+    navigate("/flights");
+  };
+
+  const handleCarRentalsClick = () => {
+    navigate("/carrentals");
+  };
+
+  const handleHotelsClick = () => {
+    navigate("/hotels");
+  };
+
+  const handleItineraryClick = () => {
+    navigate("/itinerary");
+  };
 
   return (
     <div className="home">
@@ -22,11 +44,11 @@ const Home = () => {
               <br />
               <span className="highlighted-text">PERSONALIZED ITINERARY GENERATOR</span>
             </h1>
-            <button className="booking-button">
+            <button className="booking-button" onClick={handleBookingNow}>
               <span className="button-icon">
                 <img src="/images/booknow.svg" alt="Car Icon" />
               </span>
-              Booking Now
+              Book Now
             </button>
           </div>
         </div>
@@ -49,7 +71,7 @@ const Home = () => {
             />
             <div className="card-overlay">
               <h3 className="service-card-title">Flights</h3>
-              <button className="service-card-button">Explore Flights</button>
+              <button className="service-card-button" onClick={handleFlightsClick}>Explore Flights</button>
             </div>
           </div>
 
@@ -61,7 +83,7 @@ const Home = () => {
             />
             <div className="card-overlay">
               <h3 className="service-card-title">Car Rentals</h3>
-              <button className="service-card-button">Rent a Car</button>
+              <button className="service-card-button" onClick={handleCarRentalsClick}>Rent a Car</button>
             </div>
           </div>
 
@@ -73,7 +95,7 @@ const Home = () => {
             />
             <div className="card-overlay">
               <h3 className="service-card-title">Hotels</h3>
-              <button className="service-card-button">Book Hotels</button>
+              <button className="service-card-button" onClick={handleHotelsClick}>Book Hotels</button>
             </div>
           </div>
         </div>
@@ -81,65 +103,65 @@ const Home = () => {
 
 
       <div className="itinerary-container">
-  <div className="itinerary-left">
-    <img
-      src="/images/itinerary-generator.jpeg"
-      alt="Traveler on a beach"
-      className="itinerary-image"
-    />
-  </div>
-  <div className="itinerary-right">
-    <div className="itinerary-header">
-      <h2 className="itinerary-title">Itinerary Generator</h2>
-      <p className="itinerary-description">
-        Plan your trip effortlessly. Select your destination, dates, and preferences, and let us create the perfect itinerary for you.
-      </p>
-    </div>
-    <div className="itinerary-content">
-      <div className="itinerary-step">
-        <img
-          src="/images/location.png"
-          alt="Destination"
-          className="step-icon"
-        />
-        <h3 className="step-title">Select Destination</h3>
-        <p className="step-description">
-          Choose from a wide range of destinations to suit your travel goals.
-        </p>
+        <div className="itinerary-left">
+          <img
+            src="/images/itinerary-generator.jpeg"
+            alt="Traveler on a beach"
+            className="itinerary-image"
+          />
+        </div>
+        <div className="itinerary-right">
+          <div className="itinerary-header">
+            <h2 className="itinerary-title">Itinerary Generator</h2>
+            <p className="itinerary-description">
+              Plan your trip effortlessly. Select your destination, dates, and preferences, and let us create the perfect itinerary for you.
+            </p>
+          </div>
+          <div className="itinerary-content">
+            <div className="itinerary-step">
+              <img
+                src="/images/location.png"
+                alt="Destination"
+                className="step-icon"
+              />
+              <h3 className="step-title">Select Destination</h3>
+              <p className="step-description">
+                Choose from a wide range of destinations to suit your travel goals.
+              </p>
+            </div>
+            <div className="itinerary-step">
+              <img
+                src="/images/calendar.png"
+                alt="Dates"
+                className="step-icon"
+              />
+              <h3 className="step-title">Pick Travel Dates</h3>
+              <p className="step-description">
+                Add your travel dates to personalize your journey.
+              </p>
+            </div>
+            <div className="itinerary-step">
+              <img
+                src="/images/budget1.png"
+                alt="Budget"
+                className="step-icon"
+              />
+              <h3 className="step-title">Set Preferences</h3>
+              <p className="step-description">
+                Tailor your trip to match your budget, interests, and style.
+              </p>
+            </div>
+          </div>
+          <button className="itinerary-button" onClick={handleItineraryClick}>Generate My Itinerary</button>
+        </div>
       </div>
-      <div className="itinerary-step">
-        <img
-          src="/images/calendar.png"
-          alt="Dates"
-          className="step-icon"
-        />
-        <h3 className="step-title">Pick Travel Dates</h3>
-        <p className="step-description">
-          Add your travel dates to personalize your journey.
-        </p>
-      </div>
-      <div className="itinerary-step">
-        <img
-          src="/images/budget1.png"
-          alt="Budget"
-          className="step-icon"
-        />
-        <h3 className="step-title">Set Preferences</h3>
-        <p className="step-description">
-          Tailor your trip to match your budget, interests, and style.
-        </p>
-      </div>
-    </div>
-    <button className="itinerary-button">Generate My Itinerary</button>
-  </div>
-</div>
 
 
       <div id="about-us" className="about-us-container">
         <div className="about-us-title">About Us</div>
 
         <div className="about-us-subheading">The Vision That Guides Our Journey</div>
-        
+
         <div className="about-us-description">
           At XploreOn, our vision is to simplify and enhance your travel planning
           experience by providing a unified platform for flights, car rentals, hotels,
@@ -148,8 +170,6 @@ const Home = () => {
           into reality, one seamless journey at a time.
         </div>
       </div>
-
-
 
       <div id="testimonials" className="testimonials-container">
         <h2 className="testimonials-title">What Our Customers Say</h2>
