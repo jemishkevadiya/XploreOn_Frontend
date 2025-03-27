@@ -36,7 +36,6 @@ const HotelDetails = () => {
   const fetchHotelData = async (page = pageNo) => {
     try {
       if (!location || !startDate || !endDate) {
-        console.log("Missing required search params:", { location, startDate, endDate });
         return;
       }
       setLoading(true);
@@ -61,7 +60,6 @@ const HotelDetails = () => {
           page_number: page,
         },
       });
-      console.log("Hotel API Response:", response.data);
       setHotelOptions(response.data || []);
     } catch (error) {
       console.error("Error fetching hotels:", error.response?.data || error.message);

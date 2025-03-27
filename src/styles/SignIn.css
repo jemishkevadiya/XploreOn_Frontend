@@ -1,5 +1,3 @@
-/* General styles for SignIn page */
-/* General styles for SignIn page */
 .auth-container {
   display: flex;
   height: 100vh;
@@ -51,8 +49,6 @@
   gap: 20px;
 }
 
-/* Scoped Input field styles for SignIn form */
-/* Scoped Input field styles for SignIn form */
 .auth-form .form-group {
   position: relative;
   width: 100%;
@@ -65,20 +61,17 @@
   border: 2px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
-  background: transparent; /* Make the background transparent so label is visible */
+  background: transparent;
   transition: border-color 0.3s ease;
-  background: transparent; /* Make the background transparent so label is visible */
+  background: transparent; 
   transition: border-color 0.3s ease;
 }
 
-/* Add focus effect to input */
-/* Add focus effect to input */
 .auth-form .form-group input:focus {
   border-color: #007bff;
   outline: none;
 }
 
-/* Styling for the label */
 .auth-form .form-group label {
   position: absolute;
   left: 15px;
@@ -92,15 +85,13 @@
   pointer-events: none;
 }
 
-/* When the input is focused or has text, move the label */
 .auth-form input:focus + label,
 .auth-form input:not(:placeholder-shown) + label {
-  transform: translateY(-25px); /* Move label up when input is focused */
-  color: #007bff; /* Change label color when input is focused */
-  font-size: 0.9rem; /* Shrink font size */
+  transform: translateY(-25px); 
+  color: #007bff;
+  font-size: 0.9rem;
 }
 
-/* Add the input icon */
 .auth-form .input-icon {
   position: absolute;
   right: 15px;
@@ -110,8 +101,6 @@
   color: #aaa;
 }
 
-/* Auth button styles */
-/* Styling for the label */
 .auth-form .form-group label {
   position: absolute;
   left: 15px;
@@ -125,15 +114,13 @@
   pointer-events: none;
 }
 
-/* When the input is focused or has text, move the label */
 .auth-form input:focus + label,
 .auth-form input:not(:placeholder-shown) + label {
-  transform: translateY(-25px); /* Move label up when input is focused */
-  color: #007bff; /* Change label color when input is focused */
-  font-size: 0.9rem; /* Shrink font size */
+  transform: translateY(-25px);
+  color: #007bff; 
+  font-size: 0.9rem;
 }
 
-/* Add the input icon */
 .auth-form .input-icon {
   position: absolute;
   right: 15px;
@@ -143,7 +130,6 @@
   color: #aaa;
 }
 
-/* Auth button styles */
 .auth-button {
   padding: 12px;
   background-color: black;
@@ -159,8 +145,6 @@
   background-color: #333;
 }
 
-/* Footer */
-/* Footer */
 .auth-footer {
   margin-top: 15px;
   font-size: 0.9rem;
@@ -176,8 +160,6 @@
   text-decoration: underline;
 }
 
-/* Resend button styles */
-/* Resend button styles */
 .resend-button {
   background-color: #eeeeee;
   color: black;
@@ -192,7 +174,6 @@
   color: white;
 }
 
-/* Add mobile responsiveness */
 @media (max-width: 768px) {
   .auth-container {
     flex-direction: column;

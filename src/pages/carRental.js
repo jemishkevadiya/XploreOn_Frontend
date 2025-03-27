@@ -55,9 +55,6 @@ const ReviewCard = ({ name, review, rating }) => {
 const Car = () => {
   return (
     <div className="car-container">
-      {/* Existing Car Booking Steps Section */}
-      
-      {/* Customer Reviews Section */}
       <section className="customer-reviews">
         <h2 className="review-title">What Our Customers Say</h2>
         <div className="review-container">
@@ -74,7 +71,6 @@ const Car = () => {
 const CarStepBooking = () => {
   return (
     <div className="car-container">
-      {/* Booking Steps Section */}
       <section className="car-booking-steps">
         <h2 className="car-steps-title">How to Book Your Ride</h2>
         <div className="car-steps-container">
@@ -177,8 +173,8 @@ const SecondCarPage = () => {
 const CarRental = () => {
   const [pickupLocation, setPickupLocation] = useState("");
   const [returnLocation, setReturnLocation] = useState("");
-  const [PickupDate, setPickupDate] = useState(new Date()); // <-- Set default to today's date and time
-  const [ReturnDate, setReturnDate] = useState(new Date()); // <-- Set default to today's date and time
+  const [PickupDate, setPickupDate] = useState(new Date()); 
+  const [ReturnDate, setReturnDate] = useState(new Date());
 
   const navigate = useNavigate();
 
@@ -190,31 +186,21 @@ const CarRental = () => {
     }
 
 
-  const pickUpDate = PickupDate.toISOString().split('T')[0]; // YYYY-MM-DD
-  const pickUpTime = PickupDate.toISOString().split('T')[1].slice(0, 5); // HH:mm
+  const pickUpDate = PickupDate.toISOString().split('T')[0]; 
+  const pickUpTime = PickupDate.toISOString().split('T')[1].slice(0, 5); 
+  const dropOffDate = ReturnDate.toISOString().split('T')[0]; 
+  const dropOffTime = ReturnDate.toISOString().split('T')[1].slice(0, 5); 
 
-  const dropOffDate = ReturnDate.toISOString().split('T')[0]; // YYYY-MM-DD
-  const dropOffTime = ReturnDate.toISOString().split('T')[1].slice(0, 5); // HH:mm
-
-  console.log("Pick-up Date:", pickUpDate);
-  console.log("Pick-up Time:", pickUpTime);
-  console.log("Drop-off Date:", dropOffDate);
-  console.log("Drop-off Time:", dropOffTime);
-
-
-
-    // Prepare the search parameters to send to the backend
     const carsearchParams = {
       pickupLocation,
       dropOffLocation: returnLocation,
-      pickUpDate,    // YYYY-MM-DD
-      dropOffDate,   // YYYY-MM-DD
-      pickUpTime,    // HH:mm
-      dropOffTime,   // HH:mm
-      currencyCode: "CAD", // Example, you can adjust based on your needs
+      pickUpDate,   
+      dropOffDate,   
+      pickUpTime,    
+      dropOffTime,   
+      currencyCode: "CAD", 
     };
 
-    // Construct the query string and navigate
     navigate("/carrentaldetails", { state: carsearchParams });
    
   };
@@ -228,7 +214,6 @@ const CarRental = () => {
           
           <div className="search-bar-container-car">
           <div className="search-bar-car">
-            {/* Pickup Location */}
             <div className="input-field-car">
               <FaSearchLocation className="icon" />
               <input
@@ -238,8 +223,6 @@ const CarRental = () => {
                 onChange={(e) => setPickupLocation(e.target.value)}
               />
             </div>
-
-       {/* Return Location */}
        <div className="input-field-car">
               <FaSearchLocation className="icon" />
               <input
@@ -250,7 +233,6 @@ const CarRental = () => {
               />
             </div>
             
-              {/* Pickup Date & Time */}
               <div className="input-field-car">
                 <BsFillCalendarDateFill className="icon" />
                 <DatePicker
@@ -264,7 +246,6 @@ const CarRental = () => {
                 />
               </div>
 
-              {/* Return Date & Time */}
               <div className="input-field-car">
                 <BsFillCalendarDateFill className="icon" />
                 <DatePicker

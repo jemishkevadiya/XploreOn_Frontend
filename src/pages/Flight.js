@@ -8,8 +8,6 @@ const FlightPage = () => {
   const booknow = "/images/booknow.svg"
   const Shield = "images/shield.svg"
   const compass = "images/compass.svg"
-
-
   const [isRoundTrip, setIsRoundTrip] = useState(true);
   const [selectedClass, setSelectedClass] = useState("Economy");
   const [travelers, setTravelers] = useState({ adults: 1, children: 0, childrenAges: [] });
@@ -18,8 +16,6 @@ const FlightPage = () => {
   const [departureDate, setDepartureDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
-
   const navigate = useNavigate();
 
   const getTodayDate = () => {
@@ -73,7 +69,6 @@ const FlightPage = () => {
 
   return (
     <div className="flight-container">
-      {/* Hero Section */}
       <div className="hero-background-flight">
         <img src="images/flightpage_bg.jpg" alt="background" className="background-image" />
       </div>
@@ -220,14 +215,12 @@ const FlightPage = () => {
         </div>
       </section>
 
-      {/* Travel Support Section */}
       <section className="travel-support">
         <h2 className="travel-support-title">Plan your travel with confidence</h2>
         <p className="travel-support-subtitle">
           Find help with your bookings and travel plans, and see what to expect along your journey.
         </p>
         <div className="travel-support-layout">
-          {/* Left Side: Text */}
           <div className="travel-support-left">
             <div className="travel-feature">
               <div className="feature-number">01</div>
@@ -258,7 +251,6 @@ const FlightPage = () => {
             </div>
           </div>
 
-          {/* Right Side: Images */}
           <div className="travel-support-right">
             <img src="images/flight_card02.jpg" alt="Travel 1" className="travel-image travel-image1" />
             <img src="images/flight_card01.jpg" alt="Travel 2" className="travel-image travel-image2" />
@@ -270,7 +262,6 @@ const FlightPage = () => {
         <h2 className="section-title">Trending Destinations</h2>
         <p className="section-subtitle">Explore the most popular places to visit around the world.</p>
         <div className="destination-grid">
-          {/* <!-- Paris Card --> */}
           <div className="destination-card">
             <div className="destination-image-wrapper">
               <img src="images/paris.jpg" alt="Paris" className="destination-image" />
@@ -282,7 +273,6 @@ const FlightPage = () => {
             </div>
           </div>
 
-          {/* <!-- Alberta Card --> */}
           <div className="destination-card">
             <div className="destination-image-wrapper">
               <img src="images/banff.jpg" alt="Alberta" className="destination-image" />
@@ -294,7 +284,6 @@ const FlightPage = () => {
             </div>
           </div>
 
-          {/* <!-- Tokyo Card --> */}
           <div className="destination-card">
             <div className="destination-image-wrapper">
               <img src="images/tokyo.jpg" alt="Tokyo" className="destination-image" />
@@ -306,7 +295,6 @@ const FlightPage = () => {
             </div>
           </div>
 
-          {/* <!-- Rome Card --> */}
           <div className="destination-card">
             <div className="destination-image-wrapper">
               <img src="images/rome3.jpg" alt="Rome" className="destination-image" />
@@ -327,7 +315,6 @@ const FlightPage = () => {
         </div>
 
         <div className="feature-cards-container">
-          {/* 1) Book & relax */}
           <div className="bubble-card">
             <div className="icon-circle">
               <img
@@ -343,7 +330,6 @@ const FlightPage = () => {
             </p>
           </div>
 
-          {/* 2) Smart checklist */}
           <div className="bubble-card">
             <div className="icon-circle">
               <img
@@ -358,7 +344,6 @@ const FlightPage = () => {
             </p>
           </div>
 
-          {/* 3) Inspired Getaways */}
           <div className="bubble-card">
             <div className="icon-circle">
               <img

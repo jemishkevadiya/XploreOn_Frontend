@@ -8,11 +8,9 @@ const PassengerDetails = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
-  // Extract state from location (Ensure a default fallback)
   const { adults = 1, children = 0, priceBreakdown = {} } = location.state || {};
   const totalPassengers = adults + children;
 
-  // Initialize passenger details array
   const initialPassengers = Array.from({ length: totalPassengers }, (_, index) => ({
     firstName: "",
     lastName: "",
@@ -26,14 +24,12 @@ const PassengerDetails = () => {
   const [errors, setErrors] = useState({});
   const [totalPrice, setTotalPrice] = useState("N/A");
 
-  // Set price breakdown correctly
   useEffect(() => {
     if (priceBreakdown?.total) {
       setTotalPrice(`${priceBreakdown.total.currencyCode} ${priceBreakdown.total.units}`);
     }
   }, [priceBreakdown]);
 
-  // Ensure passenger exists before accessing it
   const currentPassenger = passengerDetails[currentPassengerIndex] || {};
 
   const handleChange = (field, value) => {
@@ -44,7 +40,6 @@ const PassengerDetails = () => {
     });
   };
 
-  // Validation for each passenger
   const validatePassenger = () => {
     const passenger = passengerDetails[currentPassengerIndex];
     const newErrors = {};
@@ -62,14 +57,35 @@ const PassengerDetails = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle Next Passenger or Proceed to Payment
   const handleNextPassenger = async () => {
     if (!validatePassenger()) return;
   
     if (currentPassengerIndex < totalPassengers - 1) {
       setCurrentPassengerIndex(currentPassengerIndex + 1);
     } else {
-      // Format passengers array with full details
+      const user = localStorage.getItem("user");
+      if (!user) {
+        setError("Please sign in to proceed with booking.");
+        navigate("/signin");
+        return;
+      }
+  
+      let userObject;
+      try {
+        userObject = JSON.parse(user);
+      } catch (e) {
+        setError("Invalid user data. Please sign in again.");
+        navigate("/signin");
+        return;
+      }
+  
+      const uid = userObject.uid;
+      if (!uid) {
+        setError("User ID not found. Please sign in again.");
+        navigate("/signin");
+        return;
+      }
+  
       const formattedPassengers = passengerDetails.map((passenger, index) => ({
         firstName: passenger.firstName.trim(),
         lastName: passenger.lastName.trim(),
@@ -78,33 +94,30 @@ const PassengerDetails = () => {
         type: index < adults ? `Adult ${index + 1}` : `Child ${index - adults + 1}`,
       }));
   
-      // Create the flight details object
       const flightDetails = {
         departureCity: location.state.departure,
         destinationCity: location.state.destination,
         departureDate: location.state.departureDate,
         returnDate: location.state.returnDate || null,
-        passengers: formattedPassengers, // Now contains actual passenger details
+        passengers: formattedPassengers,
       };
   
-      const user = localStorage.getItem("user")
-      const userObject = JSON.parse(user); // Convert string to object
-      const uid = userObject.uid;
       const payload = {
-        "flightDetails": flightDetails,
-        "userId": uid,
-        "totalAmount": priceBreakdown.total.units
+        flightDetails,
+        userId: uid,
+        totalAmount: priceBreakdown.total.units,
       };
-      console.log("User:", user)
-      try{
+  
+      try {
         const response = await createFlightBooking(payload);
-        if (response.status === 201){
+        if (response.status === 201) {
           window.location.href = response.data.paymentUrl;
-        }else{
-          setErrors("Error Creating Booking");
+        } else {
+          setError("Error creating booking.");
         }
-      }catch(e){
-        setError("Error Booking Flight. Please Try Again!")
+      } catch (e) {
+        setError("Error booking flight. Please try again!");
+        console.error(e);
       }
     }
   };
@@ -119,7 +132,7 @@ const PassengerDetails = () => {
         <p>{error}</p>
       </div>
       )}
-      {/* Left: Passenger Form */}
+
       <div className="passenger-form">
         <h2>Passenger {currentPassengerIndex + 1} Details</h2>
         <p className="passenger-subtitle">{currentPassenger?.type} Information</p>
@@ -168,7 +181,6 @@ const PassengerDetails = () => {
         {errors.gender && <p className="error-text">{errors.gender}</p>}
       </div>
 
-      {/* Right: Price Breakdown & Proceed */}
       <div className="price-summary">
         <h2>Price Breakdown</h2>
         <div className="price-item">
@@ -184,7 +196,6 @@ const PassengerDetails = () => {
           <span>Total Price:</span> <span>{totalPrice}</span>
         </div>
 
-        {/* Next Passenger / Proceed to Payment */}
         <button className="next-button" onClick={handleNextPassenger}>
           {currentPassengerIndex < totalPassengers - 1 ? "Next Passenger" : "Proceed to Payment"}
         </button>

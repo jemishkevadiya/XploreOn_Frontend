@@ -4,12 +4,10 @@ body {
   color: #333;
 }
 
-/* Hotel Details Page Container */
 .hotel-details-page_hoteldetails {
   background-color: #f5f5f5;
 }
 
-/* Header */
 .header_hoteldetails {
   background-color: #fff;
   padding: 10px 20px;
@@ -65,7 +63,6 @@ body {
   color: #000;
 }
 
-/* Search Bar Container */
 .search-bar-container_hoteldetails {
   padding: 20px;
   background-color: #fff;
@@ -169,7 +166,6 @@ body {
   font-size: 16px;
 }
 
-/* Content Layout */
 .content_hoteldetails {
   display: flex;
   max-width: 1200px;
@@ -179,7 +175,6 @@ body {
   margin-top: 20px;
 }
 
-/* Filter Sidebar */
 .filter-sidebar_hoteldetails {
   width: 250px;
   background-color: #fff;
@@ -208,7 +203,6 @@ body {
   margin-right: 10px;
 }
 
-/* Main Content */
 .main-content_hoteldetails {
   flex: 1;
   background-color: #fff;
@@ -217,7 +211,6 @@ body {
   border-radius: 5px;
 }
 
-/* Sort Section */
 .sort-section_hoteldetails {
   display: flex;
   justify-content: flex-end;
@@ -236,7 +229,6 @@ body {
   font-size: 14px;
 }
 
-/* Hotel Options */
 .hotel-options_hoteldetails {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -298,7 +290,6 @@ body {
   align-self: flex-start;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .header_hoteldetails {
     position: relative;
@@ -330,15 +321,6 @@ body {
   }
 }
 
-
-
-
-
-
-
-
-
-/* Skeleton Loader Styles */
 .skeleton {
   background: #e0e0e0;
   border-radius: 4px;
@@ -387,7 +369,6 @@ body {
   }
 }
 
-/* Ensure pagination is not fixed and appears at the bottom */
 .pagination_hoteldetails {
   display: flex;
   justify-content: center;

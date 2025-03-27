@@ -239,47 +239,45 @@ const CarRentalDetails = () => {
 
   return (
     <div>
-
-      {/* Search Section */}
       <div className="search-bar-container-carrentaldetail">
         <div className="search-bar-carrentaldetail">
         <div className="input-field-carrentaldetail">
           <input
             type="text"
             placeholder="Pick-up Location"
-            value={pickupLocation}  // Bind the value to the state
-            onChange={(e) => setPickupLocation(e.target.value)}  // Update the state on change
+            value={pickupLocation}  
+            onChange={(e) => setPickupLocation(e.target.value)} 
           />
         </div>
         <div className="input-field-carrentaldetail">
           <input
             type="text"
             placeholder="Return Location"
-            value={returnLocation}  // Bind the value to the state
-            onChange={(e) => setReturnLocation(e.target.value)}  // Update the state on change
+            value={returnLocation}  
+            onChange={(e) => setReturnLocation(e.target.value)} 
           />
         </div>
         <div className="input-field-carrentaldetail">
         <DatePicker
-          selected={PickupDate}  // Set initial value to PickupDate
-          onChange={setPickupDate}  // Update state on date change
+          selected={PickupDate}  
+          onChange={setPickupDate}  
           placeholderText="Pick-up Date & Time"
-          minDate={new Date()}  // Ensure the pick-up date is today or later
-          showTimeSelect  // Display time picker
-          timeFormat="HH:mm"  // Time format (24-hour format)
-          dateFormat="MMMM d, yyyy h:mm aa"  // Display date and time in the format you want
+          minDate={new Date()}  
+          showTimeSelect 
+          timeFormat="HH:mm"  
+          dateFormat="MMMM d, yyyy h:mm aa" 
         />
       </div>
 
       <div className="input-field-carrentaldetail">
         <DatePicker
-          selected={ReturnDate}  // Set initial value to ReturnDate
-          onChange={setReturnDate}  // Update state on date change
+          selected={ReturnDate}  
+          onChange={setReturnDate}  
           placeholderText="Return Date & Time"
-          minDate={PickupDate || new Date()}  // Ensure the return date is after the pick-up date
-          showTimeSelect  // Display time picker
-          timeFormat="HH:mm"  // Time format (24-hour format)
-          dateFormat="MMMM d, yyyy h:mm aa"  // Display date and time in the format you want
+          minDate={PickupDate || new Date()}  
+          showTimeSelect  
+          timeFormat="HH:mm" 
+          dateFormat="MMMM d, yyyy h:mm aa"  
         />
       </div>
           <button className="search-btn-carrentaldetail" onClick={handleSearch}>
@@ -288,11 +286,9 @@ const CarRentalDetails = () => {
         </div>
       </div>
       <div className="car-details-page">
-        {/* Filter Section */}
         <div className="filter-section">
           <h2>Filter by</h2>
 
-          {/* Car Type Filter */}
           <div className="filter-category">
             <h3>Car Type</h3>
             <ul>
@@ -312,9 +308,6 @@ const CarRentalDetails = () => {
             </ul>
           </div>
 
-
-
-          {/* Price Range Filter */}
           <div className="filter-category">
             <h3>Price Range</h3>
             <input
@@ -327,7 +320,6 @@ const CarRentalDetails = () => {
             <div>Up to ${filters.maxPrice}+</div>
           </div>
 
-          {/* Passenger Seats Filter */}
           <div className="filter-category">
             <h3>Passenger Seats</h3>
             <ul>
@@ -372,7 +364,6 @@ const CarRentalDetails = () => {
               </div>
 
               <div className="car-listings">
-                {/* Render sortedCars if sorting has been applied, otherwise render cars */}
                 {(sortedCars.length > 0 ? sortedCars : cars).map((car, index) => {
                   const vehicle = car.vehicle_info;
                   const pricing = car.pricing_info;
@@ -388,7 +379,7 @@ const CarRentalDetails = () => {
                         </div>
                         <button
                           className="reserve-button"
-                          onClick={() => openModal(car)} // Open the modal on button click
+                          onClick={() => openModal(car)}
                         >
                           Reserve deal
                         </button>
@@ -400,7 +391,6 @@ const CarRentalDetails = () => {
             </div>
           )}
 
-          {/* Modal (Popup) */}
           {isModalOpen && selectedCar && (
             <div className="_carrental modal">
               <div className="modal-content">
@@ -408,7 +398,6 @@ const CarRentalDetails = () => {
                   &times;
                 </span>
                 <div className="modal-body-carrental">
-                  {/* Left Section (Car Details) */}
                   <div className="details-section">
                     <h3>{selectedCar?.vehicle_info?.v_name}</h3>
                     <p><strong>Type:</strong> {selectedCar?.vehicle_info?.group}</p>
@@ -417,8 +406,6 @@ const CarRentalDetails = () => {
                     <p><strong>Seats:</strong> {selectedCar?.vehicle_info?.seats}</p>
                     <p><strong>Doors:</strong> {selectedCar?.vehicle_info?.doors}</p>
                   </div>
-
-                  {/* Right Section (Car Information) */}
                   <div className="right-section">
                     <p><strong>Pick-up Location:</strong> {selectedCar?.route_info?.pickup?.address}</p>
                     <p><strong>Drop-off Location:</strong> {selectedCar?.route_info?.dropoff?.address}</p>
@@ -428,7 +415,6 @@ const CarRentalDetails = () => {
                   </div>
                 </div>
 
-                {/* Car Ratings Section */}
                 <div className="rating-section">
                   <h3>Car Ratings</h3>
                   <div className="progress-bar-container">
@@ -462,14 +448,10 @@ const CarRentalDetails = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Pricing Section */}
                 <div className="pricing-section">
                   <p className="total-price">
                     <strong>Total Price:</strong> {selectedCar?.pricing_info?.currency} {selectedCar?.pricing_info?.price?.toFixed(2)}
                   </p>
-
-                  {/* Add the statement about taxes and prices */}
                   <p className="info-text">
                     * All taxes and prices included
                   </p>

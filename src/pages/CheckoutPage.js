@@ -6,28 +6,25 @@ const CheckoutPage = ({ user, selectedService }) => {
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
 
-  // Define service data
   const serviceData = {
     flight: {
       name: "Flight Booking",
-      price: 50000, // $500.00 in cents
+      price: 50000, 
     },
     hotel: {
       name: "Hotel Stay",
-      price: 15000, // $150.00 in cents
+      price: 15000,
     },
     carRental: {
       name: "Car Rental",
-      price: 20000, // $200.00 in cents
+      price: 20000, 
     },
   };
 
-  // Get selected service details (based on user selection)
-  const service = serviceData[selectedService] || serviceData.flight; // Default to flight if nothing selected
+  const service = serviceData[selectedService] || serviceData.flight;
 
-  // Handle quantity change and ensure it's a positive integer
   const handleQuantityChange = (event) => {
-    const value = Math.max(1, parseInt(event.target.value) || 1); // Ensure quantity is >= 1
+    const value = Math.max(1, parseInt(event.target.value) || 1); 
     setQuantity(value);
   };
 
@@ -36,13 +33,12 @@ const CheckoutPage = ({ user, selectedService }) => {
       price_data: {
         currency: "cad",
         product_data: { name: service.name },
-        unit_amount: service.price, // Dynamic price from selected service
+        unit_amount: service.price, 
       },
-      quantity: quantity, // Dynamic quantity based on user input
+      quantity: quantity, 
     },
   ];
 
-  // Ensure user is provided and has an email
   useEffect(() => {
     if (!user) {
       setError("User is required to proceed with checkout.");
@@ -51,7 +47,6 @@ const CheckoutPage = ({ user, selectedService }) => {
     }
   }, [user]);
 
-  // If there's an error, display it and prevent checkout
   if (error) {
     return (
       <div className="checkout-container">
@@ -63,7 +58,6 @@ const CheckoutPage = ({ user, selectedService }) => {
     );
   }
 
-  // Check if user.email is available before rendering the form
   if (!user || !user.email) {
     return (
       <div className="checkout-container">
@@ -80,7 +74,6 @@ const CheckoutPage = ({ user, selectedService }) => {
       <div className="checkout-box">
         <h2>Checkout for {service.name}</h2>
 
-        {/* Display quantity selector */}
         <div className="quantity-selector">
           <label htmlFor="quantity">Quantity: </label>
           <input
@@ -94,7 +87,6 @@ const CheckoutPage = ({ user, selectedService }) => {
           />
         </div>
 
-        {/* Pass dynamic data to CheckoutForm */}
         <CheckoutForm
           items={mockItems}
           service={service.name}
