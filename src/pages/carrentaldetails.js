@@ -132,20 +132,20 @@ const CarRentalDetails = () => {
   const handleCarBooking = async ()=>{
     try{
       const user = localStorage.getItem("user")
-      const userObject = JSON.parse(user); // Convert string to object
+      const userObject = JSON.parse(user); 
       const uid = userObject.uid;
       const payload = {
         "userId": uid,
         "totalAmount": selectedCar?.pricing_info?.price?.toFixed(2),
         "rentalDetails": {
           "carName": selectedCar?.vehicle_info?.v_name,
-          "rentalStartDate": PickupDate.toISOString,
-          "rentalEndDate": PickupDate.toISOString,
+          "pickUpDate": PickupDate,
+          "dropOffDate": ReturnDate,
           "pickupLocation": pickupLocation,
           "dropOffLocation": returnLocation
         }
       }
-
+      console.log(payload.rentalDetails);
       const response = await axios.post("http://localhost:1111/car_rental/carbooking", payload);
       if (response.status === 200 || response.status === 201){
         window.location.href = response.data.paymentUrl
@@ -165,7 +165,7 @@ const CarRentalDetails = () => {
         : prevFilters[category].filter((item) => item !== value);
 
       setSortOption("best-match");
-      // Return the new filters without applying sorting/filters immediately here
+
       return { ...prevFilters, [category]: updatedCategory };
     });
   };
@@ -174,11 +174,11 @@ const CarRentalDetails = () => {
       applyFiltersAndSort(cars, filters, sortOption);
     }
   }, [filters, sortOption, cars]);
-  // Handle Price Range Change
+
   const handlePriceRangeChange = (e) => {
     const price = e.target.value;
     setFilters((prevFilters) => {
-      // Return the updated price filter without applying sorting/filters here
+
       return { ...prevFilters, maxPrice: price };
     });
   };
@@ -190,27 +190,27 @@ const CarRentalDetails = () => {
     }
 
     let filteredCarsList = cars.filter((car) => {
-      // Ensure vehicle_info exists before accessing it
+
       const vehicleInfo = car.vehicle_info || {};
       const isCarTypeMatch =
-        filters.type.length === 0 || filters.type.includes(vehicleInfo.group); // Check type
+        filters.type.length === 0 || filters.type.includes(vehicleInfo.group); 
 
 
-      // Default to 0 if pricing_info is missing
+
       const price = car.pricing_info?.price || 0;
-      const isPriceMatch = price <= filters.maxPrice; // Check price
+      const isPriceMatch = price <= filters.maxPrice; 
 
-      // Default to 0 if seats is missing
+
       const seats = vehicleInfo?.seats || 0;
       const isPassengerMatch =
-        filters.passengers.length === 0 || filters.passengers.includes(seats); // Check passengers
+        filters.passengers.length === 0 || filters.passengers.includes(seats); 
 
       return isCarTypeMatch && isPriceMatch && isPassengerMatch;
     });
 
-    console.log("Filtered Cars Count:", filteredCarsList.length); // Log the filtered cars count
+    console.log("Filtered Cars Count:", filteredCarsList.length); 
 
-    // Sorting the filtered cars
+
     let sortedCarsList = [...filteredCarsList];
     switch (sortOption) {
       case "price-low-to-high":
@@ -225,8 +225,8 @@ const CarRentalDetails = () => {
         break;
     }
 
-    console.log("Sorted Cars Count:", sortedCarsList.length); // Log the sorted cars count
-    setSortedCars(sortedCarsList); // Set the sorted cars to state
+    console.log("Sorted Cars Count:", sortedCarsList.length); 
+    setSortedCars(sortedCarsList); 
   };
 
 
