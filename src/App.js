@@ -53,13 +53,13 @@ class App extends React.Component {
             <Route path = "/hotels" element={<Hotel />} />
             <Route path ="/carrentals" element={<CarRental />}/>
             <Route path ="/carrentaldetails" element={<CarRentalDetails />}/>
-            <Route path="/passenger-details" element={<PassengerDetails />} />
-            <Route path="/success" element={<SuccessPage />} />
-            <Route path="/cancel" element={<CancelPage />} />
+            <Route path ="/passenger-details" element={<PassengerDetails />} />
+            <Route path ="/success" element={<SuccessPage />} />
+            <Route path ="/cancel" element={<CancelPage />} />
             <Route path ="/hoteldetails" element={<HotelDetail />}/>
-            <Route path="/hotel/:hotelId" element={<HotelDetailView />} />
-            <Route path="/itinerary" element={<Itinerary />} /> 
-            <Route path="/itinerary/results" element={<ItineraryResults />} />
+            <Route path ="/hotel/:hotelId" element={<HotelDetailView />} />
+            <Route path ="/itinerary" element={<Itinerary />} /> 
+            <Route path ="/itinerary/results" element={<ItineraryResults />} />
           </Routes>
         </Router>
     );
