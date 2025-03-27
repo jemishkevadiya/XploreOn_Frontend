@@ -85,8 +85,7 @@ const HotelDetailView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showPhotosModal, setShowPhotosModal] = useState(false);
-
-  console.log("HotelDetailView params:", { hotelId, checkIn, checkOut, adults, children, rooms, priceData, accessibilityLabel });
+  const [isBooking, setIsBooking] = useState(false);
 
   useEffect(() => {
     const fetchHotelDetails = async () => {
@@ -94,12 +93,6 @@ const HotelDetailView = () => {
         if (!hotelId || !checkIn || !checkOut) {
           throw new Error("Missing required parameters (hotelId, checkIn, or checkOut)");
         }
-
-        console.log("Fetching hotel details with params:", {
-          hotelId,
-          checkIn,
-          checkOut,
-        });
 
         const response = await axios.get("http://localhost:1111/hotels/hotel-details", {
           params: {
@@ -109,7 +102,6 @@ const HotelDetailView = () => {
           },
         });
 
-        console.log("Hotel Details API Response:", response.data);
         if (response.data.status) {
           setHotelDetails(response.data.data);
         } else {
@@ -132,15 +124,10 @@ const HotelDetailView = () => {
         if (!hotelId) {
           throw new Error("Missing hotelId for fetching photos");
         }
-
-        console.log("Fetching hotel photos for hotelId:", hotelId);
         const response = await axios.get("http://localhost:1111/hotels/hotel-photos", {
-          params: {
-            hotelId,
-          },
+          params: { hotelId },
         });
 
-        console.log("Hotel Photos API Response:", response.data);
         if (response.data.status) {
           setPhotos(response.data.data || []);
         } else {
@@ -155,48 +142,116 @@ const HotelDetailView = () => {
     fetchHotelPhotos();
   }, [hotelId]);
 
-  const handleBookNow = () => {
-    const updatedPriceData = {
-      ...priceData,
-      grossPrice: adjustedGrossPrice,
-      excludedPrice: adjustedExcludedPrice,
+  const handleBookNow = async () => {
+    setIsBooking(true);
+    setError(null);
+  
+    const user = localStorage.getItem("user");
+    if (!user) {
+      setError("Please sign in to proceed with booking.");
+      navigate("/signin");
+      setIsBooking(false);
+      return;
+    }
+  
+    let userObject;
+    try {
+      userObject = JSON.parse(user);
+    } catch (e) {
+      console.error("Step 2: Error parsing user data:", e);
+      setError("Invalid user data. Please sign in again.");
+      navigate("/signin");
+      setIsBooking(false);
+      return;
+    }
+  
+    const uid = userObject.uid;
+    if (!uid) {
+      console.error("Step 2: User ID not found in user object:", userObject);
+      setError("User ID not found. Please sign in again.");
+      navigate("/signin");
+      setIsBooking(false);
+      return;
+    }
+  
+    if (!priceData || !priceData.grossPrice || !priceData.excludedPrice || !priceData.currency) {
+      console.error("Step 3: Invalid price data:", priceData);
+      setError("Invalid price data. Please try again.");
+      setIsBooking(false);
+      return;
+    }
+  
+    const numberOfRooms = rooms || 1;
+    const adjustedGrossPrice = parseFloat(priceData.grossPrice) * numberOfRooms;
+    const adjustedExcludedPrice = parseFloat(priceData.excludedPrice) * numberOfRooms;
+    const totalAmount = parseFloat((adjustedGrossPrice + adjustedExcludedPrice).toFixed(2)); 
+  
+    if (isNaN(totalAmount) || totalAmount <= 0) {
+      console.error("Step 3: Invalid total amount:", totalAmount);
+      setError("Invalid total amount. Please try again.");
+      setIsBooking(false);
+      return;
+    }
+  
+    const hotelDetailsPayload = {
+      hotelId,
+      hotelName: hotelDetails?.hotel_name || "Unknown Hotel",
+      arrivalDate: checkIn,
+      departureDate: checkOut,
+      adults,
+      children: children || 0,
+      rooms: numberOfRooms,
     };
-
-    navigate("/booking", {
-      state: {
-        hotelId,
-        hotelName: hotelDetails?.hotel_name || "Unknown Hotel",
-        arrivalDate: checkIn,
-        departureDate: checkOut,
-        adults,
-        children,
-        rooms,
-        priceData: updatedPriceData,
-        accessibilityLabel,
-      },
-    });
+  
+    const payload = {
+      hotelDetails: hotelDetailsPayload,
+      totalAmount,
+      userId: uid,
+    };
+  
+    try {
+      const response = await axios.post("http://localhost:1111/hotels/create-hotel-booking", payload);
+  
+      if (response.status === 201 && response.data.paymentUrl) {
+        if (!response.data.paymentUrl.startsWith("https://checkout.stripe.com/")) {
+          console.error("Step 6: Invalid payment URL format:", response.data.paymentUrl);
+          setError("Invalid payment URL received. Please try again.");
+          return;
+        }
+        window.location.href = response.data.paymentUrl; 
+      } else {
+        console.error("Step 5: No payment URL in response:", response.data);
+        setError("Error creating hotel booking. No payment URL received.");
+      }
+    } catch (e) {
+      console.error("Step 5: Error during booking:", e.response || e);
+      setError(e.response?.data?.message || "Error booking hotel. Please try again!");
+    } finally {
+      setIsBooking(false);
+    }
   };
 
+  if (!checkIn || !checkOut || !priceData) {
+    return <div>Error: Missing required booking information. Please go back and try again.</div>;
+  }
+
   if (!priceData || !priceData.grossPrice || !priceData.currency) {
-    console.log("Price information missing.");
     return <div>Error: Price information is missing.</div>;
   }
 
   if (rooms === undefined) {
-    console.log("Rooms information missing.");
     return <div>Error: Rooms information is missing.</div>;
   }
 
   if (loading) {
-    console.log("Rendering loading state...");
     return <SkeletonHotelDetail />;
   }
-  if (error) {
-    console.log("Rendering error state:", error);
+
+  if (error && !isBooking) {
     return <div>Error: {error}</div>;
   }
+
   if (!hotelDetails) {
-    console.log("No hotel details found.");
     return <div>No hotel details found. Please try again later.</div>;
   }
 
@@ -212,10 +267,8 @@ const HotelDetailView = () => {
   } = hotelDetails;
 
   const displayAccessibilityLabel = accessibilityLabel || "Accessibility information not available.";
-
   const displayedPhotos = photos.slice(0, 9);
   const remainingPhotosCount = photos.length - 9;
-
   const numberOfRooms = rooms || 1;
   const adjustedGrossPrice = priceData.grossPrice * numberOfRooms;
   const adjustedExcludedPrice = priceData.excludedPrice * numberOfRooms;
@@ -307,8 +360,17 @@ const HotelDetailView = () => {
                   + {priceData.currency}${adjustedExcludedPrice.toFixed(2)} taxes and charges
                 </p>
               )}
-              <button className="book-now-btn_hotelview" onClick={handleBookNow}>
-                Book Now
+              {error && (
+                <p className="error-text_hotelview" style={{ color: "red", margin: "10px 0" }}>
+                  {error}
+                </p>
+              )}
+              <button
+                className="book-now-btn_hotelview"
+                onClick={handleBookNow}
+                disabled={isBooking}
+              >
+                {isBooking ? "Booking..." : "Book Now"}
               </button>
             </div>
             <div className="facilities-section_hotelview">

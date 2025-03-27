@@ -105,7 +105,7 @@ const Itinerary = () => {
         <div className="itinerary-page">
             <h1 className="page-title">Plan Your Journey with XploreOn</h1>
             <form onSubmit={handleSubmit} className="itinerary-form">
-                <div className="form-group">
+                <div className="form-group_itinerary">
                     <label>Origin</label>
                     <input
                         type="text"
@@ -117,7 +117,7 @@ const Itinerary = () => {
                     />
                 </div>
 
-                <div className="form-group">
+                <div className="form-group_itinerary">
                     <label>Destination</label>
                     <input
                         type="text"
@@ -129,7 +129,7 @@ const Itinerary = () => {
                     />
                 </div>
 
-                <div className="form-group">
+                <div className="form-group_itinerary">
                     <label>From Date</label>
                     <input
                         type="date"
@@ -140,7 +140,7 @@ const Itinerary = () => {
                     />
                 </div>
 
-                <div className="form-group">
+                <div className="form-group_itinerary">
                     <label>To Date</label>
                     <input
                         type="date"
@@ -151,7 +151,7 @@ const Itinerary = () => {
                     />
                 </div>
 
-                <div className="form-group">
+                <div className="form-group_itinerary">
                     <label>Services</label>
                     <div className="checkbox-group">
                         {["Flight", "Hotel", "Car Rental", "Restaurant", "Tour"].map((service) => (
@@ -168,7 +168,7 @@ const Itinerary = () => {
                     </div>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group_itinerary">
                     <label>Budget (CAD)</label>
                     <input
                         type="number"
@@ -198,7 +198,7 @@ const Itinerary = () => {
                 </div>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group_itinerary">
                     <label>Dietary Preference (if Restaurant selected)</label>
                     <select
                         name="dietaryPreference"
@@ -211,7 +211,7 @@ const Itinerary = () => {
                     </select>
                 </div>
 
-                <div className="form-group travelers-group">
+                <div className="form-group_itinerary travelers-group">
                     <label>Travelers</label>
                     <div className="travelers-inputs">
                         <div className="input-subgroup">

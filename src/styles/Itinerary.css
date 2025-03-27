@@ -24,7 +24,7 @@
     padding: 0 20px;
 }
 
-.form-group {
+.form-group_itinerary {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -35,19 +35,19 @@
     transition: box-shadow 0.3s ease;
 }
 
-.form-group:hover {
+.form-group_itinerary:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-.form-group label {
+.form-group_itinerary label {
     font-size: 1.2rem;
     color: #000000;
     font-weight: 600;
     font-family: 'Lora', serif;
 }
 
-.form-group input,
-.form-group select {
+.form-group_itinerary input,
+.form-group_itinerary select {
     padding: 12px;
     font-size: 1rem;
     border: 1px solid #000000;
@@ -58,8 +58,8 @@
     font-family: 'Lora', serif;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.form-group_itinerary input:focus,
+.form-group_itinerary select:focus {
     border-color: #666666;
     outline: none;
 }

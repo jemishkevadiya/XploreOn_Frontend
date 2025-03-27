@@ -36,8 +36,6 @@ const FlightDetails = () => {
   const [availableAirlines, setAvailableAirlines] = useState([]);
   const [showAllAirlines, setShowAllAirlines] = useState(false);
 
-
-
   const getTodayDate = () => {
     const today = new Date();
     return today.toISOString().split("T")[0];
@@ -85,16 +83,12 @@ const FlightDetails = () => {
         pageNo: page,
       };
 
-      console.log("📡 Sending API Request with:", params);
-
       const response = await axios.get("http://localhost:1111/flights/searchFlights", { params });
 
       const flights = response.data?.data?.flightOffers || [];
 
-      console.log("Extracted Flights:", flights);
-
       if (flights.length === 0) {
-        console.warn("⚠️ No flights found for the given search criteria.");
+        console.warn("No flights found for the given search criteria.");
         setFlights([]);
         setError("No flights available for your search criteria.");
         return;
@@ -105,8 +99,6 @@ const FlightDetails = () => {
       };
 
       const airlines = extractAllAirlines(response.data);
-
-
       setFlights(flights);
       setAvailableAirlines(airlines)
       setHasSearched(true);
@@ -125,7 +117,7 @@ const FlightDetails = () => {
     const price = flight.priceBreakdown?.total?.units || 0;
 
 
-    console.log(`🔍 Filtering flight: Stops=${stops}, Selected Filter=${stopsFilter}`);
+    console.log(`Filtering flight: Stops=${stops}, Selected Filter=${stopsFilter}`);
 
     if (stopsFilter === "Direct" && stops !== 0) return false;
     if (stopsFilter === "1 Stop" && stops !== 1) return false;
@@ -179,8 +171,6 @@ const FlightDetails = () => {
       if (!updatedParams.sort || updatedParams.sort.trim() === "") {
         updatedParams.sort = sort;
       }
-
-      console.log("🔄 Updated searchParams before search button click:", updatedParams);
 
       setPageNo(1);
       setFlights([]);
@@ -310,6 +300,13 @@ const FlightDetails = () => {
   };
 
   const handleProceedToPassengerDetails = () => {
+    const user = localStorage.getItem("user");
+    if (!user || !JSON.parse(user).uid) {
+      alert("Please sign in to proceed.");
+      navigate("/signin");
+      return;
+    }
+  
     if (!selectedFlight) {
       alert("Please select a flight first!");
       return;
@@ -320,8 +317,6 @@ const FlightDetails = () => {
       return;
     }
   
-    console.log("Selected Flight Data:", selectedFlight); 
-    console.log(selectedFlight.TotalpriceBreakdown)
     const priceBreakdown = selectedFlight?.priceBreakdown
       ? {
           baseFare: selectedFlight.priceBreakdown.baseFare || { currencyCode: "CAD", units: "N/A" },
@@ -335,25 +330,7 @@ const FlightDetails = () => {
           fee: { currencyCode: "CAD", units: 0 },
           total: { currencyCode: "CAD", units: "N/A" },
         };
-
-        const flightDetails = {
-          tripType: searchParams.tripType || "oneway",
-          departureCity: searchParams.departure,
-          destinationCity: searchParams.destination,
-          departureDate: searchParams.departureDate,
-          passengers: Array.from({ length: searchParams.adults }, (_, index) => ({
-            type: `Adult ${index + 1}`,
-          })).concat(
-            Array.from({ length: searchParams.children }, (_, index) => ({
-              type: `Child ${index + 1}`,
-            }))
-          ),
-        };
   
-    console.log("Price Breakdown before Navigation:", priceBreakdown); 
-  
-    console.log ("Printing passing object: ", flightDetails);
-
     navigate("/passenger-details", {
       state: {
         departure: searchParams.departure,
@@ -362,7 +339,7 @@ const FlightDetails = () => {
         returnDate: searchParams.returnDate || null,
         adults: searchParams.adults || 1,
         children: searchParams.childrenAges.length || 0,
-        priceBreakdown: priceBreakdown,
+        priceBreakdown,
       },
     });
   };
@@ -419,9 +396,6 @@ const FlightDetails = () => {
         </div>
       </div>
 
-
-
-      {/* Search Section */}
       <section className={`search-section ${searchParams.isRoundTrip ? "roundtrip" : "oneway"}`}>
         <div className="class-toggle">
           <button
@@ -486,7 +460,6 @@ const FlightDetails = () => {
 
             {isDropdownOpen && (
               <div className="dropdown-menu">
-                {/* Adults Input */}
                 <div className="dropdown-item">
                   <label>Adults:</label>
                   <input
@@ -497,7 +470,6 @@ const FlightDetails = () => {
                   />
                 </div>
 
-                {/* Children Count Input */}
                 <div className="dropdown-item">
                   <label>Children:</label>
                   <input
@@ -508,7 +480,6 @@ const FlightDetails = () => {
                   />
                 </div>
 
-                {/* Display Child Ages in a Column */}
                 <div className="child-age-container">
                   {searchParams.childrenAges.map((age, index) => (
                     <div key={index} className="child-age-item">
@@ -534,8 +505,6 @@ const FlightDetails = () => {
         </div>
       </section>
 
-
-      {/* Buttons for Cheapest, Best, and Fastest */}
       <div className="filter-buttons">
         <button
           className={`filter-button ${sort === "CHEAPEST" ? "active" : ""}`}
@@ -558,7 +527,6 @@ const FlightDetails = () => {
       </div>
 
       <div className="flight-info-filter">
-        {/* Filter Section */}
         <div className="filters">
           <label>Stops:</label>
           <select value={stopsFilter} onChange={(e) => setStopsFilter(e.target.value)}>
@@ -585,7 +553,6 @@ const FlightDetails = () => {
                 </div>
               ))}
 
-              {/* "Show All" Button */}
               {availableAirlines.length > 5 && (
                 <button onClick={() => setShowAllAirlines(prev => !prev)}>
                   {showAllAirlines ? "Show Less" : "Show All"}
@@ -699,22 +666,15 @@ const FlightDetails = () => {
           </>
         )}
 
-
-        {/* View More Modal */}
         {isModalOpen && selectedFlight && (
           <div className="flight-details-modal">
             <div className="modal-overlay">
               <div className="modal-content">
-                {/* Close Button */}
-
-                {/* Header */}
                 <div className="modal-header">
                   <h2>Your Flight to {selectedFlight.destination || "Destination"}</h2>
                 </div>
 
-                {/* Modal Body (Two-Column Layout) */}
                 <div className="modal-body">
-                  {/* Left Side: Flight Route & Segments */}
                   <div className="modal-left">
                     <div className="flight-route-model">
                       <div className="flight-departure">
@@ -728,7 +688,6 @@ const FlightDetails = () => {
                       </div>
                     </div>
 
-                    {/* Flight Segments */}
                     <div className="flight-segments">
                       {selectedFlight?.allSegments?.map((segment, segmentIndex) => (
                         <div key={segmentIndex} className="segment">
@@ -748,9 +707,7 @@ const FlightDetails = () => {
                     </div>
                   </div>
 
-                  {/* Right Side: Baggage & Price Breakdown */}
                   <div className="modal-right">
-                    {/* Baggage Info */}
                     <div className="baggage-info">
                       <h3>Baggage Information</h3>
                       {selectedFlight?.includedProducts?.length > 0 ? (
@@ -769,7 +726,6 @@ const FlightDetails = () => {
                       )}
                     </div>
 
-                    {/* Price Breakdown */}
                     <div className="price-breakdown">
                       <h3>Price Breakdown</h3>
                       {selectedFlight?.unifiedPriceBreakdown?.length > 0 ? (
@@ -787,7 +743,6 @@ const FlightDetails = () => {
                   </div>
                 </div>
 
-                {/* Buttons */}
                 <div className="modal-buttons">
                   <button className="book-now-btn-flight" onClick={() => handleProceedToPassengerDetails(selectedFlight)}>
                     Proceed to Passenger Details</button>
