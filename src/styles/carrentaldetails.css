@@ -251,11 +251,10 @@
 
 .car-card {
   position: relative;
-  width: 18.75rem; /* 300px */
-  height: 25rem; /* 400px */
+  width: 18.75rem; 
+  height: 25rem;
 }
 
-/* Modal Overlay */
 ._carrental.modal {
   position: fixed;
   top: 0;
@@ -269,7 +268,6 @@
   z-index: 1000;
 }
 
-/* Modal Content */
 .modal-content {
   background-color: #fff;
   padding: 1.25rem;
@@ -284,7 +282,6 @@
   overflow-y: auto;
 }
 
-/* Close Button */
 .close-button {
   position: absolute;
   top: 0.625rem;
@@ -298,7 +295,6 @@
   color: #000;
 }
 
-/* Modal Body */
 .modal-body-carrental {
   display: flex;
   flex-direction: row;
@@ -308,9 +304,8 @@
   padding-top: 0.625rem;
 }
 
-/* Left Section (Car Details) */
 .details-section {
-  flex: 1; /* Equal width with right section */
+  flex: 1; 
   padding-right: 1.25rem;
   padding-left: 0.5rem;
   font-size: large;
@@ -326,9 +321,8 @@
   line-height: 1.5;
 }
 
-/* Right Section (Car Information: Location, Mileage, Supplier) */
 .right-section {
-  flex: 1.5; /* Equal width with left section */
+  flex: 1.5;
   padding: 0.625rem;
   border-radius: 0.5rem;
 }
@@ -342,20 +336,19 @@
   line-height: 1.5;
 }
 
-/* Pricing Section */
 .pricing-section {
   margin-top: 1.25rem;
   background-color: #f9f9f9;
-  padding: 1.25rem; /* Increased padding for more spacing */
+  padding: 1.25rem;
   border-radius: 0.5rem;
-  font-size: 1.25rem; /* General font size */
+  font-size: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-/* Total Price Styling */
+
 .pricing-section .total-price {
-  font-size: 1.5 rem; /* Large font size for total price */
+  font-size: 1.5 rem;
   font-weight: bold;
   color: #333;
   margin-bottom: 0.625rem;
@@ -370,7 +363,6 @@
     align-items: center;
 }
 
-/* Car Ratings Section */
 .rating-section {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
@@ -418,7 +410,6 @@ h5 {
   color: #000000;
 }
 
-/* Reserve Button */
 .reserve-button {
   background-color: #000000;
   color: white;

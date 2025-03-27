@@ -159,6 +159,7 @@ body {
   -ms-overflow-style: none; 
 }
 
+
 .photos-modal-content_hotelview::-webkit-scrollbar {
   display: none; 
 }
@@ -200,7 +201,7 @@ body {
 .close-modal-btn_hotelview:hover {
   background: #cc0000;
 }
-/* Price Section */
+
 .price-section_hotelview {
   padding: 20px;
   background: #fff;
@@ -276,6 +277,7 @@ body {
   color: #333;
   line-height: 1.6;
   white-space: normal; 
+  white-space: normal; 
 }
 
 
@@ -297,6 +299,7 @@ body {
   list-style: none;
   padding: 0;
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
   gap: 10px;
 }

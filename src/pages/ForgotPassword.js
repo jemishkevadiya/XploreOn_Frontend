@@ -40,8 +40,8 @@ const ForgotPassword = () => {
         <div className="form-group">
   <input
     type="email"
-    id="email"   // Add this id to link the label to the input
-    placeholder=" "  // Trigger the floating label behavior
+    id="email"   
+    placeholder=" " 
     value={email}
     onChange={handleChange}
     required

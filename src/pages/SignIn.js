@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../styles/SignIn.css";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword, sendEmailVerification,
+import {
+  getAuth, signInWithEmailAndPassword, sendEmailVerification,
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
@@ -15,7 +16,7 @@ const SignIn = () => {
   });
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [showResend, setShowResend] = useState(false); 
+  const [showResend, setShowResend] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,7 +25,7 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    logIn(); 
+    logIn();
   };
 
   async function logIn() {
@@ -32,21 +33,19 @@ const SignIn = () => {
       const auth = getAuth();
       const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
-  
+
       if (!user.emailVerified) {
         setError("Please verify your email before logging in.");
         setShowResend(true);
-        await auth.signOut(); 
+        await auth.signOut();
         return;
       }
-  
+
       const response = await axios.get(`http://localhost:1111/user/profile/${user.uid}`);
-  
+
       if (response.data) {
-        console.log("User Data from MongoDB:", response.data);
-  
         localStorage.setItem("user", JSON.stringify(response.data));
-  
+
         navigate("/");
       } else {
         setError("User not found in database.");
@@ -61,51 +60,56 @@ const SignIn = () => {
       setSuccessMessage("");
 
       const auth = getAuth();
-  
+
       const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
-  
+
       if (user.emailVerified) {
         setSuccessMessage("Your email is already verified. Please log in.");
         return;
       }
-  
+
       await sendEmailVerification(user);
       setSuccessMessage("A new verification email has been sent. Please check your inbox.");
-  
+
       await auth.signOut();
 
     } catch (e) {
       setError(e.message);
     }
   }
-  
+
   const signInWithGoogle = async () => {
     try {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-  
-      console.log("Google Sign-In Successful:", user);
-  
 
-      await axios.post("http://localhost:1111/user/create", {
+      const response = await axios.post("http://localhost:1111/user/create", {
         uid: user.uid,
         firstname: user.displayName.split(" ")[0] || "",
         lastname: user.displayName.split(" ")[1] || "",
         email: user.email,
         photoURL: user.photoURL || "",
       });
-  
-      console.log("User stored in MongoDB");
 
-      navigate("/");  
-  
+      localStorage.setItem("user", JSON.stringify({
+        uid: user.uid,
+        firstname: user.displayName.split(" ")[0] || "",
+        lastname: user.displayName.split(" ")[1] || "",
+        email: user.email,
+        photoURL: user.photoURL || "",
+      }));
+
+      navigate("/");
     } catch (error) {
       console.error("Error during Google Sign-In:", error.message);
+      setError(error.message);
     }
   };
+
+
   return (
     <div className="auth-container">
       <div className="auth-left">
@@ -115,30 +119,31 @@ const SignIn = () => {
       <div className="auth-right">
         <h2>Sign In</h2>
         <form className="auth-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-  <input
-    type="email"
-    name="email"
-    id="email"   
-    placeholder=" "  
-    onChange={handleChange}
-    required
-  />
-  <label htmlFor="email">Email</label>
-</div>
+          <div className="form-group">
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder=" "
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="email">Email</label>
+          </div>
 
-<div className="form-group">
-  <input
-    type="password"
-    name="password"
-    id="password"  
-    placeholder=""
-    value={formData.password}
-    onChange={handleChange}
-    required
-  />
-  <label htmlFor="password">Password</label>
-</div>
+          <div className="form-group">
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder=" "
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="password">Password</label>
+          </div>
 
           {error && <p className="error-message">{error}</p>}
           {successMessage && <p className="success-message">{successMessage}</p>}

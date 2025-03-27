@@ -6,7 +6,7 @@ const SuccessPage = () => {
   const navigate = useNavigate();
 
   const handleReturnToHome = () => {
-    navigate("/"); // Redirect to the home page
+    navigate("/"); 
   };
 
   return (

@@ -105,7 +105,6 @@
   width: 13.75rem;
 }
 
-/* Add these to Hotel.css */
 .react-datepicker-wrapper {
   display: block;
 }
@@ -131,7 +130,6 @@
   background-color: #f8f8f8;
 }
 
-/* Guest Selector Styles */
 .guest-selector {
   display: flex;
   align-items: center;
@@ -177,7 +175,6 @@
   font-size: 0.875rem; 
 }
 
-/* Second page */
 .secondpage-hotel {
   background-color: #e5e5e5f5;
   margin: 1.5em;
@@ -240,7 +237,6 @@
   position: relative;
 }
 
-/* Heading & Subheading Placement */
 .staggered-heading {
   position: relative;
   left: 25%;
@@ -367,7 +363,6 @@
   background: rgba(0, 0, 0, 0.9);
 }
 
-/* Responsive Adjustments */
 @media (max-width: 1024px) {
   .search-bar {
     max-width: 80%;
