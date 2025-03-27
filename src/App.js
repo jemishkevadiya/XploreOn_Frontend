@@ -15,10 +15,10 @@ import Hotel from "./pages/Hotel";
 import Profile from "./pages/Profile";
 import Bookings from "./pages/Bookings";
 import ForgotPassword from "./pages/ForgotPassword";
-import UserProfilePage from "./pages/UserProfilePage";  // Import Profile Page
-import ProtectedRoute from "./components/ProtectedRoute"; // Import Protected Route
+import UserProfilePage from "./pages/UserProfilePage";  
+import ProtectedRoute from "./components/ProtectedRoute"; 
 import PaymentHistory from "./pages/PaymentHistory";
-// Firebase Configuration
+
 import HotelDetail from "./pages/HotelDetails";
 import HotelDetailView from "./pages/HotelDetailView";
 
