@@ -1,208 +1,219 @@
-.profile-bro-section {
-    max-width: 90%;
-    margin: 1.5rem auto;
-    margin-top: 6rem;
-    padding: 1.25rem;
-    border: 0.0625rem solid #e0e0e0;
-    border-radius: 0.5rem;
-    background-color: #f9f9f9; /* Option 1: Solid light gray background */
-    /* background-image: linear-gradient(135deg, #007bff 0%, #ffffff 100%); */ /* Option 2: Gradient (commented out) */
-    /* background-image: url('/images/profile-bg.jpg'); */ /* Option 3: Image (commented out) */
-    /* background-size: cover; */ /* Use with image */
-    /* background-position: center; */ /* Use with image */
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+._profile-section {
+  width: 90%;
+  margin: 4rem auto 2rem;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.1);
+  margin-top: 7rem;
+}
+
+._profile-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.0625rem;
+}
+
+._profile-section p {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+._profile-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+._profile-picture {
+  width: 25%;
+  min-width: 12rem;
+  text-align: center;
+  position: relative;
+}
+
+._profile-img {
+  width: 100%;
+  max-width: 10rem;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  margin-top: 1.5rem;
+  object-fit: cover;
+  border: 0.125rem solid #34495e;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+._profile-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 1rem rgba(52, 73, 94, 0.3);
+}
+
+._profile-photo-controls {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+._profile-edit-photo-container {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 12rem;
+}
+
+._profile-edit-photo-container input[type="file"] {
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+._profile-edit-photo-btn,
+._profile-section button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 1.5625rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  max-width: 8.75rem;
+}
+
+._profile-edit-photo-btn:hover,
+._profile-section button:hover:not(:disabled) {
+  background: #2980b9;
+  transform: scale(1.05);
+}
+
+._profile-section button:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+._profile-details {
+  width: 70%;
+  min-width: 18rem;
+}
+
+._profile-details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+._profile-details-table td {
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  color: #34495e;
+  vertical-align: middle;
+}
+
+._profile-details-table td:first-child {
+  width: 25%;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+._profile-details-table td:nth-child(2) {
+  width: 60%;
+}
+
+._profile-details-table td:nth-child(3) {
+  width: 15%;
+}
+
+._profile-details-table input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 0.0625rem solid #bdc3c7;
+  border-radius: 0.25rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+._profile-details-table input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0.25rem rgba(52, 152, 219, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 48rem) {
+  ._profile-section {
+    padding: 1.5rem;
+    margin: 3rem auto 1rem;
   }
-  
-  .profile-bro-photo-controls {
-    margin-top: 0.75rem;
-    display: flex;
+
+  ._profile-content {
     flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .profile-bro-section h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    color: #333;
-  }
-  
-  .profile-bro-section p {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 1rem;
-  }
-  
-  .profile-bro-content {
-    display: flex;
-    flex-wrap: wrap;
     gap: 1.5rem;
-    align-items: flex-start;
   }
-  
-  .profile-bro-picture {
-    width: 25%;
-    min-width: 10rem;
-    text-align: center;
-    position: relative; /* Added for pseudo-element positioning */
-  }
-  
-  .profile-bro-img {
-    width: 100%;
-    max-width: 10rem;
-    height: auto;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    margin-top: 2rem;
-    object-fit: cover;
-    border: 0.125rem solid #333;
-    position: relative; /* Keeps image above pseudo-element */
-    z-index: 1; /* Ensures image stays on top */
-    transition: transform 0.3s ease; /* Smooth scaling on hover */
-  }
-  
-  /* Pseudo-element for background hover effect */
-  .profile-bro-img::before {
-    content: "";
-    position: absolute;
-    top: -0.5rem; /* Slight offset to expand beyond image */
-    left: -0.5rem;
-    width: calc(100% + 1rem); /* Larger than image */
-    height: calc(100% + 1rem);
-    background-color: rgba(153, 153, 153, 0.2); /* Light gray (#999) with transparency */
-    border-radius: 50%;
-    z-index: 0; /* Behind the image */
-    opacity: 0; /* Hidden by default */
-    transition: opacity 0.3s ease; /* Smooth fade-in */
-  }
-  
-  /* Hover effect */
-  .profile-bro-img:hover::before {
-    opacity: 1; /* Show background on hover */
-  }
-  
-  .profile-bro-img:hover {
-    transform: scale(1.05); /* Slight scale-up for extra pop */
-  }
-  
-  .profile-bro-edit-photo-container {
-    margin-top: 0.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .profile-bro-edit-photo-container input[type="file"] {
-    font-size: 0.875rem;
+
+  ._profile-picture,
+  ._profile-details {
     width: 100%;
   }
-  
-  .profile-bro-edit-photo-btn,
-  .profile-bro-section button {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    background-color: #999;
-    color: #fff;
-    border: none;
-    border-radius: 2rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+
+  ._profile-details-table td {
+    display: block;
     width: 100%;
+    padding: 0.5rem 0;
+  }
+
+  ._profile-details-table td:first-child {
+    padding-bottom: 0;
+  }
+
+  ._profile-details-table td:nth-child(2) {
+    padding-top: 0;
+  }
+
+  ._profile-edit-photo-btn,
+  ._profile-section button {
+    max-width: 100%;
+  }
+
+  ._profile-img {
+    max-width: 8rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  ._profile-section {
+    padding: 1rem;
+  }
+
+  ._profile-section h2 {
+    font-size: 2rem;
+  }
+
+  ._profile-section p {
+    font-size: 1rem;
+  }
+
+  ._profile-img {
     max-width: 6rem;
   }
-  
-  .profile-bro-edit-photo-btn:hover,
-  .profile-bro-section button:hover:not(:disabled) {
-    background-color: #0056b3;
+
+  ._profile-details-table td {
+    font-size: 0.95rem;
   }
-  
-  .profile-bro-section button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+
+  ._profile-edit-photo-btn,
+  ._profile-section button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
   }
-  
-  .profile-bro-details {
-    width: 70%;
-    min-width: 15rem;
-  }
-  
-  .profile-bro-details-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .profile-bro-details-table td {
-    padding: 0.75rem;
-    font-size: 1.5rem;
-    color: #333;
-    vertical-align: middle;
-  }
-  
-  .profile-bro-details-table td:first-child {
-    width: 25%;
-    font-weight: 600;
-    color: #444;
-  }
-  
-  .profile-bro-details-table td:nth-child(2) {
-    width: 60%;
-  }
-  
-  .profile-bro-details-table td:nth-child(3) {
-    width: 15%;
-  }
-  
-  .profile-bro-details-table input {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 0.0625rem solid #ccc;
-    border-radius: 0.25rem;
-    outline: none;
-  }
-  
-  .profile-bro-details-table input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0.25rem rgba(0, 123, 255, 0.3);
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 48rem) {
-    .profile-bro-content {
-      flex-direction: column;
-    }
-  
-    .profile-bro-picture,
-    .profile-bro-details {
-      width: 100%;
-    }
-  
-    .profile-bro-details-table td {
-      display: block;
-      width: 100%;
-      padding: 0.5rem 0;
-    }
-  
-    .profile-bro-details-table td:first-child {
-      padding-bottom: 0;
-    }
-  
-    .profile-bro-details-table td:nth-child(2) {
-      padding-top: 0;
-    }
-  
-    .profile-bro-edit-photo-btn,
-    .profile-bro-section button {
-      max-width: 100%;
-    }
-  }
-  
-  @media (max-width: 30rem) {
-    .profile-bro-section {
-      padding: 1rem;
-    }
-  
-    .profile-bro-img {
-      max-width: 6rem;
-    }
-  }
+}

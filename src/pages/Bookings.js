@@ -28,23 +28,55 @@ const Bookings = () => {
         });
         console.log("Raw bookings response:", response.data);
 
-        const formattedBookings = response.data.bookings
-          .map((booking) => ({
+        const formattedBookings = response.data.bookings.map((booking) => {
+          const details = booking.bookingDetails || {};
+          let formattedBooking = {
             id: booking._id,
-            serviceType: booking.serviceType.charAt(0).toUpperCase() + booking.serviceType.slice(1),
-            departureCity: booking.bookingDetails?.departureCity || "N/A",
-            destinationCity: booking.bookingDetails?.destinationCity || "N/A",
-            departureDate: booking.bookingDetails?.departureDate
-              ? new Date(booking.bookingDetails.departureDate)
-              : null,
+            serviceType: booking.serviceType.charAt(0).toUpperCase() + booking.serviceType.slice(1).replace("_", " "),
             totalAmount: booking.totalAmount || "N/A",
-            status: booking.bookingDetails?.departureDate
-              ? new Date(booking.bookingDetails.departureDate) < new Date()
-                ? "Completed"
-                : "Pending"
-              : "N/A",
-          }))
-          .sort((a, b) => b.departureDate - a.departureDate);
+          };
+
+          if (booking.serviceType === "flight") {
+            formattedBooking = {
+              ...formattedBooking,
+              route: `${details.departureCity || "N/A"} to ${details.destinationCity || "N/A"}`,
+              date: details.departureDate ? new Date(details.departureDate) : null,
+              status: details.departureDate
+                ? new Date(details.departureDate) < new Date()
+                  ? "Completed"
+                  : "Pending"
+                : "N/A",
+            };
+          } else if (booking.serviceType === "car_rental") {
+            formattedBooking = {
+              ...formattedBooking,
+              route: `${details.pickupLocation || "N/A"} to ${details.dropOffLocation || "N/A"}`,
+              dateRange: `${details.pickUpDate ? new Date(details.pickUpDate).toLocaleDateString() : "N/A"} - ${
+                details.dropOffDate ? new Date(details.dropOffDate).toLocaleDateString() : "N/A"
+              }`,
+              status: details.pickUpDate
+                ? new Date(details.pickUpDate) < new Date()
+                  ? "Completed"
+                  : "Pending"
+                : "N/A",
+            };
+          } else if (booking.serviceType === "hotel") {
+            formattedBooking = {
+              ...formattedBooking,
+              hotelName: details.hotelName || "N/A",
+              dateRange: `${details.checkIn ? new Date(details.checkIn).toLocaleDateString() : "N/A"} - ${
+                details.checkOut ? new Date(details.checkOut).toLocaleDateString() : "N/A"
+              }`,
+              status: details.checkIn
+                ? new Date(details.checkIn) < new Date()
+                  ? "Completed"
+                  : "Pending"
+                : "N/A",
+            };
+          }
+
+          return formattedBooking;
+        }).sort((a, b) => (b.date || b.dateRange) - (a.date || a.dateRange));
 
         console.log("Formatted bookings:", formattedBookings);
         if (!formattedBookings.length) setError("No bookings found for this user.");
@@ -81,7 +113,7 @@ const Bookings = () => {
       });
       console.log("Success:", response.data);
       setBookings((prev) => prev.filter((b) => b.id !== id));
-      alert(response.data.message); // Show refund message
+      alert(response.data.message);
     } catch (err) {
       console.log("Error status:", err.response?.status);
       console.log("Error message:", err.response?.data?.message || err.message);
@@ -89,32 +121,42 @@ const Bookings = () => {
     }
   };
 
-  if (loading) return <div className="bookings-bro-container">Loading...</div>;
-  if (error) return <div className="bookings-bro-container">{error}</div>;
+  if (loading) return <div className="bookings-container">Loading...</div>;
+  if (error) return <div className="bookings-container">{error}</div>;
 
   return (
-    <div className="bookings-bro-container">
+    <div className="bookings-container">
       <h2>My Bookings</h2>
-      <div className="bookings-bro-list">
+      <div className="bookings-list">
         {bookings.map((booking) => (
-          <div key={booking.id} className={`bookings-bro-card ${booking.status.toLowerCase()}`}>
+          <div key={booking.id} className={`bookings-card ${booking.status.toLowerCase()}`}>
             <h3>{booking.serviceType}</h3>
-            <p>
-              Route:{" "}
-              {booking.departureCity !== "N/A" && booking.destinationCity !== "N/A"
-                ? `${booking.departureCity} to ${booking.destinationCity}`
-                : booking.departureCity !== "N/A"
-                ? booking.departureCity
-                : booking.destinationCity}
-            </p>
-            <p>Date: {booking.departureDate ? booking.departureDate.toLocaleDateString() : "N/A"}</p>
+            {console.log("Rendering booking:", booking)}
+            {booking.serviceType.toLowerCase().includes("flight") && (
+              <>
+                <p>Route: {booking.route || "N/A"}</p>
+                <p>Date: {booking.date ? booking.date.toLocaleDateString() : "N/A"}</p>
+              </>
+            )}
+            {booking.serviceType.toLowerCase().includes("car") && (
+              <>
+                <p>Route: {booking.route || "N/A"}</p>
+                <p>Dates: {booking.dateRange || "N/A"}</p>
+              </>
+            )}
+            {booking.serviceType.toLowerCase().includes("hotel") && (
+              <>
+                <p>Hotel: {booking.hotelName || "N/A"}</p>
+                <p>Dates: {booking.dateRange || "N/A"}</p>
+              </>
+            )}
             <p>Amount: ${booking.totalAmount}</p>
             <p>
               Status: <span className={booking.status.toLowerCase()}>{booking.status}</span>
             </p>
             {booking.status === "Pending" && (
               <button
-                className="bookings-bro-cancel-btn"
+                className="bookings-cancel-btn"
                 onClick={() => handleCancel(booking.id)}
               >
                 Cancel Booking

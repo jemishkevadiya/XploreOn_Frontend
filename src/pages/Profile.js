@@ -66,19 +66,19 @@ const Profile = () => {
   };
 
   return (
-    <div className="profile-bro-section">
+    <div className="_profile-section">
       <h2>Personal Details</h2>
       <p>Update your information</p>
-      <div className="profile-bro-content">
-        <div className="profile-bro-picture">
+      <div className="_profile-content">
+        <div className="_profile-picture">
           <img
             src={details.photoURL || "/images/profileicon.svg"}
             alt="Profile"
-            className="profile-bro-img"
+            className="_profile-img"
           />
-          <div className="profile-bro-photo-controls">
+          <div className="_profile-photo-controls">
           {isEditingPhoto ? (
-            <div className="profile-bro-edit-photo-container">
+            <div className="_profile-edit-photo-container">
               <input
                 type="file"
                 accept="image/*"
@@ -89,7 +89,7 @@ const Profile = () => {
             </div>
           ) : (
             <button
-              className="profile-bro-edit-photo-btn"
+              className="_profile-edit-photo-btn"
               onClick={() => setIsEditingPhoto(true)}
             >
               Edit Photo
@@ -97,8 +97,8 @@ const Profile = () => {
           )}
         </div>
             </div>
-        <div className="profile-bro-details">
-          <table className="profile-bro-details-table">
+        <div className="_profile-details">
+          <table className="_profile-details-table">
             <tbody>
               <tr>
                 <td>Name:</td>
