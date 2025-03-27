@@ -12,26 +12,78 @@ const HotelDetails = () => {
   const navigate = useNavigate();
 
   const [location, setLocation] = useState(locationState.state?.location || "");
-  const [startDate, setStartDate] = useState(
-    locationState.state?.checkIn ? new Date(locationState.state.checkIn) : null
-  );
-  const [endDate, setEndDate] = useState(
-    locationState.state?.checkOut ? new Date(locationState.state.checkOut) : null
-  );
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [adults, setAdults] = useState(locationState.state?.adults || 1);
   const [children, setChildren] = useState(locationState.state?.children || 0);
   const [rooms, setRooms] = useState(locationState.state?.rooms || 1);
   const [hotelOptions, setHotelOptions] = useState([]);
-  const [filters, setFilters] = useState({
-    refundable: false,
-    prepayment: false,
-    specialOffers: false,
-    amenities: [],
-    priceRange: [0, 10000], 
-  });
+  const [filtersData, setFiltersData] = useState([]);
+  const [selectedFilters, setSelectedFilters] = useState({});
   const [sortOption, setSortOption] = useState("best-value");
   const [loading, setLoading] = useState(false);
+  const [loadingFilters, setLoadingFilters] = useState(false);
   const [pageNo, setPageNo] = useState(1);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [isModified, setIsModified] = useState(false);
+
+
+  useEffect(() => {
+    if (locationState.state?.checkIn && locationState.state?.checkOut) {
+      console.log("Navigation state received:", locationState.state);
+
+      const parseDateAsUTC = (dateString) => {
+        const [year, month, day] = dateString.split("-").map(Number);
+
+        return new Date(Date.UTC(year, month-1 , day+1));
+      };
+
+      const checkInDate = parseDateAsUTC(locationState.state.checkIn);
+      const checkOutDate = parseDateAsUTC(locationState.state.checkOut);
+
+      console.log("Parsed check-in date:", checkInDate.toISOString());
+      console.log("Parsed check-out date:", checkOutDate.toISOString());
+
+      setStartDate(checkInDate);
+      setEndDate(checkOutDate);
+      setLocation(locationState.state.location);
+      setAdults(locationState.state.adults || 1);
+      setChildren(locationState.state.children || 0);
+      setRooms(locationState.state.rooms || 1);
+
+
+      setHasSearched(true);
+    }
+  }, [locationState]);
+
+
+  const fetchFilters = async () => {
+    if (!location || !startDate || !endDate) return;
+
+    try {
+      setLoadingFilters(true);
+      const formattedCheckIn = startDate.toISOString().split("T")[0];
+      const formattedCheckOut = endDate.toISOString().split("T")[0];
+
+      const response = await axios.get("http://localhost:1111/hotels/filters", {
+        params: {
+          location,
+          checkIn: formattedCheckIn,
+          checkOut: formattedCheckOut,
+        },
+      });
+      console.log("Filters API Response:", response.data);
+      const filters = response.data?.data?.filters || [];
+      setFiltersData(filters);
+      console.log("Updated filtersData:", filters);
+    } catch (error) {
+      console.error("Error fetching filters:", error.response?.data || error.message);
+      setFiltersData([]);
+    } finally {
+      setLoadingFilters(false);
+    }
+  };
+
 
   const fetchHotelData = async (page = pageNo) => {
     try {
@@ -43,6 +95,11 @@ const HotelDetails = () => {
       const formattedCheckIn = startDate.toISOString().split("T")[0];
       const formattedCheckOut = endDate.toISOString().split("T")[0];
 
+      const filterValues = Object.entries(selectedFilters)
+        .filter(([key, value]) => value)
+        .map(([_, value]) => value);
+      const categoriesFilter = filterValues.length > 0 ? filterValues.join(",") : undefined;
+
       console.log("Fetching hotels with params:", {
         location,
         checkIn: formattedCheckIn,
@@ -50,16 +107,24 @@ const HotelDetails = () => {
         person: adults + children,
         roomQty: rooms,
         page_number: page,
+        categories_filter: categoriesFilter || "None",
       });
+
+      const params = {
+        location,
+        checkIn: formattedCheckIn,
+        checkOut: formattedCheckOut,
+        person: adults + children,
+        roomQty: rooms,
+        page_number: page,
+      };
+
+      if (categoriesFilter) {
+        params.categories_filter = categoriesFilter;
+      }
+
       const response = await axios.get("http://localhost:1111/hotels/hotels", {
-        params: {
-          location,
-          checkIn: formattedCheckIn,
-          checkOut: formattedCheckOut,
-          person: adults + children,
-          roomQty: rooms,
-          page_number: page,
-        },
+        params,
       });
       console.log("Hotel API Response:", response.data);
       setHotelOptions(response.data || []);
@@ -71,11 +136,37 @@ const HotelDetails = () => {
     }
   };
 
+
   useEffect(() => {
-    fetchHotelData();
-  }, [location, startDate, endDate, adults, children, rooms, pageNo]);
+    if (hasSearched && !isModified) {
+      console.log("Triggering initial search on navigation");
+      fetchFilters();
+      fetchHotelData();
+    }
+  }, [hasSearched]);
+
+
+  useEffect(() => {
+    console.log("fetchHotelData useEffect triggered with:", { hasSearched, pageNo, selectedFilters });
+    if (hasSearched) {
+      fetchHotelData();
+    }
+  }, [pageNo, selectedFilters]);
+
+
+  const handleFieldChange = (setter, isDate = false) => (value) => {
+    setIsModified(true);
+    if (isDate) {
+
+      setter(value);
+    } else {
+
+      setter(value.target.value);
+    }
+  };
 
   const handleGuestChange = (type, operation) => {
+    setIsModified(true);
     if (type === "adults") {
       if (operation === "increment") setAdults((prev) => prev + 1);
       if (operation === "decrement" && adults > 1) setAdults((prev) => prev - 1);
@@ -88,18 +179,31 @@ const HotelDetails = () => {
     }
   };
 
-  const handleFilterChange = (filterType, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [filterType]: value,
-    }));
-    setPageNo(1); 
+  const handleCheckboxFilterChange = (field, genericId, checked) => {
+    setSelectedFilters((prev) => {
+      const currentFieldFilters = prev[field] ? prev[field].split(",") : [];
+      let updatedFieldFilters;
+
+      if (checked) {
+        updatedFieldFilters = [...new Set([...currentFieldFilters, genericId])];
+      } else {
+        updatedFieldFilters = currentFieldFilters.filter((id) => id !== genericId);
+      }
+
+      const updatedFilters = {
+        ...prev,
+        [field]: updatedFieldFilters.length > 0 ? updatedFieldFilters.join(",") : undefined,
+      };
+
+      setPageNo(1);
+      return updatedFilters;
+    });
   };
 
   const handleSortChange = (e) => {
     const newSortOption = e.target.value;
     setSortOption(newSortOption);
-    const sortedHotels = [...filteredHotels].sort((a, b) => {
+    const sortedHotels = [...hotelOptions].sort((a, b) => {
       const getPrice = (hotel) => {
         const price = hotel.property?.priceBreakdown?.grossPrice?.value || 0;
         return isNaN(price) || price > 1000000 ? 0 : price;
@@ -115,33 +219,6 @@ const HotelDetails = () => {
     setHotelOptions(sortedHotels);
   };
 
-
-  const filteredHotels = hotelOptions.filter((hotel) => {
-    const grossPrice = hotel.property?.priceBreakdown?.grossPrice?.value || 0;
-
-
-    if (filters.refundable && !hotel.property?.refundable) return false;
-
-
-    if (filters.prepayment && hotel.property?.prepaymentNeeded) return false;
-
-
-    if (filters.specialOffers && !hotel.property?.specialOffer) return false;
-
-
-    if (
-      filters.amenities.length > 0 &&
-      !filters.amenities.every((amenity) => hotel.property?.amenities?.includes(amenity))
-    ) {
-      return false;
-    }
-
-
-    if (grossPrice < filters.priceRange[0] || grossPrice > filters.priceRange[1]) return false;
-
-    return true;
-  });
-
   const handleSearch = async () => {
     if (!location || !startDate || !endDate) {
       alert("Please fill in all fields: location, check-in date, and check-out date.");
@@ -152,6 +229,8 @@ const HotelDetails = () => {
     const formattedCheckOut = endDate.toISOString().split("T")[0];
 
     setPageNo(1);
+    setHasSearched(true);
+    setIsModified(false);
     navigate("/hoteldetails", {
       state: {
         location,
@@ -162,6 +241,8 @@ const HotelDetails = () => {
         rooms,
       },
     });
+
+    await fetchFilters();
     await fetchHotelData(1);
   };
 
@@ -192,7 +273,6 @@ const HotelDetails = () => {
 
   const handlePageChange = (newPage) => {
     setPageNo(newPage);
-    fetchHotelData(newPage);
   };
 
   const SkeletonHotelCard = () => (
@@ -202,11 +282,29 @@ const HotelDetails = () => {
         <div className="skeleton-text skeleton-title"></div>
         <div className="skeleton-text skeleton-price"></div>
         <div className="skeleton-text skeleton-score"></div>
-        <div className="skeleton-text skeleton-capacity"></div>
         <div className="skeleton-button"></div>
       </div>
     </div>
   );
+
+  const SkeletonFilterSection = () => (
+    <div className="filter-section_hoteldetails skeleton">
+      <div className="skeleton-text skeleton-section-title"></div>
+      {Array.from({ length: 3 }).map((_, index) => (
+        <div key={index} style={{ marginBottom: "10px" }}>
+          <div className="skeleton-text skeleton-filter-option"></div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const filteredFiltersData = () => {
+    console.log("Original filtersData:", filtersData);
+    const landmarksIndex = filtersData.findIndex((filter) => filter.title === "Landmarks");
+    let filtered = landmarksIndex === -1 ? filtersData : filtersData.slice(0, landmarksIndex + 1);
+    console.log("Filtered filtersData:", filtered);
+    return filtered;
+  };
 
   return (
     <div className="hotel-details-page_hoteldetails">
@@ -218,7 +316,7 @@ const HotelDetails = () => {
               type="text"
               placeholder="Where you want to go?..."
               value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={handleFieldChange(setLocation)}
             />
           </div>
 
@@ -226,10 +324,11 @@ const HotelDetails = () => {
             <BsFillCalendarDateFill className="icon_hoteldetails" />
             <DatePicker
               selected={startDate}
-              onChange={setStartDate}
+              onChange={handleFieldChange(setStartDate, true)}
               placeholderText="Check-in Date"
               className="date-picker-input_hoteldetails"
               minDate={new Date()}
+              dateFormat="yyyy-MM-dd"
             />
           </div>
 
@@ -237,10 +336,11 @@ const HotelDetails = () => {
             <BsFillCalendarDateFill className="icon_hoteldetails" />
             <DatePicker
               selected={endDate}
-              onChange={setEndDate}
+              onChange={handleFieldChange(setEndDate, true)}
               placeholderText="Check-out Date"
               className="date-picker-input_hoteldetails"
               minDate={startDate || new Date()}
+              dateFormat="yyyy-MM-dd"
             />
           </div>
 
@@ -312,80 +412,50 @@ const HotelDetails = () => {
 
       <div className="content_hoteldetails">
         <div className="filter-sidebar_hoteldetails">
-          <h3>Deals</h3>
-          <div className="filter-section_hoteldetails">
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.refundable}
-                onChange={(e) => handleFilterChange("refundable", e.target.checked)}
-              />
-              Fully refundable
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.prepayment}
-                onChange={(e) => handleFilterChange("prepayment", e.target.checked)}
-              />
-              No prepayment needed
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={filters.specialOffers}
-                onChange={(e) => handleFilterChange("specialOffers", e.target.checked)}
-              />
-              Properties with Special Offers
-            </label>
-          </div>
-
-          <h3>Amenities</h3>
-          <div className="filter-section_hoteldetails">
-            <label>
-              <input
-                type="checkbox"
-                value="Pool"
-                onChange={(e) => {
-                  const updatedAmenities = e.target.checked
-                    ? [...filters.amenities, e.target.value]
-                    : filters.amenities.filter((amenity) => amenity !== e.target.value);
-                  handleFilterChange("amenities", updatedAmenities);
-                }}
-              />
-              Pool
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="WiFi"
-                onChange={(e) => {
-                  const updatedAmenities = e.target.checked
-                    ? [...filters.amenities, e.target.value]
-                    : filters.amenities.filter((amenity) => amenity !== e.target.value);
-                  handleFilterChange("amenities", updatedAmenities);
-                }}
-              />
-              WiFi
-            </label>
-          </div>
-
-          <h3>Price Range (CAD)</h3>
-          <div className="filter-section_hoteldetails">
-            <input
-              type="range"
-              min="0"
-              max="10000"
-              step="50"
-              value={filters.priceRange[1]}
-              onChange={(e) =>
-                handleFilterChange("priceRange", [filters.priceRange[0], parseInt(e.target.value, 10)])
-              }
-            />
-            <p>
-              ${filters.priceRange[0]} - ${filters.priceRange[1]}
-            </p>
-          </div>
+          {loadingFilters ? (
+            <>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <SkeletonFilterSection key={index} />
+              ))}
+            </>
+          ) : hasSearched && filtersData.length > 0 ? (
+            filteredFiltersData().map((filter, index) =>
+              filter.field === "price" ? null : (
+                <div key={index}>
+                  <h3>{filter.title}</h3>
+                  <div className="filter-section_hoteldetails">
+                    {filter.filterStyle === "CHECKBOX" ? (
+                      filter.options.map((option, optIndex) => {
+                        console.log(
+                          `Filter: ${filter.title}, Option: ${option.title}, Count: ${option.countNotAutoextended}`
+                        );
+                        return (
+                          <label key={optIndex}>
+                            <input
+                              type="checkbox"
+                              checked={
+                                selectedFilters[filter.field]?.includes(option.genericId) || false
+                              }
+                              onChange={(e) =>
+                                handleCheckboxFilterChange(
+                                  filter.field,
+                                  option.genericId,
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            {option.title} ({option.countNotAutoextended || 0})
+                          </label>
+                        );
+                      })
+                    ) : null}
+                  </div>
+                </div>
+              )
+            )
+          ) : (
+            <p>Press the Search button to load filters.</p>
+          )}
         </div>
 
         <div className="main-content_hoteldetails">
@@ -405,36 +475,41 @@ const HotelDetails = () => {
                   <SkeletonHotelCard key={index} />
                 ))}
               </>
-            ) : filteredHotels.length > 0 ? (
-              <>
-                {filteredHotels.map((hotel, index) => (
-                  <div key={index} className="hotel-card_hoteldetails">
-                    <img
-                      src={hotel.property?.photoUrls?.[0] || "https://via.placeholder.com/150"}
-                      alt={hotel.property?.name}
-                      className="hotel-image_hoteldetails"
-                    />
-                    <div className="hotel-info_hoteldetails">
-                      <h3>{hotel.property?.name || "Unknown Hotel"}</h3>
-                      <p>
-                        Price: C$
-                        {hotel.property?.priceBreakdown?.grossPrice?.value ||
-                          (hotel.property?.priceBreakdown?.grossPrice?.value +
-                            (hotel.property?.priceBreakdown?.excludedPrice?.value || 0)) ||
-                          "N/A"}
-                      </p>
-                      <p>Review Score: {hotel.property?.reviewScore || "N/A"} ({hotel.property?.reviewScoreWord || ""})</p>
-                      <p>Capacity: {hotel.accessibilityLabel?.match(/\d+\s*beds/)?.[0] || "N/A"}</p>
-                      {hotel.property?.specialOffer && <span className="special-offer_hoteldetails">Special offer</span>}
-                      <button
-                        className="view-deal_hoteldetails"
-                        onClick={() => handleViewDetails(hotel)}
-                      >
-                        Book Now
-                      </button>
+            ) : hasSearched && hotelOptions.length > 0 ? (
+              <div className="hotel-options-wrapper_hoteldetails">
+                <div className="hotel-cards_hoteldetails">
+                  {hotelOptions.map((hotel, index) => (
+                    <div key={index} className="hotel-card_hoteldetails">
+                      <img
+                        src={hotel.property?.photoUrls?.[0] || "https://via.placeholder.com/150"}
+                        alt={hotel.property?.name}
+                        className="hotel-image_hoteldetails"
+                      />
+                      <div className="hotel-info_hoteldetails">
+                        <h3>{hotel.property?.name || "Unknown Hotel"}</h3>
+                        <p>
+                          Price: C$
+                          {hotel.property?.priceBreakdown?.grossPrice?.value
+                            ? Number(hotel.property.priceBreakdown.grossPrice.value).toFixed(2)
+                            : "N/A"}
+                        </p>
+                        <p>
+                          Review Score: {hotel.property?.reviewScore || "N/A"} (
+                          {hotel.property?.reviewScoreWord || ""})
+                        </p>
+                        {hotel.property?.specialOffer && (
+                          <span className="special-offer_hoteldetails">Special offer</span>
+                        )}
+                        <button
+                          className="view-deal_hoteldetails"
+                          onClick={() => handleViewDetails(hotel)}
+                        >
+                          Book Now
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
                 <div className="pagination_hoteldetails">
                   <button
                     className="pagination-btn_hoteldetails pagination-prev_hoteldetails"
@@ -451,9 +526,9 @@ const HotelDetails = () => {
                     Next
                   </button>
                 </div>
-              </>
+              </div>
             ) : (
-              <p>Sorry, we couldn't find any search results matching your criteria.</p>
+              <p>Press the Search button to load hotels.</p>
             )}
           </div>
         </div>
